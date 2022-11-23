@@ -29,3 +29,11 @@ model Car {
 
   @@map("cars")
 }
+
+model Parking {
+  id           String @id
+  localization String
+  vacancies    Int
+
+  @@map("parking")
+}
