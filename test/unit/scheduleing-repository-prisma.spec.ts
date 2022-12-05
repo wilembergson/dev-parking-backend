@@ -7,9 +7,9 @@ import {
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
 import {
-  PrismaCarRepository,
-  PrismaScheduleingRepository,
-  PrismaVacancyRepository,
+  CarRepositoryPrisma,
+  ScheduleingRepositoryPrisma,
+  VacancyRepositoryPrisma,
 } from '@infra/repositories';
 
 describe('Scheduleing', () => {
@@ -19,9 +19,9 @@ describe('Scheduleing', () => {
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();
-    sut = new PrismaScheduleingRepository(database);
-    carRepository = new PrismaCarRepository(database);
-    vacancyRepository = new PrismaVacancyRepository(database);
+    sut = new ScheduleingRepositoryPrisma(database);
+    carRepository = new CarRepositoryPrisma(database);
+    vacancyRepository = new VacancyRepositoryPrisma(database);
   });
 
   /*it('should throw to find a repository.', async () => {
@@ -80,7 +80,6 @@ export async function newVacancy() {
 }
 export async function newCar() {
   return new Car({
-    id: faker.datatype.uuid(),
     name: faker.datatype.string(),
     brand: faker.datatype.string(),
     plate: faker.datatype.string(),

@@ -50,4 +50,57 @@ describe('CreateScheduleing', () => {
       }),
     ).resolves.not.toThrow();
   });
+
+  it('should throw when dont find a registered vacancy', async () => {
+    const vacancy = new Vacancy({
+      localization: faker.datatype.string(),
+    });
+    const car = new Car({
+      name: faker.datatype.string(),
+      brand: faker.datatype.string(),
+      plate: faker.datatype.string(),
+    });
+    const scheduleing = new Scheduleing({
+      checkIn: faker.datatype.datetime(),
+      checkOut: faker.datatype.datetime(),
+    });
+
+    scheduleing.addVacancy(vacancy);
+    scheduleing.addCar(car);
+    await expect(
+      sut.execute({
+        checkIn: scheduleing.getState().checkIn,
+        checkOut: scheduleing.getState().checkOut,
+        carId: scheduleing.getState().car.getState().id,
+        vacancyId: scheduleing.getState().vacancy.getState().id,
+      }),
+    ).rejects.toThrow();
+  });
+
+  it('should throw when dont find a registered car', async () => {
+    const vacancy = new Vacancy({
+      localization: faker.datatype.string(),
+    });
+    vacancyRepository.findOne.mockResolvedValueOnce(vacancy);
+    const car = new Car({
+      name: faker.datatype.string(),
+      brand: faker.datatype.string(),
+      plate: faker.datatype.string(),
+    });
+    const scheduleing = new Scheduleing({
+      checkIn: faker.datatype.datetime(),
+      checkOut: faker.datatype.datetime(),
+    });
+
+    scheduleing.addVacancy(vacancy);
+    scheduleing.addCar(car);
+    await expect(
+      sut.execute({
+        checkIn: scheduleing.getState().checkIn,
+        checkOut: scheduleing.getState().checkOut,
+        carId: scheduleing.getState().car.getState().id,
+        vacancyId: scheduleing.getState().vacancy.getState().id,
+      }),
+    ).rejects.toThrow();
+  });
 });

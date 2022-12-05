@@ -3,7 +3,7 @@ import { User } from '@domain/entities';
 import { UserRepository } from '@domain/repositories';
 import { Database } from '../database';
 
-export class PrismaUserRepository implements UserRepository {
+export class UserRepositoryPrisma implements UserRepository {
   constructor(private readonly database: Database<PrismaClient>) {}
 
   async findOne(input: UserRepository.Input.FindOne): Promise<User | null> {

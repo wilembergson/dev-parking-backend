@@ -2,14 +2,14 @@ import { Car } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
-import { PrismaCarRepository } from '@infra/repositories';
+import { CarRepositoryPrisma } from '@infra/repositories';
 
 describe('CarRepositoryPrisma', () => {
   let sut: CarRepository;
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();
-    sut = new PrismaCarRepository(database);
+    sut = new CarRepositoryPrisma(database);
   });
   it('create a new car.', () => {
     const car = newCar();

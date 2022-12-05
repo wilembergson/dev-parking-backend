@@ -2,7 +2,7 @@ import { Car, Scheduleing, Vacancy } from '@domain/entities';
 import { ScheduleingRepository } from '@domain/repositories';
 import { PrismaDatabase } from '@infra/database';
 
-export class PrismaScheduleingRepository implements ScheduleingRepository {
+export class ScheduleingRepositoryPrisma implements ScheduleingRepository {
   constructor(private readonly database: PrismaDatabase) {}
 
   async findMany(): Promise<Scheduleing[] | null> {

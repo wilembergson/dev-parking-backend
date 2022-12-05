@@ -1,4 +1,4 @@
-import { PrismaUserRepository } from '@infra/repositories';
+import { UserRepositoryPrisma } from '@infra/repositories';
 import { PrismaDatabase } from '@infra/database';
 import { User } from '@domain/entities';
 import { faker } from '@faker-js/faker';
@@ -9,7 +9,7 @@ describe('Prisma-User-Repository', () => {
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();
-    sut = new PrismaUserRepository(database);
+    sut = new UserRepositoryPrisma(database);
   });
   it('save a new user.', async () => {
     const user = newUser();
@@ -42,5 +42,5 @@ export function newUser(input?: { email?: string }) {
 }
 
 export function newRepository() {
-  return new PrismaUserRepository(new PrismaDatabase());
+  return new UserRepositoryPrisma(new PrismaDatabase());
 }

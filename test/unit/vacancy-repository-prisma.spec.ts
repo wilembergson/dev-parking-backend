@@ -2,14 +2,14 @@ import { Vacancy } from '@domain/entities';
 import { VacancyRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
-import { PrismaVacancyRepository } from '@infra/repositories';
+import { VacancyRepositoryPrisma } from '@infra/repositories';
 
 describe('Vacancy', () => {
   let sut: VacancyRepository;
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();
-    sut = new PrismaVacancyRepository(database);
+    sut = new VacancyRepositoryPrisma(database);
   });
   it('create a new vacancy.', () => {
     const vacancy = newVacancy();

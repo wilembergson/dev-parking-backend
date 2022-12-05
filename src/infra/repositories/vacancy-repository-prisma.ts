@@ -3,7 +3,7 @@ import { VacancyRepository } from '@domain/repositories';
 import { Database } from '@infra/database';
 import { PrismaClient } from '@prisma/client';
 
-export class PrismaVacancyRepository implements VacancyRepository {
+export class VacancyRepositoryPrisma implements VacancyRepository {
   constructor(private readonly database: Database<PrismaClient>) {}
   async findOne(
     input: VacancyRepository.Input.FindOne,
