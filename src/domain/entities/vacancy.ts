@@ -1,25 +1,22 @@
 import { ID } from './id';
 
-export class Parking {
+export class Vacancy {
   private readonly id: ID;
   private readonly localization: string;
-  private readonly vacancies: number;
 
-  constructor(input: Parking.Input.constructor) {
+  constructor(input: Vacancy.Input.constructor) {
     this.localization = input.localization;
-    this.vacancies = input.vacancies;
     this.id = new ID(input.id);
   }
 
-  getState(): Parking.Output.GetState {
+  getState(): Vacancy.Output.GetState {
     return {
       localization: this.localization,
-      vacancies: this.vacancies,
       id: this.id.value,
     };
   }
 
-  update(input: Partial<Parking.Output.GetState>): void {
+  update(input: Partial<Vacancy.Output.GetState>): void {
     Object.keys(input).forEach((key) => {
       if (input[key] !== undefined && key !== 'id') {
         this[key] = input[key];
@@ -28,18 +25,16 @@ export class Parking {
   }
 }
 
-export namespace Parking {
+export namespace Vacancy {
   export namespace Input {
     export type constructor = {
       localization: string;
-      vacancies: number;
       id?: string;
     };
   }
   export namespace Output {
     export type GetState = {
       localization: string;
-      vacancies: number;
       id: string;
     };
   }

@@ -4,14 +4,12 @@ export class Car {
   private readonly id: ID;
   private readonly name: string;
   private readonly brand: string;
-  private readonly board: string;
-  private readonly price: number;
+  private readonly plate: string;
 
   constructor(input: Car.Input.constructor) {
     this.name = input.name;
     this.brand = input.brand;
-    this.board = input.board;
-    this.price = input.price;
+    this.plate = input.plate;
     this.id = new ID(input.id);
   }
 
@@ -19,8 +17,7 @@ export class Car {
     return {
       name: this.name,
       brand: this.brand,
-      board: this.board,
-      price: this.price,
+      plate: this.plate,
       id: this.id.value,
     };
   }
@@ -39,8 +36,7 @@ export namespace Car {
     export type constructor = {
       name: string;
       brand: string;
-      board: string;
-      price: number;
+      plate: string;
       id?: string;
     };
   }
@@ -48,8 +44,7 @@ export namespace Car {
     export type GetState = {
       name: string;
       brand: string;
-      board: string;
-      price: number;
+      plate: string;
       id: string;
     };
   }

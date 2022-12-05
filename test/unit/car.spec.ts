@@ -6,28 +6,24 @@ describe('Car', () => {
     const sut = new Car({
       name: faker.name.firstName(),
       brand: faker.name.firstName(),
-      board: faker.name.firstName(),
-      price: 554,
+      plate: faker.name.firstName(),
     });
     expect(sut.getState()).toHaveProperty('id');
     expect(sut.getState()).toHaveProperty('name');
     expect(sut.getState()).toHaveProperty('brand');
-    expect(sut.getState()).toHaveProperty('board');
-    expect(sut.getState()).toHaveProperty('price');
+    expect(sut.getState()).toHaveProperty('plate');
   });
 
   it('should be able to update entity state.', () => {
     const sut = new Car({
       name: faker.name.firstName(),
       brand: faker.name.firstName(),
-      board: faker.name.firstName(),
-      price: 554,
+      plate: faker.name.firstName(),
     });
     const updateData = {
       name: faker.name.firstName(),
       brand: faker.name.firstName(),
-      board: faker.name.firstName(),
-      price: 554,
+      plate: faker.name.firstName(),
     };
     sut.update(updateData);
     expect(sut.getState()).toMatchObject(updateData);

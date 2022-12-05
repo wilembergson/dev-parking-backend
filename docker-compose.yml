@@ -4,9 +4,10 @@ services: # representam os containers
   artigo-nestjs-docker-postgres-database: # nome do serviço
     image: postgres # imagem que o docker irá se basear para criar o container
     environment: # variáveis de ambiente
-      POSTGRES_PASSWORD: 'postgres'
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
     container_name: db # nome do container
-
     ports: # portas para acessar o container
       - '5432:5432'
     volumes: # onde serão armazenadas as informações do banco

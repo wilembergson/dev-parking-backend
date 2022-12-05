@@ -8,8 +8,9 @@ export interface CarRepository {
 
 export namespace CarRepository {
   export namespace Input {
-    export type FindOne = {
-      board: string;
-    };
+    export type FindOne = Partial<{
+      id: string;
+      plate: string;
+    }>;
   }
 }

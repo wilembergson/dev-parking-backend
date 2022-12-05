@@ -17,16 +17,14 @@ describe('CreateCar', () => {
       new Car({
         name: 'sssdd',
         brand: 'sssdd',
-        board: 'sssdd',
-        price: 554,
+        plate: 'sssdd',
       }),
     );
     await expect(
       sut.execute({
         name: 'sssdd2',
         brand: 'sssdd2',
-        board: 'sssdd2',
-        price: 555,
+        plate: 'sssdd2',
       }),
     ).rejects.toThrow();
   });
@@ -37,8 +35,7 @@ describe('CreateCar', () => {
       sut.execute({
         name: 'sssdd2',
         brand: 'sssdd2',
-        board: 'sssdd2',
-        price: 555,
+        plate: 'sssdd2',
       }),
     ).resolves.not.toThrow();
   });
