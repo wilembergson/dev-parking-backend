@@ -1,7 +1,7 @@
-import { Car, Scheduleing, Vacancy } from '@domain/entities';
+import { Car, Schedule, Vacancy } from '@domain/entities';
 import { faker } from '@faker-js/faker';
 
-describe('Scheduleing', () => {
+describe('Schedule', () => {
   it('should be able to get entity state.', () => {
     const car = new Car({
       name: faker.datatype.string(),
@@ -11,7 +11,7 @@ describe('Scheduleing', () => {
     const vacancy = new Vacancy({
       localization: faker.name.firstName(),
     });
-    const sut = new Scheduleing({
+    const sut = new Schedule({
       checkIn: faker.datatype.datetime(),
       checkOut: faker.datatype.datetime(),
     });
@@ -24,9 +24,30 @@ describe('Scheduleing', () => {
     expect(sut.getState()).toHaveProperty('vacancy');
     expect(sut.getState()).toHaveProperty('car');
   });
+  it('should be able to get entity state with null checkout.', () => {
+    const car = new Car({
+      name: faker.datatype.string(),
+      brand: faker.datatype.string(),
+      plate: faker.datatype.string(),
+    });
+    const vacancy = new Vacancy({
+      localization: faker.name.firstName(),
+    });
+    const sut = new Schedule({
+      checkIn: faker.datatype.datetime(),
+      checkOut: null,
+    });
+    sut.addCar(car);
+    sut.addVacancy(vacancy);
 
+    expect(sut.getState()).toHaveProperty('id');
+    expect(sut.getState()).toHaveProperty('checkIn');
+    expect(sut.getState()).toHaveProperty('checkOut');
+    expect(sut.getState()).toHaveProperty('vacancy');
+    expect(sut.getState()).toHaveProperty('car');
+  });
   it('should be able to update entity state.', () => {
-    const sut = new Scheduleing({
+    const sut = new Schedule({
       checkIn: faker.datatype.datetime(),
       checkOut: faker.datatype.datetime(),
     });

@@ -19,13 +19,13 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@domain/*": [
-        "./src/domain/*"
+        "./src/core/domain/*"
       ],
       "@application/*": [
-        "./src/application/*"
+        "src/core/application/*"
       ],
       "@infra/*": [
-        "./src/infra/*"
+        "src/core/infra/*"
       ],
       "~/test/*": [
         "./test/*"
@@ -34,6 +34,8 @@
   },
   "include": [
     "src",
-    "test"
+    "test",
+    "jest.config.js",
+    ".eslintrc.js"
   ]
 }

@@ -8,7 +8,7 @@ describe('Vacancy', () => {
   let sut: VacancyRepository;
   let database: PrismaDatabase;
   beforeAll(() => {
-    database = new PrismaDatabase();
+    database = PrismaDatabase.getInstance();
     sut = new VacancyRepositoryPrisma(database);
   });
   it('create a new vacancy.', () => {

@@ -1,4 +1,4 @@
-import { CreateUser, UpdateUser } from '@application/use-cases';
+import { UpdateUser } from '@application/use-cases';
 import { User } from '@domain/entities';
 import { UserRepository } from '@domain/repositories';
 import { mock, MockProxy } from 'jest-mock-extended';

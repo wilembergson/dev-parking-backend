@@ -5,13 +5,13 @@ module.exports = {
   clearMocks: true,
   moduleNameMapper: {
     '~/test/(.+)': '<rootDir>/test/$1',
-    '@domain/(.+)': '<rootDir>/src/domain/$1',
-    '@application/(.+)': '<rootDir>/src/application/$1',
-    '@infra/(.+)': '<rootDir>/src/infra/$1'
+    '@domain/(.+)': '<rootDir>/src/core/domain/$1',
+    '@application/(.+)': '<rootDir>/src/core/application/$1',
+    '@infra/(.+)': '<rootDir>/src/core/infra/$1',
   },
   testMatch: ['**/*.spec.ts'],
   roots: ['<rootDir>/src', '<rootDir>/test'],
   transform: {
-    '\\.ts$': 'ts-jest'
-  }
-}
+    '\\.ts$': 'ts-jest',
+  },
+};

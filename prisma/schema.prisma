@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id       String @id @unique @default(uuid())
+  id       String @id @default(uuid())
   name     String
   email    String
   password String
@@ -21,25 +21,25 @@ model User {
 }
 
 model Car {
-  id          String        @id @unique @default(uuid())
-  name        String
-  brand       String
-  plate       String        @unique
-  Scheduleing Scheduleing[]
+  id       String     @id @default(uuid())
+  name     String
+  brand    String
+  plate    String
+  Schedule Schedule[]
 
   @@map("cars")
 }
 
 model Vacancy {
-  id           String        @id @unique @default(uuid())
-  localization String        @unique
-  scheduleing  Scheduleing[]
+  id           String     @id @default(uuid())
+  localization String
+  schedule     Schedule[]
 
   @@map("vacancy")
 }
 
-model Scheduleing {
-  id        String    @id @unique @default(uuid())
+model Schedule {
+  id        String    @id @default(uuid())
   checkIn   DateTime
   checkOut  DateTime?
   vacancyId String
@@ -47,5 +47,5 @@ model Scheduleing {
   carId     String
   car       Car       @relation(fields: [carId], references: [id])
 
-  @@map("scheduleing")
+  @@map("schedule")
 }

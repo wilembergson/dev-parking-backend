@@ -8,7 +8,7 @@ describe('CarRepositoryPrisma', () => {
   let sut: CarRepository;
   let database: PrismaDatabase;
   beforeAll(() => {
-    database = new PrismaDatabase();
+    database = PrismaDatabase.getInstance();
     sut = new CarRepositoryPrisma(database);
   });
   it('create a new car.', () => {

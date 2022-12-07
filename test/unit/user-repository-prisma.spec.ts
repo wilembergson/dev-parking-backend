@@ -1,10 +1,10 @@
-import { UserRepositoryPrisma } from '@infra/repositories';
-import { PrismaDatabase } from '@infra/database';
 import { User } from '@domain/entities';
 import { faker } from '@faker-js/faker';
 import { UserRepository } from '@domain/repositories';
+import { PrismaDatabase } from '@infra/database';
+import { UserRepositoryPrisma } from '@infra/repositories';
 
-describe('Prisma-User-Repository', () => {
+describe('User-Repository-Prisma', () => {
   let sut: UserRepository;
   let database: PrismaDatabase;
   beforeAll(() => {
@@ -42,5 +42,5 @@ export function newUser(input?: { email?: string }) {
 }
 
 export function newRepository() {
-  return new UserRepositoryPrisma(new PrismaDatabase());
+  return new UserRepositoryPrisma(PrismaDatabase.getInstance());
 }
