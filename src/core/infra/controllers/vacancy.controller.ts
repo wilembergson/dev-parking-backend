@@ -1,6 +1,5 @@
 import { CreateVacancy } from '@application/use-cases';
-import { faker } from '@faker-js/faker';
-import { Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { VacancyDependencies } from '../../../ioc/vacancy';
 
 @Controller('vacancy')
@@ -11,9 +10,9 @@ export class VacancyController {
   ) {}
 
   @Post()
-  async createVacancy(): Promise<void> {
+  async createVacancy(@Body() body: any): Promise<void> {
     return this.createVacancyService.execute({
-      localization: faker.datatype.string(),
+      localization: body.localization,
     });
   }
 }

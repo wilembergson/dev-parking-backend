@@ -2,8 +2,9 @@ import { CarRepository } from '@domain/repositories';
 import { CarRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CarDependencies } from './car.dependencies';
-import { CreateCar } from '@application/use-cases';
+import { CreateCar, FindCar } from '@application/use-cases';
 import { Database, PrismaDatabase } from '@infra/database';
+import { DeleteCar } from '@application/use-cases/delete-car';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CarDependencies.Database,
@@ -21,10 +22,23 @@ const createCarProvider: FactoryProvider<CreateCar> = {
   useFactory: (carRepository: CarRepository) => new CreateCar(carRepository),
   inject: [CarDependencies.CarRepository],
 };
+const findCarProvider: FactoryProvider<FindCar> = {
+  provide: CarDependencies.FindCar,
+  useFactory: (carRepository: CarRepository) => new FindCar(carRepository),
+  inject: [CarDependencies.CarRepository],
+};
+
+const deleteCarProvider: FactoryProvider<DeleteCar> = {
+  provide: CarDependencies.DeleteCar,
+  useFactory: (carRepository: CarRepository) => new DeleteCar(carRepository),
+  inject: [CarDependencies.CarRepository],
+};
 
 export const providers: Provider[] = [
   carRepositoryProvider,
   createCarProvider,
+  findCarProvider,
+  deleteCarProvider,
   databaseProvider,
 ];
 

@@ -6,6 +6,18 @@ import { PrismaClient } from '@prisma/client';
 export class CarRepositoryPrisma implements CarRepository {
   constructor(private readonly database: Database<PrismaClient>) {}
 
+  /*async listCars(): Promise<Car[] | null> {
+    return await this.database.getConnection().car.findMany();
+  }*/
+
+  async delete(input: CarRepository.Input.FindOne): Promise<void> {
+    await this.database.getConnection().car.delete({
+      where: {
+        id: input.id,
+      },
+    });
+  }
+
   async findOne(input: CarRepository.Input.FindOne): Promise<Car | null> {
     const data = await this.database.getConnection().car.findFirst({
       where: {

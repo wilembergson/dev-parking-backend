@@ -1,6 +1,5 @@
 import { CreateUser } from '@application/use-cases';
-import { faker } from '@faker-js/faker';
-import { Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { UserDependencies } from '../../../ioc/user';
 
 @Controller('user')
@@ -11,12 +10,12 @@ export class UserController {
   ) {}
 
   @Post()
-  async createUser(): Promise<void> {
+  async createUser(@Body() body: any): Promise<void> {
     return this.createUserService.execute({
-      name: faker.name.firstName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      age: faker.datatype.number(),
+      name: body.name,
+      email: body.email,
+      password: body.password,
+      age: body.age,
     });
   }
 }

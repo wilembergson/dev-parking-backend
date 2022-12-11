@@ -1,5 +1,15 @@
-import { CreateCar } from '@application/use-cases';
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { CreateCar, FindCar } from '@application/use-cases';
+import { DeleteCar } from '@application/use-cases/delete-car';
+import { Car } from '@domain/entities';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CarDependencies } from '../../../ioc/car';
 
 @Controller('car')
@@ -7,6 +17,10 @@ export class CarController {
   constructor(
     @Inject(CarDependencies.CreateCar)
     private readonly createCarService: CreateCar,
+    @Inject(CarDependencies.FindCar)
+    private readonly findCarService: FindCar,
+    @Inject(CarDependencies.DeleteCar)
+    private readonly deleteCarService: DeleteCar,
   ) {}
 
   @Post()
@@ -16,5 +30,18 @@ export class CarController {
       brand: body.brand,
       plate: body.plate,
     });
+  }
+
+  @Get(':plate')
+  async findCar(@Param() params): Promise<Car | null> {
+    const car = await this.findCarService.execute({
+      plate: params.plate,
+    });
+    return car;
+  }
+
+  @Delete(':id')
+  async deleteCar(@Param() params): Promise<void> {
+    await this.deleteCarService.execute({ id: params.id });
   }
 }

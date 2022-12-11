@@ -4,12 +4,14 @@ import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/ioc/app.module';
-import { CarRepository } from '@domain/repositories';
 import { MockProxy } from 'jest-mock-extended';
-import { Car } from '@domain/entities';
+import { CarRepository, VacancyRepository } from '@domain/repositories';
+import { Car, Vacancy } from '@domain/entities';
+import { CreateCar } from '@application/use-cases';
 
-describe('/car', () => {
+describe('/schedule', () => {
   let app: INestApplication;
+  let vacancyRepository: MockProxy<VacancyRepository>;
   let carRepository: MockProxy<CarRepository>;
 
   beforeAll(async () => {
@@ -28,37 +30,26 @@ describe('/car', () => {
 
   describe('@POST /', () => {
     it('201', async () => {
-      const response = await request(app.getHttpServer()).post(`/car`).send({
-        id: faker.datatype.uuid(),
-        name: faker.datatype.uuid(),
-        brand: faker.datatype.uuid(),
-        plate: faker.datatype.uuid(),
-      });
-      expect(response.statusCode).toEqual(201);
-    });
-  });
-
-  describe('@GET /:plate', () => {
-    it('200', async () => {
-      const response = await request(app.getHttpServer()).get(
-        `/car/${faker.datatype.string()}`,
-      );
-      expect(response.statusCode).toEqual(404);
-    });
-  });
-
-  describe('@DELETE /:plate', () => {
-    it('200', async () => {
       const car = new Car({
-        name: faker.name.firstName(),
+        name: faker.datatype.string(),
         brand: faker.datatype.string(),
         plate: faker.datatype.string(),
       });
+      const vacancy = new Vacancy({
+        localization: faker.datatype.string(),
+      });
+      vacancyRepository.findOne.mockResolvedValueOnce(vacancy);
       carRepository.findOne.mockResolvedValueOnce(car);
-      const response = await request(app.getHttpServer()).delete(
-        `/car/${car.getState().id}`,
-      );
-      expect(response.statusCode).toEqual(200);
+      const response = await request(app.getHttpServer())
+        .post(`/schedule`)
+        .send({
+          id: faker.datatype.uuid(),
+          checkIn: faker.datatype.datetime(),
+          checkOut: faker.datatype.datetime(),
+          carId: car.getState().id,
+          vacancyId: vacancy.getState().id,
+        });
+      expect(response.statusCode).toEqual(201);
     });
   });
 });
