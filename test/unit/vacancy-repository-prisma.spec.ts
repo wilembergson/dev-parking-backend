@@ -30,6 +30,22 @@ describe('Vacancy', () => {
     });
     expect(vacancy).toBeNull();
   });
+  it('should delete a user.', async () => {
+    const id = faker.datatype.uuid();
+    await sut.save(newVacancy({ id }));
+    await expect(sut.delete({ id })).resolves.not.toThrow();
+  });
+
+  it('should update a user.', async () => {
+    const id = faker.datatype.uuid();
+    await sut.save(newVacancy({ id }));
+    await expect(
+      sut.update({
+        id,
+        localization: faker.address.latitude(),
+      }),
+    ).resolves.not.toThrow();
+  });
 });
 
 export function newVacancy(input?: { id?: string }) {

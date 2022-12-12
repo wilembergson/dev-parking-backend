@@ -3,9 +3,11 @@ import { faker } from '@faker-js/faker';
 import { UserRepository } from '@domain/repositories';
 import { PrismaDatabase } from '@infra/database';
 import { UserRepositoryPrisma } from '@infra/repositories';
+import { MockProxy } from 'jest-mock-extended';
 
 describe('User-Repository-Prisma', () => {
   let sut: UserRepository;
+  let userRepository: MockProxy<UserRepository>;
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();
@@ -29,6 +31,34 @@ describe('User-Repository-Prisma', () => {
     const user = await sut.findOne({ email: faker.internet.email() });
 
     expect(user).toBeNull();
+  });
+
+  it('should delete a user.', async () => {
+    const user = newUser();
+    await sut.save(user);
+    await expect(sut.delete({ id: user.getState().id })).resolves.not.toThrow();
+  });
+
+  it('should update a user.', async () => {
+    const id = faker.datatype.uuid();
+    await sut.save(
+      new User({
+        id,
+        name: faker.datatype.string(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        age: faker.datatype.number(),
+      }),
+    );
+    await expect(
+      sut.update({
+        id,
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        age: faker.datatype.number(),
+      }),
+    ).resolves.not.toThrow();
   });
 });
 

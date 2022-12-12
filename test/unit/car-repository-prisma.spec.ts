@@ -3,10 +3,13 @@ import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
 import { CarRepositoryPrisma } from '@infra/repositories';
+import { MockProxy } from 'jest-mock-extended';
 
 describe('CarRepositoryPrisma', () => {
   let sut: CarRepository;
   let database: PrismaDatabase;
+  let carRepository: MockProxy<CarRepository>;
+
   beforeAll(() => {
     database = PrismaDatabase.getInstance();
     sut = new CarRepositoryPrisma(database);
@@ -29,6 +32,12 @@ describe('CarRepositoryPrisma', () => {
   it('should throw to find a repository.', async () => {
     const user = await sut.findOne({ id: faker.datatype.uuid() });
     expect(user).toBeNull();
+  });
+
+  it('should delete a car.', async () => {
+    const id = faker.datatype.uuid();
+    await sut.save(newCar({ id }));
+    await expect(sut.delete({ id })).resolves.not.toThrow();
   });
 });
 

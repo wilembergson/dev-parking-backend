@@ -26,6 +26,13 @@ describe('Schedule', () => {
     const list = await sut.findMany();
     expect(list).not.toHaveLength;
   });
+  it('should delete a user.', async () => {
+    const schedule = newSchedule();
+    await sut.save(schedule);
+    await expect(
+      sut.delete({ id: schedule.getState().id }),
+    ).resolves.not.toThrow();
+  });
 
   it('create a new schedule.', async () => {
     const schedule = await newSchedule();
@@ -37,6 +44,24 @@ describe('Schedule', () => {
     });
   });
 
+  it('shoud find a schedule', async () => {
+    const car1 = newCar();
+    await carRepository.save(car1);
+    const vacancy1 = newVacancy();
+    await vacancyRepository.save(vacancy1);
+    const schedule1 = newSchedule();
+    schedule1.addCar(car1);
+    schedule1.addVacancy(vacancy1);
+    await sut.save(schedule1);
+    await expect(
+      sut.findSchedule({ id: schedule1.getState().id }),
+    ).resolves.not.toThrow();
+  });
+  it('shoud throw wher try to find a schedule', async () => {
+    await expect(
+      sut.findSchedule({ id: faker.datatype.uuid() }),
+    ).rejects.toThrow();
+  });
   it('find a schedule list.', async () => {
     const car1 = newCar();
     await carRepository.save(car1);
