@@ -6,6 +6,28 @@ import { Database } from '../database';
 export class UserRepositoryPrisma implements UserRepository {
   constructor(private readonly database: Database<PrismaClient>) {}
 
+  async delete(input: UserRepository.Input.Delete): Promise<void> {
+    await this.database.getConnection().user.delete({
+      where: {
+        id: input.id,
+      },
+    });
+  }
+
+  async update(input: UserRepository.Input.Update): Promise<void> {
+    await this.database.getConnection().user.update({
+      where: {
+        id: input.id,
+      },
+      data: {
+        name: input.name,
+        email: input.email,
+        password: input.password,
+        age: input.age,
+      },
+    });
+  }
+
   async findOne(input: UserRepository.Input.FindOne): Promise<User | null> {
     const data = await this.database.getConnection().user.findFirst({
       where: { email: input.email },

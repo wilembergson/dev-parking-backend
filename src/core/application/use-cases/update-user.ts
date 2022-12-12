@@ -7,8 +7,8 @@ export class UpdateUser {
   async execute(input: UpdateUser.Input): Promise<void> {
     const user = await this.userRepository.findOne({ email: input.email });
     if (!user) throw new UserNotFound();
-    user.update(input);
-    await this.userRepository.save(user);
+    //user.update(input);
+    await this.userRepository.update(input);
   }
 }
 

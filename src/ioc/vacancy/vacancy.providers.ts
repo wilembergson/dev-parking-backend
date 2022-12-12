@@ -1,4 +1,7 @@
 import { CreateVacancy } from '@application/use-cases';
+import { DeleteVacancy } from '@application/use-cases/delete-vacancy';
+import { FindVacancy } from '@application/use-cases/find-vacancy';
+import { UpdateVacancy } from '@application/use-cases/update-vacancy';
 import { VacancyRepository } from '@domain/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
 import { VacancyRepositoryPrisma } from '@infra/repositories';
@@ -23,10 +26,34 @@ const createVacancyProvider: FactoryProvider<CreateVacancy> = {
   inject: [VacancyDependencies.VacancyRepository],
 };
 
+const findVacancyProvider: FactoryProvider<FindVacancy> = {
+  provide: VacancyDependencies.FindVacancy,
+  useFactory: (vacancyRepository: VacancyRepository) =>
+    new FindVacancy(vacancyRepository),
+  inject: [VacancyDependencies.VacancyRepository],
+};
+
+const deleteVacancyProvider: FactoryProvider<DeleteVacancy> = {
+  provide: VacancyDependencies.DeleteVacancy,
+  useFactory: (vacancyRepository: VacancyRepository) =>
+    new DeleteVacancy(vacancyRepository),
+  inject: [VacancyDependencies.VacancyRepository],
+};
+
+const updateVacancyProvider: FactoryProvider<UpdateVacancy> = {
+  provide: VacancyDependencies.UpdateVacancy,
+  useFactory: (vacancyRepository: VacancyRepository) =>
+    new UpdateVacancy(vacancyRepository),
+  inject: [VacancyDependencies.VacancyRepository],
+};
+
 export const providers: Provider[] = [
   vacancyRepositoryProvider,
   createVacancyProvider,
   databaseProvider,
+  findVacancyProvider,
+  deleteVacancyProvider,
+  updateVacancyProvider,
 ];
 
 export const providersExporteds: Provider[] = [vacancyRepositoryProvider];

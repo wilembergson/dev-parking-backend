@@ -5,11 +5,31 @@ import { PrismaClient } from '@prisma/client';
 
 export class VacancyRepositoryPrisma implements VacancyRepository {
   constructor(private readonly database: Database<PrismaClient>) {}
+
+  async update(input: VacancyRepository.Input.Update): Promise<void> {
+    await this.database.getConnection().vacancy.update({
+      where: {
+        id: input.id,
+      },
+      data: {
+        localization: input.localization,
+      },
+    });
+  }
+
+  async delete(input: VacancyRepository.Input.Delete): Promise<void> {
+    await this.database.getConnection().vacancy.delete({
+      where: {
+        id: input.id,
+      },
+    });
+  }
+
   async findOne(
     input: VacancyRepository.Input.FindOne,
   ): Promise<Vacancy | null> {
     const data = await this.database.getConnection().vacancy.findFirst({
-      where: { id: input.id },
+      where: { localization: input.localization },
     });
     if (!data) return null;
     return new Vacancy({
