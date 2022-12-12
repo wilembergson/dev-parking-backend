@@ -6,6 +6,47 @@ import { PrismaDatabase } from 'src/core/infra/database';
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
   constructor(private readonly database: PrismaDatabase) {}
 
+  async delete(input: ScheduleRepository.Input.Delete): Promise<void> {
+    await this.database.getConnection().schedule.delete({
+      where: {
+        id: input.id,
+      },
+    });
+  }
+
+  async findSchedule(
+    input: ScheduleRepository.Input.FindSchedule,
+  ): Promise<Schedule> {
+    const data = await this.database.getConnection().schedule.findFirst({
+      where: {
+        id: input.id,
+      },
+      include: {
+        car: true,
+        vacancy: true,
+      },
+    });
+    if (!data) throw new Error();
+    const vacancy = new Vacancy({
+      id: data.vacancy.id,
+      localization: data.vacancy.localization,
+    });
+    const car = new Car({
+      id: data.car.id,
+      name: data.car.name,
+      brand: data.car.brand,
+      plate: data.car.plate,
+    });
+    const schedule = new Schedule({
+      id: data.id,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+    });
+    schedule.addCar(car);
+    schedule.addVacancy(vacancy);
+    return schedule;
+  }
+
   async findMany(): Promise<Schedule[]> {
     const data = await this.database.getConnection().schedule.findMany({
       include: {

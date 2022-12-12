@@ -1,5 +1,17 @@
 import { CreateSchedule } from '@application/use-cases';
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { DeleteSchedule } from '@application/use-cases/delete-schedule';
+import { FindSchedule } from '@application/use-cases/find-schedule';
+import { ListSchedules } from '@application/use-cases/list-schedules';
+import { Schedule } from '@domain/entities';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ScheduleDependencies } from '../../../ioc/schedule';
 
 @Controller('schedule')
@@ -7,15 +19,36 @@ export class ScheduleController {
   constructor(
     @Inject(ScheduleDependencies.CreateSheduleing)
     private readonly createScheduleService: CreateSchedule,
+    @Inject(ScheduleDependencies.FindSchedule)
+    private readonly findScheduleService: FindSchedule,
+    @Inject(ScheduleDependencies.ListSchedules)
+    private readonly listSchedulesService: ListSchedules,
+    @Inject(ScheduleDependencies.DeleteSchedule)
+    private readonly deleteScheduleService: DeleteSchedule,
   ) {}
 
   @Post()
   async createSchedule(@Body() body: any): Promise<void> {
-    return this.createScheduleService.execute({
+    return await this.createScheduleService.execute({
       checkIn: body.checkIn,
-      checkOut: body.checkout,
+      checkOut: body.checkOut,
       carId: body.carId,
       vacancyId: body.vacancyId,
     });
+  }
+
+  @Get(':id')
+  async findSchedule(@Param() param): Promise<Schedule | null> {
+    return await this.findScheduleService.execute({ id: param.id });
+  }
+
+  @Get()
+  async listSchedules(): Promise<Schedule[] | null> {
+    return await this.listSchedulesService.execute();
+  }
+
+  @Delete(':id')
+  async deleteSchedule(@Param() param): Promise<void> {
+    await this.deleteScheduleService.execute({ id: param.id });
   }
 }

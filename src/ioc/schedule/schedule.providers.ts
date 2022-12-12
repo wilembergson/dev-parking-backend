@@ -1,4 +1,7 @@
 import { CreateSchedule } from '@application/use-cases';
+import { DeleteSchedule } from '@application/use-cases/delete-schedule';
+import { FindSchedule } from '@application/use-cases/find-schedule';
+import { ListSchedules } from '@application/use-cases/list-schedules';
 import { CarRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
 import { Database, PrismaDatabase } from '@infra/database';
@@ -34,8 +37,32 @@ const createScheduleProvider: FactoryProvider<CreateSchedule> = {
   ],
 };
 
+const findScheduleProvider: FactoryProvider<FindSchedule> = {
+  provide: ScheduleDependencies.FindSchedule,
+  useFactory: (scheduleRepository: ScheduleRepository) =>
+    new FindSchedule(scheduleRepository),
+  inject: [ScheduleDependencies.ScheduleRepository],
+};
+
+const listSchedulesProvider: FactoryProvider<ListSchedules> = {
+  provide: ScheduleDependencies.ListSchedules,
+  useFactory: (scheduleRepository: ScheduleRepository) =>
+    new ListSchedules(scheduleRepository),
+  inject: [ScheduleDependencies.ScheduleRepository],
+};
+
+const deleteSchedulesProvider: FactoryProvider<DeleteSchedule> = {
+  provide: ScheduleDependencies.DeleteSchedule,
+  useFactory: (scheduleRepository: ScheduleRepository) =>
+    new DeleteSchedule(scheduleRepository),
+  inject: [ScheduleDependencies.ScheduleRepository],
+};
+
 export const providers: Provider[] = [
   scheduleRepositoryProvider,
   createScheduleProvider,
   databaseProvider,
+  findScheduleProvider,
+  listSchedulesProvider,
+  deleteSchedulesProvider,
 ];

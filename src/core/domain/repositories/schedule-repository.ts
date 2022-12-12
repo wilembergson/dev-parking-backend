@@ -4,4 +4,19 @@ export interface ScheduleRepository {
   findMany(): Promise<Schedule[]>;
 
   save(Schedule: Schedule): Promise<void>;
+
+  findSchedule(input: ScheduleRepository.Input.FindSchedule): Promise<Schedule>;
+
+  delete(input: ScheduleRepository.Input.Delete): Promise<void>;
+}
+
+export namespace ScheduleRepository {
+  export namespace Input {
+    export type FindSchedule = {
+      id: string;
+    };
+    export type Delete = {
+      id: string;
+    };
+  }
 }
