@@ -1,10 +1,11 @@
 import { Car, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
-import { PrismaDatabase } from 'src/core/infra/database';
+import { PrismaClient } from '@prisma/client';
+import { Database } from 'src/core/infra/database';
 
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
-  constructor(private readonly database: PrismaDatabase) {}
+  constructor(private readonly database: Database<PrismaClient>) {}
 
   async delete(input: ScheduleRepository.Input.Delete): Promise<void> {
     await this.database.getConnection().schedule.delete({

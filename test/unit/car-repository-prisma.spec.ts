@@ -3,12 +3,10 @@ import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
 import { CarRepositoryPrisma } from '@infra/repositories';
-import { MockProxy } from 'jest-mock-extended';
 
 describe('CarRepositoryPrisma', () => {
   let sut: CarRepository;
   let database: PrismaDatabase;
-  let carRepository: MockProxy<CarRepository>;
 
   beforeAll(() => {
     database = PrismaDatabase.getInstance();

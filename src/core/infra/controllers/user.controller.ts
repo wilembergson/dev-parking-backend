@@ -8,6 +8,7 @@ import {
   Delete,
   Get,
   Inject,
+  Param,
   Post,
   Put,
 } from '@nestjs/common';
@@ -36,10 +37,9 @@ export class UserController {
     });
   }
 
-  @Put()
-  async updateUser(@Body() body: any): Promise<void> {
-    return await this.updateUserService.execute({
-      id: body.id,
+  @Put(':id')
+  async updateUser(@Param() param, @Body() body: any): Promise<void> {
+    return this.updateUserService.execute(param.id, {
       name: body.name,
       age: body.age,
       email: body.email,
@@ -47,15 +47,15 @@ export class UserController {
     });
   }
 
-  @Delete()
-  async deleteUser(@Body() body: any): Promise<void> {
-    await this.deleteUserService.execute({
-      email: body.email,
+  @Delete(':id')
+  async deleteUser(@Param() param): Promise<void> {
+    return this.deleteUserService.execute({
+      id: param.id,
     });
   }
 
-  @Get()
-  async getUser(@Body() body: any): Promise<User | null> {
-    return await this.getUserService.execute({ email: body.email });
+  @Get(':id')
+  async getUser(@Param() param): Promise<User | null> {
+    return this.getUserService.execute({ id: param.id });
   }
 }

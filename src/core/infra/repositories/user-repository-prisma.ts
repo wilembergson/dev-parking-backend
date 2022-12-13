@@ -4,7 +4,8 @@ import { PrismaClient } from '@prisma/client';
 import { Database } from '../database';
 
 export class UserRepositoryPrisma implements UserRepository {
-  constructor(private readonly database: Database<PrismaClient>) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly database: Database<PrismaClient>) { }
 
   async delete(input: UserRepository.Input.Delete): Promise<void> {
     await this.database.getConnection().user.delete({
@@ -30,7 +31,16 @@ export class UserRepositoryPrisma implements UserRepository {
 
   async findOne(input: UserRepository.Input.FindOne): Promise<User | null> {
     const data = await this.database.getConnection().user.findFirst({
-      where: { email: input.email },
+      where: {
+        OR: [
+          {
+            email: input.email,
+          },
+          {
+            id: input.id,
+          },
+        ],
+      },
     });
     if (!data) return null;
     return new User({

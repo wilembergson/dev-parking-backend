@@ -5,14 +5,10 @@ import { ScheduleRepository } from '@domain/repositories';
 export class ListSchedules {
   constructor(private readonly scheduleRepository: ScheduleRepository) {}
 
-  async execute(): Promise<Schedule[] | null> {
-    let listSchedules;
-    try {
-      listSchedules = await this.scheduleRepository.findMany();
-      if (!listSchedules) throw new ScheduleNotFound();
-    } catch (error) {
-      console.log(error);
-    }
+  async execute(): Promise<Schedule[]> {
+    const listSchedules = await this.scheduleRepository.findMany();
+    if (!listSchedules) throw new ScheduleNotFound();
+
     return listSchedules;
   }
 }

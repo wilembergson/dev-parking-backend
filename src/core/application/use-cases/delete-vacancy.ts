@@ -5,15 +5,11 @@ export class DeleteVacancy {
   constructor(private readonly vacancyRepository: VacancyRepository) {}
 
   async execute(input: DeleteVacancy.Input.FindOne): Promise<void> {
-    try {
-      const foundVacancy = await this.vacancyRepository.findOne({
-        localization: input.localization,
-      });
-      if (!foundVacancy) throw new VacancyNotFound();
-      await this.vacancyRepository.delete({ id: foundVacancy.getState().id });
-    } catch (error) {
-      console.log(error);
-    }
+    const vacancy = await this.vacancyRepository.findOne({
+      localization: input.localization,
+    });
+    if (!vacancy) throw new VacancyNotFound();
+    await this.vacancyRepository.delete({ id: vacancy.getState().id });
   }
 }
 

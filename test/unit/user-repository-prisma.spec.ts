@@ -3,11 +3,9 @@ import { faker } from '@faker-js/faker';
 import { UserRepository } from '@domain/repositories';
 import { PrismaDatabase } from '@infra/database';
 import { UserRepositoryPrisma } from '@infra/repositories';
-import { MockProxy } from 'jest-mock-extended';
 
 describe('User-Repository-Prisma', () => {
   let sut: UserRepository;
-  let userRepository: MockProxy<UserRepository>;
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();

@@ -6,10 +6,13 @@ import { PrismaClient } from '@prisma/client';
 export class VacancyRepositoryPrisma implements VacancyRepository {
   constructor(private readonly database: Database<PrismaClient>) {}
 
-  async update(input: VacancyRepository.Input.Update): Promise<void> {
+  async update(
+    id: string,
+    input: VacancyRepository.Input.Update,
+  ): Promise<void> {
     await this.database.getConnection().vacancy.update({
       where: {
-        id: input.id,
+        id,
       },
       data: {
         localization: input.localization,

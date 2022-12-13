@@ -5,22 +5,19 @@ export class DeleteUser {
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute(input: DeleteUser.Input.FindOne): Promise<void> {
-    try {
-      const foundUser = await this.userRepository.findOne({
-        email: input.email,
-      });
-      if (!foundUser) throw new UserNotFound();
-      await this.userRepository.delete({ id: foundUser.getState().id });
-    } catch (error) {
-      console.log(error);
-    }
+    const user = await this.userRepository.findOne({
+      id: input.id,
+    });
+    if (!user) throw new UserNotFound();
+    await this.userRepository.delete({ id: user.getState().id });
   }
 }
 
 export namespace DeleteUser {
   export namespace Input {
-    export type FindOne = {
+    export type FindOne = Partial<{
+      id: string;
       email: string;
-    };
+    }>;
   }
 }

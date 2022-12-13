@@ -12,9 +12,10 @@ export interface UserRepository {
 
 export namespace UserRepository {
   export namespace Input {
-    export type FindOne = {
+    export type FindOne = Partial<{
+      id: string;
       email: string;
-    };
+    }>;
     export type Update = {
       id: string;
       name: string;

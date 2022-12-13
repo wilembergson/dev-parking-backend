@@ -2,19 +2,20 @@ import { UserNotFound } from '@domain/exceptions';
 import { UserRepository } from '@domain/repositories';
 
 export class UpdateUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly userRepository: UserRepository) { }
 
-  async execute(input: UpdateUser.Input): Promise<void> {
-    const user = await this.userRepository.findOne({ email: input.email });
+  async execute(id: string, input: UpdateUser.Input): Promise<void> {
+    const user = await this.userRepository.findOne({ id });
     if (!user) throw new UserNotFound();
-    //user.update(input);
-    await this.userRepository.update(input);
+    user.update({ ...input, id });
+    console.log(user);
+    await this.userRepository.save(user);
   }
 }
 
 export namespace UpdateUser {
   export type Input = {
-    id: string;
     name: string;
     email: string;
     age: number;

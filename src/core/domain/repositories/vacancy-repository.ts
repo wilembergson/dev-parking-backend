@@ -7,7 +7,7 @@ export interface VacancyRepository {
 
   delete(input: VacancyRepository.Input.Delete): Promise<void>;
 
-  update(input: VacancyRepository.Input.Update): Promise<void>;
+  update(id: string, input: VacancyRepository.Input.Update): Promise<void>;
 }
 
 export namespace VacancyRepository {
@@ -20,7 +20,6 @@ export namespace VacancyRepository {
       id: string;
     };
     export type Update = {
-      id: string;
       localization: string;
     };
   }

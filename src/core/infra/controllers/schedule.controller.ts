@@ -49,6 +49,6 @@ export class ScheduleController {
 
   @Delete(':id')
   async deleteSchedule(@Param() param): Promise<void> {
-    await this.deleteScheduleService.execute({ id: param.id });
+    return await this.deleteScheduleService.execute({ id: param.id });
   }
 }

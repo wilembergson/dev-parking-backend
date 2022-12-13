@@ -1,22 +1,23 @@
 import { UpdateUser } from '@application/use-cases';
 import { User } from '@domain/entities';
 import { UserRepository } from '@domain/repositories';
-import { mock, MockProxy } from 'jest-mock-extended';
+import { Database, PrismaDatabase } from '@infra/database';
+import { UserRepositoryPrisma } from '@infra/repositories';
 
-describe('CreateUser', () => {
+describe('UpdateUser', () => {
   let sut: UpdateUser;
-  let userRepository: MockProxy<UserRepository>;
+  let userRepository: UserRepository;
+  let database: Database;
 
   beforeAll(() => {
-    userRepository = mock();
+    database = new PrismaDatabase();
+    userRepository = new UserRepositoryPrisma(database);
     sut = new UpdateUser(userRepository);
   });
 
-  it('should create a new user.', async () => {
-    userRepository.findOne.mockResolvedValueOnce(null);
+  it('should throw when create a new user.', async () => {
     await expect(
-      sut.execute({
-        id: 'jkjkjkj',
+      sut.execute('jkjkjkj', {
         name: 'valor',
         email: 'valor',
         password: 'valor',
@@ -25,21 +26,20 @@ describe('CreateUser', () => {
     ).rejects.toThrow();
   });
 
-  it('should .', async () => {
+  /*it('should update a user.', async () => {
     const user = new User({
       name: 'valor',
       email: 'valor',
       password: 'valor',
       age: 88,
     });
-    userRepository.findOne.mockResolvedValueOnce(user);
+    await userRepository.save(user);
     const updateData = {
-      id: user.getState().id,
       name: 'valor2',
       email: 'valor2',
       password: 'valor2',
       age: 38,
     };
-    expect(sut.execute(updateData)).resolves.not.toThrow();
-  });
+    expect(sut.execute(user.getState().id, updateData)).resolves.not.toThrow();
+  });*/
 });

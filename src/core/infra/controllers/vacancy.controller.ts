@@ -9,6 +9,7 @@ import {
   Delete,
   Get,
   Inject,
+  Param,
   Post,
   Put,
 } from '@nestjs/common';
@@ -34,22 +35,23 @@ export class VacancyController {
     });
   }
 
-  @Get()
-  async findVacancy(@Body() body: any): Promise<Vacancy | null> {
-    return this.findVacancyService.execute({ localization: body.localization });
-  }
-
-  @Delete()
-  async deleteVacancy(@Body() body: any): Promise<void> {
-    return this.deleteVacancyService.execute({
-      localization: body.localization,
+  @Get(':localization')
+  async findVacancy(@Param() param): Promise<Vacancy | null> {
+    return this.findVacancyService.execute({
+      localization: param.localization,
     });
   }
 
-  @Put()
-  async updateVacancy(@Body() body: any): Promise<void> {
-    return this.updateVacancyService.execute({
-      id: body.id,
+  @Delete(':localization')
+  async deleteVacancy(@Param() param): Promise<void> {
+    return this.deleteVacancyService.execute({
+      localization: param.localization,
+    });
+  }
+
+  @Put(':id')
+  async updateVacancy(@Param() param, @Body() body: any): Promise<void> {
+    return this.updateVacancyService.execute(param.id, {
       localization: body.localization,
     });
   }

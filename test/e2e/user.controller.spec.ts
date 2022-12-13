@@ -4,9 +4,15 @@ import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/ioc/app.module';
+import { User } from '@domain/entities';
+import { UserRepository } from '@domain/repositories';
+import { Database, PrismaDatabase } from '@infra/database';
+import { UserRepositoryPrisma } from '@infra/repositories';
 
 describe('/user', () => {
   let app: INestApplication;
+  let userRepository: UserRepository;
+  let database: Database;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -16,6 +22,8 @@ describe('/user', () => {
     app.enableCors();
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
+    database = new PrismaDatabase();
+    userRepository = new UserRepositoryPrisma(database);
   });
 
   afterAll(async () => {
@@ -31,6 +39,59 @@ describe('/user', () => {
         age: faker.datatype.number(),
       });
       expect(response.statusCode).toEqual(201);
+    });
+  });
+  describe('@GET', () => {
+    it('200', async () => {
+      const user = new User({
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        age: faker.datatype.number(),
+      });
+      await userRepository.save(user);
+      const response = await request(app.getHttpServer()).get(
+        `/user/${user.getState().id}`,
+      );
+      expect(response.statusCode).toEqual(200);
+    });
+  });
+
+  describe('@DELETE ', () => {
+    it('200', async () => {
+      const user = new User({
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        age: faker.datatype.number(),
+      });
+      await userRepository.save(user);
+      const response = await request(app.getHttpServer()).delete(
+        `/user/${user.getState().id}`,
+      );
+      console.log(response.status);
+      expect(response.statusCode).toEqual(200);
+    });
+  });
+
+  describe('@PUT ', () => {
+    it('200', async () => {
+      const user = new User({
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        age: faker.datatype.number(),
+      });
+      await userRepository.save(user);
+      const response = await request(app.getHttpServer())
+        .put(`/user/${user.getState().id}`)
+        .send({
+          name: faker.name.firstName(),
+          email: faker.internet.email(),
+          password: faker.internet.password(),
+          age: 22,
+        });
+      expect(response.statusCode).toEqual(200);
     });
   });
 });

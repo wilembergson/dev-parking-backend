@@ -6,10 +6,10 @@ export class CreateVacancy {
   constructor(private readonly vacancyRepository: VacancyRepository) {}
 
   async execute(input: CreateVacancy.Input): Promise<void> {
-    const foundVacancy = await this.vacancyRepository.findOne({
+    const otherVacancy = await this.vacancyRepository.findOne({
       localization: input.localization,
     });
-    if (foundVacancy) throw new VacancyFound();
+    if (otherVacancy) throw new VacancyFound();
     const vacancy = new Vacancy({
       localization: input.localization,
     });

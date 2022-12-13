@@ -5,17 +5,13 @@ import { ScheduleRepository } from '@domain/repositories';
 export class FindSchedule {
   constructor(private readonly scheduleRepository: ScheduleRepository) {}
 
-  async execute(input: FindSchedule.Input.FindOne): Promise<Schedule | null> {
-    let foundSchedule;
-    try {
-      foundSchedule = await this.scheduleRepository.findSchedule({
-        id: input.id,
-      });
-      if (!foundSchedule) throw new ScheduleNotFound();
-    } catch (error) {
-      console.log(error);
-    }
-    return foundSchedule;
+  async execute(input: FindSchedule.Input.FindOne): Promise<Schedule> {
+    const schedule = await this.scheduleRepository.findSchedule({
+      id: input.id,
+    });
+    if (!schedule) throw new ScheduleNotFound();
+
+    return schedule;
   }
 }
 

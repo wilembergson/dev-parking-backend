@@ -1,14 +1,14 @@
 import { Vacancy } from '@domain/entities';
 import { VacancyRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
-import { PrismaDatabase } from '@infra/database';
+import { Database, PrismaDatabase } from '@infra/database';
 import { VacancyRepositoryPrisma } from '@infra/repositories';
 
 describe('Vacancy', () => {
   let sut: VacancyRepository;
-  let database: PrismaDatabase;
+  let database: Database;
   beforeAll(() => {
-    database = PrismaDatabase.getInstance();
+    database = new PrismaDatabase();
     sut = new VacancyRepositoryPrisma(database);
   });
   it('create a new vacancy.', () => {
@@ -25,10 +25,11 @@ describe('Vacancy', () => {
   });
 
   it('should throw to find a repository.', async () => {
-    const vacancy = await sut.findOne({
-      id: faker.datatype.uuid(),
-    });
-    expect(vacancy).toBeNull();
+    const id = faker.datatype.uuid();
+    const vacancy = newVacancy({ id });
+    await expect(
+      sut.findOne({ localization: vacancy.getState().localization }),
+    ).resolves.toBeNull();
   });
   it('should delete a user.', async () => {
     const id = faker.datatype.uuid();
@@ -40,8 +41,7 @@ describe('Vacancy', () => {
     const id = faker.datatype.uuid();
     await sut.save(newVacancy({ id }));
     await expect(
-      sut.update({
-        id,
+      sut.update(id, {
         localization: faker.address.latitude(),
       }),
     ).resolves.not.toThrow();

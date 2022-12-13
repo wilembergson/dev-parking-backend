@@ -5,12 +5,14 @@ import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/ioc/app.module';
 import { CarRepository } from '@domain/repositories';
-import { MockProxy } from 'jest-mock-extended';
 import { Car } from '@domain/entities';
+import { CarRepositoryPrisma } from '@infra/repositories';
+import { Database, PrismaDatabase } from '@infra/database';
 
 describe('/car', () => {
   let app: INestApplication;
-  let carRepository: MockProxy<CarRepository>;
+  let carRepository: CarRepository;
+  let database: Database;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -20,6 +22,8 @@ describe('/car', () => {
     app.enableCors();
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
+    database = new PrismaDatabase();
+    carRepository = new CarRepositoryPrisma(database);
   });
 
   afterAll(async () => {
@@ -40,10 +44,15 @@ describe('/car', () => {
 
   describe('@GET /:plate', () => {
     it('200', async () => {
-      const response = await request(app.getHttpServer()).get(
-        `/car/${faker.datatype.string()}`,
-      );
-      expect(response.statusCode).toEqual(404);
+      const plate = faker.datatype.uuid();
+      const car = new Car({
+        name: faker.name.firstName(),
+        brand: faker.name.lastName(),
+        plate,
+      });
+      await carRepository.save(car);
+      const response = await request(app.getHttpServer()).get(`/car/${plate}`);
+      expect(response.statusCode).toEqual(200);
     });
   });
 
@@ -54,7 +63,7 @@ describe('/car', () => {
         brand: faker.datatype.string(),
         plate: faker.datatype.string(),
       });
-      carRepository.findOne.mockResolvedValueOnce(car);
+      carRepository.save(car);
       const response = await request(app.getHttpServer()).delete(
         `/car/${car.getState().id}`,
       );

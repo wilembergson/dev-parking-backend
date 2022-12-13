@@ -4,18 +4,17 @@ import { VacancyRepository } from '@domain/repositories';
 export class UpdateVacancy {
   constructor(private readonly vacancyRepository: VacancyRepository) {}
 
-  async execute(input: UpdateVacancy.Input): Promise<void> {
+  async execute(id: string, input: UpdateVacancy.Input): Promise<void> {
     const vacancy = await this.vacancyRepository.findOne({
-      id: input.id,
+      id,
     });
     if (!vacancy) throw new VacancyNotFound();
-    await this.vacancyRepository.update(input);
+    await this.vacancyRepository.update(id, input);
   }
 }
 
 export namespace UpdateVacancy {
   export type Input = {
-    id: string;
     localization: string;
   };
 }

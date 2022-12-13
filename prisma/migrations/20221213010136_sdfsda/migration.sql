@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "cars" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "brand" TEXT NOT NULL,
     "plate" TEXT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE "cars" (
 
 -- CreateTable
 CREATE TABLE "vacancy" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "localization" TEXT NOT NULL,
 
     CONSTRAINT "vacancy_pkey" PRIMARY KEY ("id")
@@ -29,11 +29,11 @@ CREATE TABLE "vacancy" (
 
 -- CreateTable
 CREATE TABLE "schedule" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "checkIn" TIMESTAMP(3) NOT NULL,
     "checkOut" TIMESTAMP(3),
-    "vacancyId" TEXT NOT NULL,
-    "carId" TEXT NOT NULL,
+    "vacancyId" UUID NOT NULL,
+    "carId" UUID NOT NULL,
 
     CONSTRAINT "schedule_pkey" PRIMARY KEY ("id")
 );

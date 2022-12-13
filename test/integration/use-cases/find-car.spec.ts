@@ -2,14 +2,17 @@ import { FindCar } from '@application/use-cases';
 import { Car } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
-import { mock, MockProxy } from 'jest-mock-extended';
+import { Database, PrismaDatabase } from '@infra/database';
+import { CarRepositoryPrisma } from '@infra/repositories';
 
 describe('FindCar', () => {
   let sut: FindCar;
-  let carRepository: MockProxy<CarRepository>;
+  let carRepository: CarRepository;
+  let database: Database;
 
   beforeAll(() => {
-    carRepository = mock();
+    database = new PrismaDatabase();
+    carRepository = new CarRepositoryPrisma(database);
     sut = new FindCar(carRepository);
   });
 
@@ -19,13 +22,13 @@ describe('FindCar', () => {
       brand: faker.datatype.string(),
       plate: faker.datatype.string(),
     });
-    carRepository.findOne.mockResolvedValueOnce(car);
+    await carRepository.save(car);
     await expect(
       sut.execute({ plate: car.getState().plate }),
     ).resolves.not.toBeNull();
   });
 
-  /*it('should throw error if a car dont exists.', async () => {
+  it('should throw error if a car dont exists.', async () => {
     const car = new Car({
       name: faker.name.firstName(),
       brand: faker.datatype.string(),
@@ -34,6 +37,6 @@ describe('FindCar', () => {
 
     await expect(
       sut.execute({ plate: car.getState().plate }),
-    ).rejects.toThrowError();
-  });*/
+    ).rejects.toThrow();
+  });
 });

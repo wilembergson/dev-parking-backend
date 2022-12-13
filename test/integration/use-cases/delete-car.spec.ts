@@ -2,14 +2,17 @@ import { DeleteCar } from '@application/use-cases/delete-car';
 import { Car } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
-import { mock, MockProxy } from 'jest-mock-extended';
+import { Database, PrismaDatabase } from '@infra/database';
+import { CarRepositoryPrisma } from '@infra/repositories';
 
 describe('DeleteCar', () => {
   let sut: DeleteCar;
-  let carRepository: MockProxy<CarRepository>;
+  let carRepository: CarRepository;
+  let database: Database;
 
   beforeAll(() => {
-    carRepository = mock();
+    database = new PrismaDatabase();
+    carRepository = new CarRepositoryPrisma(database);
     sut = new DeleteCar(carRepository);
   });
 
@@ -19,12 +22,18 @@ describe('DeleteCar', () => {
       brand: faker.datatype.string(),
       plate: faker.datatype.string(),
     });
-    carRepository.findOne.mockResolvedValueOnce(car);
+    await carRepository.save(car);
     await expect(sut.execute({ id: car.getState().id })).resolves.not.toThrow();
   });
 
   it('should throw when try to delete a car.', async () => {
-    carRepository.findOne.mockResolvedValueOnce(null);
-    await expect(sut.execute({ id: faker.datatype.uuid() })).rejects.toThrow();
+    const id = faker.datatype.uuid();
+    const car = new Car({
+      id,
+      name: faker.name.firstName(),
+      brand: faker.datatype.string(),
+      plate: faker.datatype.string(),
+    });
+    await expect(sut.execute({ id: car.getState().id })).rejects.toThrow();
   });
 });
