@@ -35,8 +35,7 @@ describe('/vacancy', () => {
       const response = await request(app.getHttpServer())
         .post(`/vacancy`)
         .send({
-          id: faker.datatype.uuid(),
-          localization: faker.datatype.uuid(),
+          localization: faker.datatype.string(),
         });
       expect(response.statusCode).toEqual(201);
     });
@@ -50,7 +49,7 @@ describe('/vacancy', () => {
       await vacancyRepository.save(vacancy);
       console.log(vacancy.getState());
       const response = await request(app.getHttpServer()).get(
-        `/vacancy/${vacancy.getState().localization}`,
+        `/vacancy/${vacancy.getState().id}`,
       );
       expect(response.statusCode).toEqual(200);
     });
@@ -63,7 +62,7 @@ describe('/vacancy', () => {
       });
       await vacancyRepository.save(vacancy);
       const response = await request(app.getHttpServer()).delete(
-        `/vacancy/${vacancy.getState().localization}`,
+        `/vacancy/${vacancy.getState().id}`,
       );
       expect(response.statusCode).toEqual(200);
     });

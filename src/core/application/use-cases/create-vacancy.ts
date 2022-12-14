@@ -1,9 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { Vacancy } from '@domain/entities';
 import { VacancyFound } from '@domain/exceptions';
 import { VacancyRepository } from '@domain/repositories';
 
 export class CreateVacancy {
-  constructor(private readonly vacancyRepository: VacancyRepository) {}
+  constructor(private readonly vacancyRepository: VacancyRepository) { }
 
   async execute(input: CreateVacancy.Input): Promise<void> {
     const otherVacancy = await this.vacancyRepository.findOne({
@@ -19,6 +20,7 @@ export class CreateVacancy {
 
 export namespace CreateVacancy {
   export type Input = {
+    id?: string
     localization: string;
   };
 }

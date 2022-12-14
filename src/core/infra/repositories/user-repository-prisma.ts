@@ -54,8 +54,10 @@ export class UserRepositoryPrisma implements UserRepository {
 
   async save(user: User): Promise<void> {
     const { id, name, email, password, age } = user.getState();
-    await this.database.getConnection().user.create({
-      data: { id, name, email, password, age },
+    await this.database.getConnection().user.upsert({
+      where: { id },
+      create: { id, name, email, password, age },
+      update: { name, email, password, age },
     });
   }
 }

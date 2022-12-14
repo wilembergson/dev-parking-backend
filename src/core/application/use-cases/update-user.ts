@@ -9,7 +9,6 @@ export class UpdateUser {
     const user = await this.userRepository.findOne({ id });
     if (!user) throw new UserNotFound();
     user.update({ ...input, id });
-    console.log(user);
     await this.userRepository.save(user);
   }
 }

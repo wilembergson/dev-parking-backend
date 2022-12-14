@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { CreateVacancy } from '@application/use-cases';
 import { DeleteVacancy } from '@application/use-cases/delete-vacancy';
 import { FindVacancy } from '@application/use-cases/find-vacancy';
@@ -26,7 +27,7 @@ export class VacancyController {
     private readonly deleteVacancyService: DeleteVacancy,
     @Inject(VacancyDependencies.UpdateVacancy)
     private readonly updateVacancyService: UpdateVacancy,
-  ) {}
+  ) { }
 
   @Post()
   async createVacancy(@Body() body: any): Promise<void> {
@@ -35,17 +36,17 @@ export class VacancyController {
     });
   }
 
-  @Get(':localization')
+  @Get(':id')
   async findVacancy(@Param() param): Promise<Vacancy | null> {
     return this.findVacancyService.execute({
-      localization: param.localization,
+      id: param.id,
     });
   }
 
-  @Delete(':localization')
+  @Delete(':id')
   async deleteVacancy(@Param() param): Promise<void> {
     return this.deleteVacancyService.execute({
-      localization: param.localization,
+      id: param.id,
     });
   }
 

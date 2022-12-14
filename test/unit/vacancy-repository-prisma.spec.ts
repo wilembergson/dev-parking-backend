@@ -28,7 +28,7 @@ describe('Vacancy', () => {
     const id = faker.datatype.uuid();
     const vacancy = newVacancy({ id });
     await expect(
-      sut.findOne({ localization: vacancy.getState().localization }),
+      sut.findOne({ id: vacancy.getState().id }),
     ).resolves.toBeNull();
   });
   it('should delete a user.', async () => {

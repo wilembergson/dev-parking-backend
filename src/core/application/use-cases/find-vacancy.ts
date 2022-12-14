@@ -3,11 +3,12 @@ import { VacancyNotFound } from '@domain/exceptions';
 import { VacancyRepository } from '@domain/repositories';
 
 export class FindVacancy {
-  constructor(private readonly vacancyRepository: VacancyRepository) {}
+  // eslint-disable-next-line prettier/prettier
+  constructor(private readonly vacancyRepository: VacancyRepository) { }
 
   async execute(input: FindVacancy.Input.FindOne): Promise<Vacancy | null> {
     const vacancy = await this.vacancyRepository.findOne({
-      localization: input.localization,
+      id: input.id,
     });
     if (!vacancy) throw new VacancyNotFound();
 
@@ -18,7 +19,7 @@ export class FindVacancy {
 export namespace FindVacancy {
   export namespace Input {
     export type FindOne = {
-      localization: string;
+      id: string;
     };
   }
 }

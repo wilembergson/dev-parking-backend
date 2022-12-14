@@ -18,18 +18,16 @@ describe('DeleteVacancy', () => {
 
   it('should delete a vacancy.', async () => {
     const vacancy = new Vacancy({
-      localization: faker.address.latitude(),
+      localization: faker.datatype.uuid(),
     });
     await vacancyRepository.save(vacancy);
     await expect(
-      sut.execute({ localization: vacancy.getState().localization }),
+      sut.execute({ id: vacancy.getState().id }),
     ).resolves.not.toThrow();
   });
 
   it('should throw when try to delete a', async () => {
     const vacancy = new Vacancy({ localization: faker.datatype.string() });
-    await expect(
-      sut.execute({ localization: vacancy.getState().localization }),
-    ).rejects.toThrow();
+    await expect(sut.execute({ id: vacancy.getState().id })).rejects.toThrow();
   });
 });
