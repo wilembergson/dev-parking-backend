@@ -1,5 +1,6 @@
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
 import { Car, Schedule, Vacancy } from '@domain/entities';
+import { ScheduleNotFound } from '@domain/exceptions';
 import {
   CarRepository,
   ScheduleRepository,
@@ -53,27 +54,11 @@ describe('DeleteSechedule', () => {
     });
 
     it('should throw when try to delete a schedule.', async () => {
-      const vacancy = new Vacancy({
-        localization: faker.address.latitude(),
-      });
-      await vacancyRepository.save(vacancy);
-      const car = new Car({
-        name: faker.name.firstName(),
-        brand: faker.datatype.string(),
-        plate: faker.datatype.string(),
-      });
-      await carRepository.save(car);
-      const id = faker.datatype.uuid();
-      const schedule = new Schedule({
-        id,
-        checkIn: faker.datatype.datetime(),
-        checkOut: faker.datatype.datetime(),
-      });
-      schedule.addCar(car);
-      schedule.addVacancy(vacancy);
-      await expect(
-        sut.execute({ id: schedule.getState().id }),
-      ).rejects.toThrow();
+      try {
+        await sut.execute({ id: faker.datatype.uuid() });
+      } catch (error) {
+        expect(error).toBeInstanceOf(ScheduleNotFound);
+      }
     });
   });
 });

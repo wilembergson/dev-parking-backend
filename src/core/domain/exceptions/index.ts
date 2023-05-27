@@ -5,3 +5,4 @@ export * from './user-not-found';
 export * from './vacancy-found';
 export * from './vacancy-not-found';
 export * from './schedule-not-found';
+export * from './base-exception';

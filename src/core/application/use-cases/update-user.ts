@@ -7,6 +7,7 @@ export class UpdateUser {
 
   async execute(id: string, input: UpdateUser.Input): Promise<void> {
     const user = await this.userRepository.findOne({ id });
+    console.log(user);
     if (!user) throw new UserNotFound();
     user.update({ ...input, id });
     await this.userRepository.save(user);

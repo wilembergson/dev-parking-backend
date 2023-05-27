@@ -1,11 +1,13 @@
+/* eslint-disable prettier/prettier */
 import { Car, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
+import { ScheduleNotFound } from '@domain/exceptions';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
 import { PrismaClient } from '@prisma/client';
 import { Database } from 'src/core/infra/database';
 
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
-  constructor(private readonly database: Database<PrismaClient>) {}
+  constructor(private readonly database: Database<PrismaClient>) { }
 
   async delete(input: ScheduleRepository.Input.Delete): Promise<void> {
     await this.database.getConnection().schedule.delete({
@@ -27,7 +29,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
         vacancy: true,
       },
     });
-    if (!data) throw new Error();
+    if (!data) throw new ScheduleNotFound();
     const vacancy = new Vacancy({
       id: data.vacancy.id,
       localization: data.vacancy.localization,
@@ -117,6 +119,6 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
           car: true,
         },
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 }
