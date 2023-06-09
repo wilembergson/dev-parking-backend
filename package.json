@@ -7,7 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "copy-prisma": "cp -R prisma dist/prisma",
+    "build": "nest build && npm run copy-prisma",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -18,7 +19,12 @@
     "test:watch": "npm run test -- --watch",
     "test:cov": "npm run test -- --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "up": "docker-compose up -d",
+    "down": "docker-compose down"
+  },
+  "prisma": {
+    "seed": "node dist/prisma/seed.js"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",

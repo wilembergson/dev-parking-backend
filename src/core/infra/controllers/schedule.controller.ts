@@ -23,9 +23,9 @@ export class ScheduleController {
     private readonly findScheduleService: FindSchedule,
     @Inject(ScheduleDependencies.ListSchedules)
     private readonly listSchedulesService: ListSchedules,
-    @Inject(ScheduleDependencies.DeleteSchedule)
+    @Inject(ScheduleDependencies.ScheduleRepository)
     private readonly deleteScheduleService: DeleteSchedule,
-  ) {}
+  ) { }
 
   @Post()
   async createSchedule(@Body() body: any): Promise<void> {

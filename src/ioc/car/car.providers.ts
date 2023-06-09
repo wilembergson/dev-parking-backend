@@ -2,9 +2,9 @@ import { CarRepository } from '@domain/repositories';
 import { CarRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CarDependencies } from './car.dependencies';
-import { CreateCar, FindCar } from '@application/use-cases';
 import { Database, PrismaDatabase } from '@infra/database';
 import { DeleteCar } from '@application/use-cases/delete-car';
+import { CreateCar, FindCar } from '@application/use-cases';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CarDependencies.Database,

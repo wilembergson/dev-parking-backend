@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';

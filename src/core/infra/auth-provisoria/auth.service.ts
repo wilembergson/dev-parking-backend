@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import { GetUser } from '@application/use-cases/get-user';
 import { User } from '@domain/entities';
 import { Injectable } from '@nestjs/common';

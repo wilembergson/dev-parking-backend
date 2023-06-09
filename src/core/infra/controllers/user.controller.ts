@@ -17,7 +17,7 @@ import { UserDependencies } from '../../../ioc/user';
 @Controller('user')
 export class UserController {
   constructor(
-    @Inject(UserDependencies.CreateUser)
+    @Inject(UserDependencies.CreateUser) 
     private readonly createUserService: CreateUser,
     @Inject(UserDependencies.UpdateUser)
     private readonly updateUserService: UpdateUser,
@@ -25,7 +25,7 @@ export class UserController {
     private readonly deleteUserService: DeleteUser,
     @Inject(UserDependencies.GetUser)
     private readonly getUserService: GetUser,
-  ) {}
+  ) { }
 
   @Post()
   async createUser(@Body() body: any): Promise<void> {

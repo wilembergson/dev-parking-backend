@@ -1,4 +1,3 @@
-import { CreateCar, FindCar } from '@application/use-cases';
 import { DeleteCar } from '@application/use-cases/delete-car';
 import { Car } from '@domain/entities';
 import {
@@ -7,12 +6,15 @@ import {
   Delete,
   Get,
   Inject,
+  Injectable,
   Param,
   Post,
 } from '@nestjs/common';
-import { CarDependencies } from '../../../ioc/car';
+import { CreateCar, FindCar } from '@application/use-cases';
+import { CarDependencies } from 'src/ioc/car';
 
 @Controller('car')
+@Injectable()
 export class CarController {
   constructor(
     @Inject(CarDependencies.CreateCar)
