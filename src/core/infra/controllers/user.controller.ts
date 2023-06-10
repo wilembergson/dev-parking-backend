@@ -33,7 +33,7 @@ export class UserController {
       name: body.name,
       email: body.email,
       password: body.password,
-      age: body.age,
+      birthdate: body.birthdate,
     });
   }
 
@@ -41,7 +41,7 @@ export class UserController {
   async updateUser(@Param() param, @Body() body: any): Promise<void> {
     return this.updateUserService.execute(param.id, {
       name: body.name,
-      age: body.age,
+      birthdate: body.birthdate,
       email: body.email,
       password: body.password,
     });

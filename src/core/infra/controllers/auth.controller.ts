@@ -1,11 +1,6 @@
 import { CreateUser } from '@application/use-cases';
-import {
-  Body,
-  Controller,
-  Inject,
-  Post
-} from '@nestjs/common';
 import { UserDependencies } from '../../../ioc/user';
+import { Body, Controller, Inject, Post} from '@nestjs/common';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +15,7 @@ export class AuthController {
       name: body.name,
       email: body.email,
       password: body.password,
-      age: body.age,
+      birthdate: body.birthdate,
     });
   }
 

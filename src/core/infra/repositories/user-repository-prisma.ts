@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client';
 import { Database } from '../database';
 
 export class UserRepositoryPrisma implements UserRepository {
-  // eslint-disable-next-line prettier/prettier
   constructor(private readonly database: Database<PrismaClient>) { }
 
   async delete(input: UserRepository.Input.Delete): Promise<void> {
@@ -24,7 +23,7 @@ export class UserRepositoryPrisma implements UserRepository {
         name: input.name,
         email: input.email,
         password: input.password,
-        age: input.age,
+        birthdate: input.birthdate,
       },
     });
   }
@@ -47,17 +46,17 @@ export class UserRepositoryPrisma implements UserRepository {
       name: data.name,
       email: data.email,
       password: data.password,
-      age: data.age,
+      birthdate: data.birthdate,
       id: data.id,
     });
   }
 
   async save(user: User): Promise<void> {
-    const { id, name, email, password, age } = user.getState();
+    const { id, name, email, password, birthdate } = user.getState();
     await this.database.getConnection().user.upsert({
       where: { id },
-      create: { id, name, email, password, age },
-      update: { name, email, password, age },
+      create: { id, name, email, password, birthdate },
+      update: { name, email, password, birthdate },
     });
   }
 }

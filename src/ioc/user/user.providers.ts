@@ -6,6 +6,7 @@ import { Database, PrismaDatabase } from '@infra/database';
 import { UserRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { UserDependencies } from './user.dependencies';
+import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: UserDependencies.Database,
@@ -18,12 +19,12 @@ const UserRepositoryProvider: FactoryProvider<UserRepository> = {
   inject: [UserDependencies.Database],
 };
 
-const createUserProvider: FactoryProvider<CreateUser> = {
+/*const createUserProvider: FactoryProvider<CreateUser> = {
   provide: UserDependencies.CreateUser,
   useFactory: (userRepository: UserRepository) =>
     new CreateUser(userRepository),
   inject: [UserDependencies.UserRepository],
-};
+};*/
 
 const updateUserProvider: FactoryProvider<UpdateUser> = {
   provide: UserDependencies.UpdateUser,
@@ -47,7 +48,7 @@ const getUserProvider: FactoryProvider<GetUser> = {
 
 export const providers: Provider[] = [
   UserRepositoryProvider,
-  createUserProvider,
+  //createUserProvider,
   databaseProvider,
   updateUserProvider,
   deleteUserProvider,

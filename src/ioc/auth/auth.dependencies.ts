@@ -3,5 +3,6 @@ export enum AuthDependencies {
     Database = 'Database',
     CreateUser = 'CreateUser',
     GetUser = 'GetUser',
+    BcryptAdapter = 'BcryptAdapter'
   }
   

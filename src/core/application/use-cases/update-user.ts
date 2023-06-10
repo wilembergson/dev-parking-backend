@@ -17,7 +17,7 @@ export namespace UpdateUser {
   export type Input = {
     name: string;
     email: string;
-    age: number;
+    birthdate: string;
     password: string;
   };
 }

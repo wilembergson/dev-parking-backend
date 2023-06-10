@@ -1,18 +1,23 @@
+import { Hasher } from '@application/protocols/cryptografy';
 import { User } from '@domain/entities';
 import { UserFound } from '@domain/exceptions';
 import { UserRepository } from '@domain/repositories';
 
 export class CreateUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly hasher: Hasher
+  ) { }
 
   async execute(input: CreateUser.Input): Promise<void> {
     const foundUser = await this.userRepository.findOne({ email: input.email });
     if (foundUser) throw new UserFound();
+    const password = await this.hasher.hash(input.password)
     const user = new User({
       name: input.name,
       email: input.email,
-      password: input.password,
-      age: input.age,
+      password,
+      birthdate: input.birthdate,
     });
     await this.userRepository.save(user);
   }
@@ -22,7 +27,7 @@ export namespace CreateUser {
   export type Input = {
     name: string;
     email: string;
-    age: number;
+    birthdate: string;
     password: string;
   };
 }

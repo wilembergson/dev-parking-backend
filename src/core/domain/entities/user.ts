@@ -5,13 +5,13 @@ export class User {
   private readonly name: string;
   private readonly email: string;
   private readonly password: string;
-  private readonly age: number;
+  private readonly birthdate: string;
 
   constructor(input: User.Input.constructor) {
     this.name = input.name;
     this.email = input.email;
     this.password = input.password;
-    this.age = input.age;
+    this.birthdate = input.birthdate;
     this.id = new ID(input.id);
   }
 
@@ -28,7 +28,7 @@ export class User {
       name: this.name,
       email: this.email,
       password: this.password,
-      age: this.age,
+      birthdate: this.birthdate,
       id: this.id.value,
     };
   }
@@ -40,7 +40,7 @@ export namespace User {
       name: string;
       email: string;
       password: string;
-      age: number;
+      birthdate: string;
       id: string;
     };
   }
@@ -49,7 +49,7 @@ export namespace User {
       name: string;
       email: string;
       password: string;
-      age: number;
+      birthdate: string;
       id?: string;
     };
   }

@@ -20,7 +20,7 @@ export namespace UserRepository {
       id: string;
       name: string;
       email: string;
-      age: number;
+      birthdate: string;
       password: string;
     };
     export type Delete = {
