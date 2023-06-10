@@ -3,9 +3,10 @@ import { AuthDependencies } from './auth.dependencies';
 import { Database, PrismaDatabase } from '@infra/database';
 import { UserRepositoryPrisma } from '@infra/repositories';
 import { Hasher } from '@application/protocols/cryptografy';
-import { CreateUser, GetUser } from '@application/use-cases';
+import { CreateUserUseCase, GetUser } from '@application/use-cases';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
+import { CreateUser } from '@domain/use-cases/user';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: AuthDependencies.Database,
@@ -26,7 +27,7 @@ const bcryptProvider: ClassProvider<Hasher> ={
 const createUserProvider: FactoryProvider<CreateUser> = {
   provide: AuthDependencies.CreateUser,
   useFactory: (userRepository: UserRepository, bcryptAdapter:Hasher) =>
-    new CreateUser(userRepository, bcryptAdapter),
+    new CreateUserUseCase(userRepository, bcryptAdapter),
   inject: [AuthDependencies.UserRepository, AuthDependencies.BcryptAdapter],
 };
 

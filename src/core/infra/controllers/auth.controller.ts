@@ -1,4 +1,5 @@
-import { CreateUser } from '@application/use-cases';
+//import { CreateUser } from '@application/use-cases';
+import { CreateUser } from '@domain/use-cases/user';
 import { UserDependencies } from '../../../ioc/user';
 import { Body, Controller, Inject, Post} from '@nestjs/common';
 

@@ -1,4 +1,4 @@
-import { CreateUser, UpdateUser } from '@application/use-cases';
+import {  UpdateUser } from '@application/use-cases';
 import { DeleteUser } from '@application/use-cases/delete-user';
 import { GetUser } from '@application/use-cases/get-user';
 import { User } from '@domain/entities';
@@ -13,6 +13,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { UserDependencies } from '../../../ioc/user';
+import { CreateUser } from '@domain/use-cases/user';
 
 @Controller('user')
 export class UserController {

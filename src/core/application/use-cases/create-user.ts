@@ -2,8 +2,9 @@ import { Hasher } from '@application/protocols/cryptografy';
 import { User } from '@domain/entities';
 import { UserFound } from '@domain/exceptions';
 import { UserRepository } from '@domain/repositories';
+import { CreateUser } from '@domain/use-cases/user'
 
-export class CreateUser {
+export class CreateUserUseCase implements CreateUser{
   constructor(
     private readonly userRepository: UserRepository,
     private readonly hasher: Hasher
@@ -23,11 +24,3 @@ export class CreateUser {
   }
 }
 
-export namespace CreateUser {
-  export type Input = {
-    name: string;
-    email: string;
-    birthdate: string;
-    password: string;
-  };
-}
