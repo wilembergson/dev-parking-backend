@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './ioc/app.module';
 import { BaseException } from '@domain/exceptions';
-import { ExceptionFilter, ConflictException, NotFoundException } from '@nestjs/common';
+import { ExceptionFilter, ConflictException, NotFoundException, ValidationPipe } from '@nestjs/common';
 import { config } from 'dotenv'
 
 config()
@@ -24,6 +24,7 @@ export class ExceptionHandler implements ExceptionFilter {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new ExceptionHandler());
   await app.listen(3000);
 }
