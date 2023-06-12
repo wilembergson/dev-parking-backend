@@ -5,4 +5,4 @@ export * from './create-car';
 export * from './create-vacancy';
 export * from './create-schedule';
 export * from './find-car';
-export * from './login';
+export * from './auth/login';

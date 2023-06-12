@@ -1,5 +1,5 @@
 import { CreateUser } from '@domain/use-cases/user';
-import { Body, Controller, HttpCode, Inject, Post} from '@nestjs/common';
+import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common';
 import { Login } from '@domain/use-cases/auth';
 import { AuthDependencies } from 'src/ioc/auth';
 import { LoginDTO, SignupDTO } from './dto/auth';
@@ -7,7 +7,7 @@ import { LoginDTO, SignupDTO } from './dto/auth';
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject(AuthDependencies.CreateUser) 
+    @Inject(AuthDependencies.CreateUser)
     private readonly createUserService: CreateUser,
     @Inject(AuthDependencies.Login)
     private readonly loginService: Login
@@ -25,7 +25,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  async login(@Body() body:LoginDTO): Promise<any>{
+  async login(@Body() body: LoginDTO): Promise<any> {
     return this.loginService.execute({
       email: body.email,
       password: body.password

@@ -1,7 +1,7 @@
-import { BaseException } from './base-exception';
+import { HttpException } from '@nestjs/common';
 
-export class UserNotFound extends BaseException {
+export class UserNotFound extends HttpException {
   constructor() {
-    super('User not found.', 404, 'UserNotFound');
+    super('Usuário não encontrado', 404);
   }
 }

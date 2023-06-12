@@ -1,7 +1,7 @@
-import { BaseException } from './base-exception';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class UserFound extends BaseException {
+export class UserFound extends HttpException {
   constructor() {
-    super('This user is alread registered.', 404, 'UserFound');
+    super('Usuário já registrado.', HttpStatus.FORBIDDEN);
   }
 }

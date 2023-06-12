@@ -1,5 +1,5 @@
 export interface Login {
-    execute(input: Login.Input): Promise<Login.Output | null>
+    execute(input: Login.Input): Promise<Login.Output>
 }
 
 export namespace Login {
