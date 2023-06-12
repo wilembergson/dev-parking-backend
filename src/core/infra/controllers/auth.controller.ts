@@ -1,13 +1,15 @@
-//import { CreateUser } from '@application/use-cases';
 import { CreateUser } from '@domain/use-cases/user';
-import { UserDependencies } from '../../../ioc/user';
-import { Body, Controller, Inject, Post} from '@nestjs/common';
+import { Body, Controller, HttpCode, Inject, Post} from '@nestjs/common';
+import { Login } from '@domain/use-cases/auth';
+import { AuthDependencies } from 'src/ioc/auth';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject(UserDependencies.CreateUser) 
+    @Inject(AuthDependencies.CreateUser) 
     private readonly createUserService: CreateUser,
+    @Inject(AuthDependencies.Login)
+    private readonly loginService: Login
   ) { }
 
   @Post('signup')
@@ -20,4 +22,12 @@ export class AuthController {
     });
   }
 
+  @Post('login')
+  @HttpCode(200)
+  async login(@Body() body:any): Promise<any>{
+    return this.loginService.execute({
+      email: body.email,
+      password: body.password
+    })
+  }
 }

@@ -1,12 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './ioc/app.module';
-
 import { BaseException } from '@domain/exceptions';
-import {
-  ExceptionFilter,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ExceptionFilter, ConflictException, NotFoundException } from '@nestjs/common';
+import { config } from 'dotenv'
+
+config()
 
 export class ExceptionHandler implements ExceptionFilter {
   catch(exception: Error): void {

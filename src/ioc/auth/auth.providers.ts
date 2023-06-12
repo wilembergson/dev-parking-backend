@@ -1,12 +1,14 @@
-import { UserRepository } from '@domain/repositories';
 import { AuthDependencies } from './auth.dependencies';
 import { Database, PrismaDatabase } from '@infra/database';
 import { UserRepositoryPrisma } from '@infra/repositories';
-import { Hasher } from '@application/protocols/cryptografy';
-import { CreateUserUseCase, GetUser } from '@application/use-cases';
+import { Decrypter, Encrypter, HashComparer, Hasher } from '@application/protocols/cryptografy';
+import { CreateUserUseCase, GetUser, LoginUseCase } from '@application/use-cases';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
 import { CreateUser } from '@domain/use-cases/user';
+import { JwtAdapter } from '@infra/adapters/cryptografy/jwt-adapter';
+import { UserRepository } from '@domain/repositories';
+import { Login } from '@domain/use-cases/auth';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: AuthDependencies.Database,
@@ -19,17 +21,29 @@ const UserRepositoryProvider: FactoryProvider<UserRepository> = {
   inject: [AuthDependencies.Database],
 };
 
-const bcryptProvider: ClassProvider<Hasher> ={
+const bcryptProvider: ClassProvider<Hasher> = {
   provide: AuthDependencies.BcryptAdapter,
   useClass: BcryptAdapter
 }
 
+const jwtProvider: FactoryProvider<Encrypter | Decrypter> = {
+  provide: AuthDependencies.JwtAdapter,
+  useFactory: () => new JwtAdapter(process.env.JWT_SECRET!)
+}
+
 const createUserProvider: FactoryProvider<CreateUser> = {
   provide: AuthDependencies.CreateUser,
-  useFactory: (userRepository: UserRepository, bcryptAdapter:Hasher) =>
+  useFactory: (userRepository: UserRepository, bcryptAdapter: Hasher) =>
     new CreateUserUseCase(userRepository, bcryptAdapter),
   inject: [AuthDependencies.UserRepository, AuthDependencies.BcryptAdapter],
 };
+
+const loginProvider: FactoryProvider<Login> = {
+  provide: AuthDependencies.Login,
+  useFactory: (userRepository: UserRepository, hashComparer: HashComparer, encrypter: Encrypter) =>
+    new LoginUseCase( userRepository, hashComparer, encrypter),
+  inject: [AuthDependencies.UserRepository, AuthDependencies.BcryptAdapter, AuthDependencies.JwtAdapter]
+}
 
 const getUserProvider: FactoryProvider<GetUser> = {
   provide: AuthDependencies.GetUser,
@@ -42,5 +56,7 @@ export const providers: Provider[] = [
   databaseProvider,
   createUserProvider,
   getUserProvider,
-  bcryptProvider
+  bcryptProvider,
+  jwtProvider,
+  loginProvider
 ];

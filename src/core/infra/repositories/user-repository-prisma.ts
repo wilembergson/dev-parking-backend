@@ -1,12 +1,12 @@
 import { User } from '@domain/entities';
-import { UserRepository } from '@domain/repositories';
+import { UserRepository, UserRepositoryDTO } from '@domain/repositories';
 import { PrismaClient } from '@prisma/client';
 import { Database } from '../database';
 
 export class UserRepositoryPrisma implements UserRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
 
-  async delete(input: UserRepository.Input.Delete): Promise<void> {
+  async delete(input: UserRepositoryDTO.Input.Delete): Promise<void> {
     await this.database.getConnection().user.delete({
       where: {
         id: input.id,
@@ -14,7 +14,7 @@ export class UserRepositoryPrisma implements UserRepository {
     });
   }
 
-  async update(input: UserRepository.Input.Update): Promise<void> {
+  async update(input: UserRepositoryDTO.Input.Update): Promise<void> {
     await this.database.getConnection().user.update({
       where: {
         id: input.id,
@@ -28,7 +28,7 @@ export class UserRepositoryPrisma implements UserRepository {
     });
   }
 
-  async findOne(input: UserRepository.Input.FindOne): Promise<User | null> {
+  async findOne(input: UserRepositoryDTO.Input.FindOne): Promise<User | null> {
     const data = await this.database.getConnection().user.findFirst({
       where: {
         OR: [

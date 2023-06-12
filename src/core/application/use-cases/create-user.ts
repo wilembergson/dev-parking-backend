@@ -23,4 +23,3 @@ export class CreateUserUseCase implements CreateUser{
     await this.userRepository.save(user);
   }
 }
-
