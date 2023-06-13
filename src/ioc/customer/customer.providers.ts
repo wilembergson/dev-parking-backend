@@ -3,8 +3,9 @@ import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CustomerDependencies } from './customer.dependencies';
 import { Database, PrismaDatabase } from '@infra/database';
 import { DeleteCustomer } from '@application/use-cases/delete-customer';
-import { CreateCustomer, FindCustomer } from '@application/use-cases';
+import { CreateCustomerUseCase, FindCustomer } from '@application/use-cases';
 import { CustomerRepository } from '@domain/repositories';
+import { CreateCustomer } from '@domain/use-cases/customer';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CustomerDependencies.Database,
@@ -19,9 +20,11 @@ const customerRepositoryProvider: FactoryProvider<CustomerRepository> = {
 
 const createCustomerrProvider: FactoryProvider<CreateCustomer> = {
   provide: CustomerDependencies.CreateCustomer,
-  useFactory: (carRepository: CustomerRepository) => new CreateCustomer(carRepository),
+  useFactory: (carRepository: CustomerRepository) => new CreateCustomerUseCase(carRepository),
   inject: [CustomerDependencies.CustomerRepository],
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const findCustomerProvider: FactoryProvider<FindCustomer> = {
   provide: CustomerDependencies.FindCustomer,
   useFactory: (carRepository: CustomerRepository) => new FindCustomer(carRepository),

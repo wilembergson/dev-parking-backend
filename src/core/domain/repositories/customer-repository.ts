@@ -1,13 +1,11 @@
 import { Customer } from '@domain/entities';
 
 export interface CustomerRepository {
+  save(customer: Customer): Promise<void>;
+  
   findOne(input: CustomerRepository.Input.FindOne): Promise<Customer | null>;
 
-  save(customer: Customer): Promise<void>;
-
   delete(input: CustomerRepository.Input.FindOne): Promise<void>;
-
-  //listCars(): Promise<Car[] | null>;
 }
 
 export namespace CustomerRepository {

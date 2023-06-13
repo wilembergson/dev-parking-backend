@@ -10,8 +10,9 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { CreateCustomer, FindCustomer } from '@application/use-cases';
+import { FindCustomer } from '@application/use-cases';
 import { CustomerDependencies } from 'src/ioc/customer';
+import { CreateCustomer } from '@domain/use-cases/customer';
 
 @Controller('customer')
 @Injectable()

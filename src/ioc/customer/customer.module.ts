@@ -7,4 +7,4 @@ import { providers, providersExporteds } from './customer.providers';
   controllers: [CustomerController],
   providers: providers,
 })
-export class CarModule { }
+export class CustomerModule { }
