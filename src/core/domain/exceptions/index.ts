@@ -8,3 +8,4 @@ export * from './vacancy-not-found';
 export * from './schedule-not-found';
 export * from './base-exception';
 export * from './wrong-password'
+export * from './unauthenticated'
