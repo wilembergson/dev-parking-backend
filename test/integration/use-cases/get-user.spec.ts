@@ -1,23 +1,23 @@
-import { GetUser } from '@application/use-cases/get-user';
-import { User, Vacancy } from '@domain/entities';
+import { EmployeeGetUser } from '@application/use-cases/get-employee-user';
+import { EmployeeUser, Vacancy } from '@domain/entities';
 import { UserRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { Database, PrismaDatabase } from '@infra/database';
-import { UserRepositoryPrisma } from '@infra/repositories';
+import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 
 describe('GetUser', () => {
-  let sut: GetUser;
+  let sut: EmployeeGetUser;
   let userRepository: UserRepository;
   let database: Database;
 
   beforeAll(() => {
     database = new PrismaDatabase();
-    userRepository = new UserRepositoryPrisma(database);
-    sut = new GetUser(userRepository);
+    userRepository = new EmployeeUserRepositoryPrisma(database);
+    sut = new EmployeeGetUser(userRepository);
   });
 
   it('should find a user.', async () => {
-    const user = new User({
+    const user = new EmployeeUser({
       name: faker.name.firstName(),
       email: faker.internet.email(),
       password: faker.internet.password(),

@@ -7,9 +7,9 @@ import { LoginDTO, SignupDTO } from './dto/auth';
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject(AuthDependencies.CreateUser)
+    @Inject(AuthDependencies.CreateEmployeeUser)
     private readonly createUserService: CreateUser,
-    @Inject(AuthDependencies.Login)
+    @Inject(AuthDependencies.EmployeeLogin)
     private readonly loginService: Login
   ) { }
 
@@ -17,9 +17,9 @@ export class AuthController {
   async signup(@Body() body: SignupDTO): Promise<void> {
     return this.createUserService.execute({
       name: body.name,
+      rg: body.rg,
       email: body.email,
       password: body.password,
-      birthdate: body.birthdate,
     });
   }
 

@@ -1,4 +1,4 @@
-import { Car, Schedule, Vacancy } from '@domain/entities';
+import { Customer, Schedule, Vacancy } from '@domain/entities';
 import { faker } from '@faker-js/faker';
 
 describe('Schedule', () => {

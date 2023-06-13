@@ -1,19 +1,19 @@
-import { FindCar } from '@application/use-cases';
-import { Car } from '@domain/entities';
+import { FindCustomer } from '@application/use-cases';
+import { Customer } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { Database, PrismaDatabase } from '@infra/database';
-import { CarRepositoryPrisma } from '@infra/repositories';
+import { CustomerRepositoryPrisma } from '@infra/repositories';
 
 describe('FindCar', () => {
-  let sut: FindCar;
+  let sut: FindCustomer;
   let carRepository: CarRepository;
   let database: Database;
 
   beforeAll(() => {
     database = new PrismaDatabase();
-    carRepository = new CarRepositoryPrisma(database);
-    sut = new FindCar(carRepository);
+    carRepository = new CustomerRepositoryPrisma(database);
+    sut = new FindCustomer(carRepository);
   });
 
   it('should find a car.', async () => {

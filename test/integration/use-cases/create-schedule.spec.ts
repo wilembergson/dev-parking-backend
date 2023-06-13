@@ -1,5 +1,5 @@
 import { CreateSchedule } from '@application/use-cases';
-import { Car, Vacancy } from '@domain/entities';
+import { Customer, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
 import { CarRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';

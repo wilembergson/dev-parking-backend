@@ -1,9 +1,9 @@
 import { UpdateUser } from '@application/use-cases';
-import { User } from '@domain/entities';
+import { EmployeeUser } from '@domain/entities';
 import { UserRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { Database, PrismaDatabase } from '@infra/database';
-import { UserRepositoryPrisma } from '@infra/repositories';
+import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 
 describe('UpdateUser', () => {
   let sut: UpdateUser;
@@ -12,12 +12,12 @@ describe('UpdateUser', () => {
 
   beforeAll(() => {
     database = new PrismaDatabase();
-    userRepository = new UserRepositoryPrisma(database);
+    userRepository = new EmployeeUserRepositoryPrisma(database);
     sut = new UpdateUser(userRepository);
   });
 
   it('should throw when create a new user.', async () => {
-    const user = new User({
+    const user = new EmployeeUser({
       name: faker.name.firstName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -34,7 +34,7 @@ describe('UpdateUser', () => {
   });
 
   it('should update a user.', async () => {
-    const user = new User({
+    const user = new EmployeeUser({
       name: 'valor',
       email: 'valor',
       password: 'valor',

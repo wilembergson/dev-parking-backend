@@ -10,24 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model EmployeeUser {
   id        String @id @db.Uuid()
   name      String
-  birthdate String
+  rg        String
   email     String
   password  String
 
-  @@map("users")
+  @@map("employee_users")
 }
 
-model Car {
+model Customer {
   id       String     @id @db.Uuid()
   name     String
-  brand    String
-  plate    String
+  rg       String
   Schedule Schedule[]
 
-  @@map("cars")
+  @@map("customer")
 }
 
 model Vacancy {
@@ -39,13 +38,14 @@ model Vacancy {
 }
 
 model Schedule {
-  id        String    @id @db.Uuid()
-  checkIn   DateTime
-  checkOut  DateTime?
-  vacancyId String    @db.Uuid()
-  vacancy   Vacancy   @relation(fields: [vacancyId], references: [id])
-  carId     String    @db.Uuid()
-  car       Car       @relation(fields: [carId], references: [id])
+  id           String    @id @db.Uuid()
+  vehiclePlate String
+  checkIn      DateTime
+  checkOut     DateTime?
+  vacancyId    String    @db.Uuid()
+  vacancy      Vacancy   @relation(fields: [vacancyId], references: [id])
+  customerId   String    @db.Uuid()
+  customer     Customer  @relation(fields: [customerId], references: [id])
 
   @@map("schedule")
 }

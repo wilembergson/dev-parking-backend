@@ -1,13 +1,13 @@
 import { AuthDependencies } from './auth.dependencies';
 import { Database, PrismaDatabase } from '@infra/database';
-import { UserRepositoryPrisma } from '@infra/repositories';
+import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 import { Decrypter, Encrypter, HashComparer, Hasher } from '@application/protocols/cryptografy';
-import { CreateUserUseCase, GetUser, LoginUseCase } from '@application/use-cases';
+import { CreateEmployeeUserUseCase, EmployeeGetUser, EmployeeLoginUseCase } from '@application/use-cases';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
 import { CreateUser } from '@domain/use-cases/user';
 import { JwtAdapter } from '@infra/adapters/cryptografy/jwt-adapter';
-import { UserRepository } from '@domain/repositories';
+import { EmployeeUserRepository } from '@domain/repositories';
 import { Login } from '@domain/use-cases/auth';
 
 const databaseProvider: ClassProvider<Database> = {
@@ -15,9 +15,9 @@ const databaseProvider: ClassProvider<Database> = {
   useClass: PrismaDatabase,
 };
 
-const UserRepositoryProvider: FactoryProvider<UserRepository> = {
-  provide: AuthDependencies.UserRepository,
-  useFactory: (database: Database) => new UserRepositoryPrisma(database),
+const employeeUserRepositoryProvider: FactoryProvider<EmployeeUserRepository> = {
+  provide: AuthDependencies.EmployeeUserRepository,
+  useFactory: (database: Database) => new EmployeeUserRepositoryPrisma(database),
   inject: [AuthDependencies.Database],
 };
 
@@ -31,32 +31,32 @@ const jwtProvider: FactoryProvider<Encrypter | Decrypter> = {
   useFactory: () => new JwtAdapter(process.env.JWT_SECRET!)
 }
 
-const createUserProvider: FactoryProvider<CreateUser> = {
-  provide: AuthDependencies.CreateUser,
-  useFactory: (userRepository: UserRepository, bcryptAdapter: Hasher) =>
-    new CreateUserUseCase(userRepository, bcryptAdapter),
-  inject: [AuthDependencies.UserRepository, AuthDependencies.BcryptAdapter],
+const createEmployeeUserProvider: FactoryProvider<CreateUser> = {
+  provide: AuthDependencies.CreateEmployeeUser,
+  useFactory: (userRepository: EmployeeUserRepository, bcryptAdapter: Hasher) =>
+    new CreateEmployeeUserUseCase(userRepository, bcryptAdapter),
+  inject: [AuthDependencies.EmployeeUserRepository, AuthDependencies.BcryptAdapter],
 };
 
-const loginProvider: FactoryProvider<Login> = {
-  provide: AuthDependencies.Login,
-  useFactory: (userRepository: UserRepository, hashComparer: HashComparer, encrypter: Encrypter) =>
-    new LoginUseCase( userRepository, hashComparer, encrypter),
-  inject: [AuthDependencies.UserRepository, AuthDependencies.BcryptAdapter, AuthDependencies.JwtAdapter]
+const employeeLoginProvider: FactoryProvider<Login> = {
+  provide: AuthDependencies.EmployeeLogin,
+  useFactory: (userRepository: EmployeeUserRepository, hashComparer: HashComparer, encrypter: Encrypter) =>
+    new EmployeeLoginUseCase(userRepository, hashComparer, encrypter),
+  inject: [AuthDependencies.EmployeeUserRepository, AuthDependencies.BcryptAdapter, AuthDependencies.JwtAdapter]
 }
 
-const getUserProvider: FactoryProvider<GetUser> = {
-  provide: AuthDependencies.GetUser,
-  useFactory: (userRepository: UserRepository) => new GetUser(userRepository),
-  inject: [AuthDependencies.UserRepository],
+const getEmployeeUserProvider: FactoryProvider<EmployeeGetUser> = {
+  provide: AuthDependencies.GetEmployeeUser,
+  useFactory: (userRepository: EmployeeUserRepository) => new EmployeeGetUser(userRepository),
+  inject: [AuthDependencies.EmployeeUserRepository],
 };
 
 export const providers: Provider[] = [
-  UserRepositoryProvider,
+  employeeUserRepositoryProvider,
   databaseProvider,
-  createUserProvider,
-  getUserProvider,
+  createEmployeeUserProvider,
+  getEmployeeUserProvider,
   bcryptProvider,
   jwtProvider,
-  loginProvider
+  employeeLoginProvider
 ];

@@ -1,15 +1,15 @@
-import { User } from '@domain/entities';
+import { EmployeeUser } from '@domain/entities';
 import { faker } from '@faker-js/faker';
 import { UserRepository } from '@domain/repositories';
 import { PrismaDatabase } from '@infra/database';
-import { UserRepositoryPrisma } from '@infra/repositories';
+import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 
 describe('User-Repository-Prisma', () => {
   let sut: UserRepository;
   let database: PrismaDatabase;
   beforeAll(() => {
     database = new PrismaDatabase();
-    sut = new UserRepositoryPrisma(database);
+    sut = new EmployeeUserRepositoryPrisma(database);
   });
   it('save a new user.', async () => {
     const user = newUser();
@@ -40,7 +40,7 @@ describe('User-Repository-Prisma', () => {
   it('should update a user.', async () => {
     const id = faker.datatype.uuid();
     await sut.save(
-      new User({
+      new EmployeeUser({
         id,
         name: faker.datatype.string(),
         email: faker.internet.email(),
@@ -61,7 +61,7 @@ describe('User-Repository-Prisma', () => {
 });
 
 export function newUser(input?: { email?: string }) {
-  return new User({
+  return new EmployeeUser({
     name: faker.datatype.string(),
     email: input?.email ?? faker.internet.email(),
     password: faker.internet.password(),
@@ -70,5 +70,5 @@ export function newUser(input?: { email?: string }) {
 }
 
 export function newRepository() {
-  return new UserRepositoryPrisma(PrismaDatabase.getInstance());
+  return new EmployeeUserRepositoryPrisma(PrismaDatabase.getInstance());
 }

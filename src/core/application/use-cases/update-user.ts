@@ -1,8 +1,8 @@
 import { UserNotFound } from '@domain/exceptions';
-import { UserRepository } from '@domain/repositories';
+import { EmployeeUserRepository } from '@domain/repositories';
 
 export class UpdateUser {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: EmployeeUserRepository) { }
 
   async execute(id: string, input: UpdateUser.Input): Promise<void> {
     const user = await this.userRepository.findOne({ id });
@@ -17,7 +17,7 @@ export namespace UpdateUser {
   export type Input = {
     name: string;
     email: string;
-    birthdate: string;
+    rg: string;
     password: string;
   };
 }

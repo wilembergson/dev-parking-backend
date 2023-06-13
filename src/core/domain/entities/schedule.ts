@@ -1,32 +1,35 @@
-import { Car } from './car';
+import { Customer } from './customer';
 import { ID } from './id';
 import { Vacancy } from './vacancy';
 
 export class Schedule {
   private readonly id: ID;
+  private readonly vehiclePlate: string;
   private readonly checkIn: Date;
   private readonly checkOut: Date | null;
   private vacancy: Vacancy;
-  private car: Car;
+  private customer: Customer;
 
   constructor(input: Schedule.Input.constructor) {
+    this.vehiclePlate;
     this.checkIn = input.checkIn;
     this.checkOut = input.checkOut ? input.checkOut : null;
     this.id = new ID(input.id);
   }
 
-  addCar(car: Car): void {
-    this.car = car;
+  addCar(customer: Customer): void {
+    this.customer = customer;
   }
   addVacancy(vacancy: Vacancy): void {
     this.vacancy = vacancy;
   }
   getState(): Schedule.Output.GetState {
     return {
+      vehiclePlate: this.vehiclePlate,
       checkIn: this.checkIn,
       checkOut: this.checkOut,
       vacancy: this.vacancy,
-      car: this.car,
+      customer: this.customer,
       id: this.id.value,
     };
   }
@@ -43,6 +46,7 @@ export class Schedule {
 export namespace Schedule {
   export namespace Input {
     export type constructor = {
+      vehiclePlate: string;
       checkIn: Date;
       checkOut: Date | null;
       id?: string;
@@ -50,10 +54,11 @@ export namespace Schedule {
   }
   export namespace Output {
     export type GetState = {
+      vehiclePlate: string;
       checkIn: Date;
       checkOut: Date | null;
       vacancy: Vacancy;
-      car: Car;
+      customer: Customer;
       id: string;
     };
   }

@@ -1,5 +1,5 @@
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
-import { Car, Schedule, Vacancy } from '@domain/entities';
+import { Customer, Schedule, Vacancy } from '@domain/entities';
 import { ScheduleNotFound } from '@domain/exceptions';
 import {
   CarRepository,
@@ -9,7 +9,7 @@ import {
 import { faker } from '@faker-js/faker';
 import { Database, PrismaDatabase } from '@infra/database';
 import {
-  CarRepositoryPrisma,
+  CustomerRepositoryPrisma,
   ScheduleRepositoryPrisma,
   VacancyRepositoryPrisma,
 } from '@infra/repositories';
@@ -23,7 +23,7 @@ describe('DeleteSechedule', () => {
 
   beforeAll(() => {
     database = new PrismaDatabase();
-    carRepository = new CarRepositoryPrisma(database);
+    carRepository = new CustomerRepositoryPrisma(database);
     vacancyRepository = new VacancyRepositoryPrisma(database);
     scheduleRepository = new ScheduleRepositoryPrisma(database);
     sut = new DeleteSchedule(scheduleRepository);

@@ -1,8 +1,8 @@
-import { User } from '@domain/entities';
+import { EmployeeUser } from '@domain/entities';
 
 describe('User', () => {
   it('should be able to get entity state.', () => {
-    const sut = new User({
+    const sut = new EmployeeUser({
       name: 'valido',
       email: 'valido',
       password: 'valido',
@@ -16,7 +16,7 @@ describe('User', () => {
   });
 
   it('should be able to update entity state.', () => {
-    const sut = new User({
+    const sut = new EmployeeUser({
       name: 'valido',
       email: 'valido',
       password: 'valido',

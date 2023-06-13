@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { Car, Vacancy } from '@domain/entities';
+import { Customer, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
 import { ScheduleNotFound } from '@domain/exceptions';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
@@ -25,7 +24,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
         id: input.id,
       },
       include: {
-        car: true,
+        customer: true,
         vacancy: true,
       },
     });
@@ -34,18 +33,18 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       id: data.vacancy.id,
       localization: data.vacancy.localization,
     });
-    const car = new Car({
-      id: data.car.id,
-      name: data.car.name,
-      brand: data.car.brand,
-      plate: data.car.plate,
+    const customer = new Customer({
+      id: data.customer.id,
+      name: data.customer.name,
+      rg: data.customer.rg
     });
     const schedule = new Schedule({
       id: data.id,
+      vehiclePlate: data.vehiclePlate,
       checkIn: data.checkIn,
       checkOut: data.checkOut,
     });
-    schedule.addCar(car);
+    schedule.addCar(customer);
     schedule.addVacancy(vacancy);
     return schedule;
   }
@@ -53,7 +52,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
   async findMany(): Promise<Schedule[]> {
     const data = await this.database.getConnection().schedule.findMany({
       include: {
-        car: true,
+        customer: true,
         vacancy: true,
       },
     });
@@ -63,15 +62,15 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
         id: item.vacancy.id,
         localization: item.vacancy.localization,
       });
-      const car = new Car({
-        id: item.car.id,
-        name: item.car.name,
-        brand: item.car.brand,
-        plate: item.car.plate,
+      const car = new Customer({
+        id: item.customer.id,
+        name: item.customer.name,
+        rg: item.customer.rg
       });
 
       const schedule = new Schedule({
         id: item.id,
+        vehiclePlate: item.vehiclePlate,
         checkIn: item.checkIn,
         checkOut: item.checkOut,
       });
@@ -83,10 +82,11 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
 
   async save(schedule: Schedule): Promise<void> {
     try {
-      const { id, checkIn, checkOut, vacancy, car } = schedule.getState();
+      const { id, vehiclePlate, checkIn, checkOut, vacancy, customer } = schedule.getState();
       await this.database.getConnection().schedule.create({
         data: {
           id,
+          vehiclePlate,
           checkIn,
           checkOut,
           vacancy: {
@@ -100,23 +100,22 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
               },
             },
           },
-          car: {
+          customer: {
             connectOrCreate: {
               where: {
-                id: car.getState().id,
+                id: customer.getState().id,
               },
               create: {
-                id: car.getState().id,
-                name: car.getState().name,
-                brand: car.getState().brand,
-                plate: car.getState().plate,
+                id: customer.getState().id,
+                name: customer.getState().name,
+                rg: customer.getState().rg
               },
             },
           },
         },
         include: {
           vacancy: true,
-          car: true,
+          customer: true,
         },
       });
     } catch (error) { }

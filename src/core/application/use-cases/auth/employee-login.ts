@@ -1,11 +1,11 @@
 import { Encrypter, HashComparer } from "@application/protocols/cryptografy";
 import { UserNotFound, WrongPassword } from "@domain/exceptions";
-import { UserRepository } from "@domain/repositories";
+import { EmployeeUserRepository } from "@domain/repositories";
 import { Login } from "@domain/use-cases/auth";
 
-export class LoginUseCase implements Login {
+export class EmployeeLoginUseCase implements Login {
     constructor(
-        private readonly userRepository: UserRepository,
+        private readonly userRepository: EmployeeUserRepository,
         private readonly hashComparer: HashComparer,
         private readonly encrypter: Encrypter
     ) { }

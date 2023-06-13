@@ -1,11 +1,11 @@
-import { Car, Vacancy } from '@domain/entities';
+import { Customer, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
 import { CarRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
 import {
-  CarRepositoryPrisma,
+  CustomerRepositoryPrisma,
   ScheduleRepositoryPrisma,
   VacancyRepositoryPrisma,
 } from '@infra/repositories';
@@ -18,7 +18,7 @@ describe('Schedule', () => {
   beforeAll(() => {
     database = PrismaDatabase.getInstance();
     sut = new ScheduleRepositoryPrisma(database);
-    carRepository = new CarRepositoryPrisma(database);
+    carRepository = new CustomerRepositoryPrisma(database);
     vacancyRepository = new VacancyRepositoryPrisma(database);
   });
 

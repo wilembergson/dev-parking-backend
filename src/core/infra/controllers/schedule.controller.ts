@@ -30,9 +30,10 @@ export class ScheduleController {
   @Post()
   async createSchedule(@Body() body: any): Promise<void> {
     return await this.createScheduleService.execute({
+      vehiclePlate: body.vehiclePlate,
       checkIn: body.checkIn,
       checkOut: body.checkOut,
-      carId: body.carId,
+      customerId: body.customerId,
       vacancyId: body.vacancyId,
     });
   }

@@ -1,19 +1,19 @@
-import { DeleteCar } from '@application/use-cases/delete-car';
-import { Car } from '@domain/entities';
+import { DeleteCustomer } from '@application/use-cases/delete-customer';
+import { Customer } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { Database, PrismaDatabase } from '@infra/database';
-import { CarRepositoryPrisma } from '@infra/repositories';
+import { CustomerRepositoryPrisma } from '@infra/repositories';
 
 describe('DeleteCar', () => {
-  let sut: DeleteCar;
+  let sut: DeleteCustomer;
   let carRepository: CarRepository;
   let database: Database;
 
   beforeAll(() => {
     database = new PrismaDatabase();
-    carRepository = new CarRepositoryPrisma(database);
-    sut = new DeleteCar(carRepository);
+    carRepository = new CustomerRepositoryPrisma(database);
+    sut = new DeleteCustomer(carRepository);
   });
 
   it('should delete a car.', async () => {

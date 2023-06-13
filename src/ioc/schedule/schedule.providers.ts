@@ -2,17 +2,17 @@ import { CreateSchedule } from '@application/use-cases';
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
 import { FindSchedule } from '@application/use-cases/find-schedule';
 import { ListSchedules } from '@application/use-cases/list-schedules';
-import { CarRepository, VacancyRepository } from '@domain/repositories';
+import { CustomerRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
 import { Database, PrismaDatabase } from '@infra/database';
 import { ScheduleRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
-import { CarDependencies } from '../car';
+import { CustomerDependencies } from '../customer';
 import { VacancyDependencies } from '../vacancy';
 import { ScheduleDependencies } from './schedule.dependencies';
 
 const databaseProvider: ClassProvider<Database> = {
-  provide: CarDependencies.Database,
+  provide: CustomerDependencies.Database,
   useClass: PrismaDatabase,
 };
 
@@ -28,12 +28,12 @@ const createScheduleProvider: FactoryProvider<CreateSchedule> = {
   useFactory: (
     scheduleRepository: ScheduleRepository,
     vacancyRepository: VacancyRepository,
-    carRepository: CarRepository,
+    carRepository: CustomerRepository,
   ) => new CreateSchedule(scheduleRepository, vacancyRepository, carRepository),
   inject: [
     ScheduleDependencies.ScheduleRepository,
     VacancyDependencies.VacancyRepository,
-    CarDependencies.CarRepository,
+    CustomerDependencies.CustomerRepository,
   ],
 };
 

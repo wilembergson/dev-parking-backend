@@ -1,4 +1,4 @@
-import { Car } from '@domain/entities';
+import { Customer } from '@domain/entities';
 import { faker } from '@faker-js/faker';
 
 describe('Car', () => {

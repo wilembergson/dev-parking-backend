@@ -1,8 +1,8 @@
-import { Car } from '@domain/entities';
+import { Customer } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
 import { PrismaDatabase } from '@infra/database';
-import { CarRepositoryPrisma } from '@infra/repositories';
+import { CustomerRepositoryPrisma } from '@infra/repositories';
 
 describe('CarRepositoryPrisma', () => {
   let sut: CarRepository;
@@ -10,7 +10,7 @@ describe('CarRepositoryPrisma', () => {
 
   beforeAll(() => {
     database = PrismaDatabase.getInstance();
-    sut = new CarRepositoryPrisma(database);
+    sut = new CustomerRepositoryPrisma(database);
   });
   it('create a new car.', () => {
     const car = newCar();

@@ -4,10 +4,10 @@ import { INestApplication } from '@nestjs/common';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/ioc/app.module';
-import { User } from '@domain/entities';
+import { EmployeeUser } from '@domain/entities';
 import { UserRepository } from '@domain/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
-import { UserRepositoryPrisma } from '@infra/repositories';
+import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 
 describe('/user', () => {
   let app: INestApplication;
@@ -23,7 +23,7 @@ describe('/user', () => {
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
     database = new PrismaDatabase();
-    userRepository = new UserRepositoryPrisma(database);
+    userRepository = new EmployeeUserRepositoryPrisma(database);
   });
 
   afterAll(async () => {
@@ -43,7 +43,7 @@ describe('/user', () => {
   });
   describe('@GET', () => {
     it('200', async () => {
-      const user = new User({
+      const user = new EmployeeUser({
         name: faker.name.firstName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
@@ -59,7 +59,7 @@ describe('/user', () => {
 
   describe('@DELETE ', () => {
     it('200', async () => {
-      const user = new User({
+      const user = new EmployeeUser({
         name: faker.name.firstName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
@@ -76,7 +76,7 @@ describe('/user', () => {
 
   describe('@PUT ', () => {
     it('200', async () => {
-      const user = new User({
+      const user = new EmployeeUser({
         name: faker.name.firstName(),
         email: faker.internet.email(),
         password: faker.internet.password(),

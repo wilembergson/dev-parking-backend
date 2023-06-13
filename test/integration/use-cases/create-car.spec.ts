@@ -1,15 +1,15 @@
-import { CreateCar } from '@application/use-cases';
-import { Car } from '@domain/entities';
+import { CreateCustomer } from '@application/use-cases';
+import { Customer } from '@domain/entities';
 import { CarRepository } from '@domain/repositories';
 import { mock, MockProxy } from 'jest-mock-extended';
 
 describe('CreateCar', () => {
-  let sut: CreateCar;
+  let sut: CreateCustomer;
   let carRepository: MockProxy<CarRepository>;
 
   beforeAll(() => {
     carRepository = mock();
-    sut = new CreateCar(carRepository);
+    sut = new CreateCustomer(carRepository);
   });
 
   it('should throws error if car already exists.', async () => {

@@ -1,8 +1,8 @@
 import { UserNotFound } from '@domain/exceptions';
-import { UserRepository } from '@domain/repositories';
+import { EmployeeUserRepository } from '@domain/repositories';
 
 export class DeleteUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: EmployeeUserRepository) {}
 
   async execute(input: DeleteUser.Input.FindOne): Promise<void> {
     const user = await this.userRepository.findOne({

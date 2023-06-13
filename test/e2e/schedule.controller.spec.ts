@@ -9,9 +9,9 @@ import {
   ScheduleRepository,
   VacancyRepository,
 } from '@domain/repositories';
-import { Car, Schedule, Vacancy } from '@domain/entities';
+import { Customer, Schedule, Vacancy } from '@domain/entities';
 import {
-  CarRepositoryPrisma,
+  CustomerRepositoryPrisma,
   ScheduleRepositoryPrisma,
   VacancyRepositoryPrisma,
 } from '@infra/repositories';
@@ -33,7 +33,7 @@ describe('/schedule', () => {
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
     database = new PrismaDatabase();
-    carRepository = new CarRepositoryPrisma(database);
+    carRepository = new CustomerRepositoryPrisma(database);
     vacancyRepository = new VacancyRepositoryPrisma(database);
     scheduleRepository = new ScheduleRepositoryPrisma(database);
   });

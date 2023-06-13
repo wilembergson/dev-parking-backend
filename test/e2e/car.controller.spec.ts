@@ -5,8 +5,8 @@ import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/ioc/app.module';
 import { CarRepository } from '@domain/repositories';
-import { Car } from '@domain/entities';
-import { CarRepositoryPrisma } from '@infra/repositories';
+import { Customer } from '@domain/entities';
+import { CustomerRepositoryPrisma } from '@infra/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
 
 describe('/car', () => {
@@ -23,7 +23,7 @@ describe('/car', () => {
     await app.init();
     await app.getHttpAdapter().getInstance().ready();
     database = new PrismaDatabase();
-    carRepository = new CarRepositoryPrisma(database);
+    carRepository = new CustomerRepositoryPrisma(database);
   });
 
   afterAll(async () => {

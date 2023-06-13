@@ -1,7 +1,6 @@
-import {  UpdateUser } from '@application/use-cases';
+import { EmployeeGetUser, UpdateUser } from '@application/use-cases';
 import { DeleteUser } from '@application/use-cases/delete-user';
-import { GetUser } from '@application/use-cases/get-user';
-import { User } from '@domain/entities';
+import { EmployeeUser } from '@domain/entities';
 import {
   Body,
   Controller,
@@ -18,14 +17,14 @@ import { CreateUser } from '@domain/use-cases/user';
 @Controller('user')
 export class UserController {
   constructor(
-    @Inject(UserDependencies.CreateUser) 
+    @Inject(UserDependencies.CreateUser)
     private readonly createUserService: CreateUser,
     @Inject(UserDependencies.UpdateUser)
     private readonly updateUserService: UpdateUser,
     @Inject(UserDependencies.DeleteUser)
     private readonly deleteUserService: DeleteUser,
     @Inject(UserDependencies.GetUser)
-    private readonly getUserService: GetUser,
+    private readonly getUserService: EmployeeGetUser,
   ) { }
 
   @Post()
@@ -34,7 +33,7 @@ export class UserController {
       name: body.name,
       email: body.email,
       password: body.password,
-      birthdate: body.birthdate,
+      rg: body.birthdate,
     });
   }
 
@@ -42,7 +41,7 @@ export class UserController {
   async updateUser(@Param() param, @Body() body: any): Promise<void> {
     return this.updateUserService.execute(param.id, {
       name: body.name,
-      birthdate: body.birthdate,
+      rg: body.birthdate,
       email: body.email,
       password: body.password,
     });
@@ -56,7 +55,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async getUser(@Param() param): Promise<User | null> {
+  async getUser(@Param() param): Promise<EmployeeUser | null> {
     return this.getUserService.execute({ id: param.id });
   }
 }

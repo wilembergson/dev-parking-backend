@@ -1,10 +1,9 @@
 export enum AuthDependencies {
-    UserRepository = 'UserRepository',
-    Database = 'Database',
-    CreateUser = 'CreateUser',
-    GetUser = 'GetUser',
-    BcryptAdapter = 'BcryptAdapter',
-    JwtAdapter = 'JwtAdapter',
-    Login = 'Login'
-  }
-  
+  EmployeeUserRepository = 'EmployeeUserRepository',
+  Database = 'Database',
+  CreateEmployeeUser = 'CreateEmployeeUser',
+  GetEmployeeUser = 'GetEmployeeUser',
+  BcryptAdapter = 'BcryptAdapter',
+  JwtAdapter = 'JwtAdapter',
+  EmployeeLogin = 'EmployeeLogin'
+}

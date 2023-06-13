@@ -1,24 +1,24 @@
 import { Hasher } from '@application/protocols/cryptografy';
-import { User } from '@domain/entities';
+import { EmployeeUser } from '@domain/entities';
 import { UserFound } from '@domain/exceptions';
-import { UserRepository } from '@domain/repositories';
+import { EmployeeUserRepository } from '@domain/repositories';
 import { CreateUser } from '@domain/use-cases/user'
 
-export class CreateUserUseCase implements CreateUser{
+export class CreateEmployeeUserUseCase implements CreateUser {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: EmployeeUserRepository,
     private readonly hasher: Hasher
   ) { }
 
   async execute(input: CreateUser.Input): Promise<void> {
-    const foundUser = await this.userRepository.findOne({ email: input.email });
+    const foundUser = await this.userRepository.findOne({ email: input.email, rg: input.rg });
     if (foundUser) throw new UserFound();
     const password = await this.hasher.hash(input.password)
-    const user = new User({
+    const user = new EmployeeUser({
       name: input.name,
+      rg: input.rg,
       email: input.email,
       password,
-      birthdate: input.birthdate,
     });
     await this.userRepository.save(user);
   }

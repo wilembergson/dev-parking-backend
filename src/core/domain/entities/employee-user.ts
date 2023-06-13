@@ -1,21 +1,21 @@
 import { ID } from './id';
 
-export class User {
+export class EmployeeUser {
   private readonly id: ID;
   private readonly name: string;
+  private readonly rg: string;
   private readonly email: string;
   private readonly password: string;
-  private readonly birthdate: string;
 
-  constructor(input: User.Input.constructor) {
+  constructor(input: EmployeeUser.Input.constructor) {
     this.name = input.name;
     this.email = input.email;
     this.password = input.password;
-    this.birthdate = input.birthdate;
+    this.rg = input.rg;
     this.id = new ID(input.id);
   }
 
-  update(input: Partial<User.Output.GetState>): void {
+  update(input: Partial<EmployeeUser.Output.GetState>): void {
     Object.keys(input).forEach((key) => {
       if (input[key] !== undefined && key !== 'id') {
         this[key] = input[key];
@@ -23,24 +23,24 @@ export class User {
     });
   }
 
-  getState(): User.Output.GetState {
+  getState(): EmployeeUser.Output.GetState {
     return {
       name: this.name,
       email: this.email,
       password: this.password,
-      birthdate: this.birthdate,
+      rg: this.rg,
       id: this.id.value,
     };
   }
 }
 
-export namespace User {
+export namespace EmployeeUser {
   export namespace Output {
     export type GetState = {
       name: string;
       email: string;
       password: string;
-      birthdate: string;
+      rg: string;
       id: string;
     };
   }
@@ -49,7 +49,7 @@ export namespace User {
       name: string;
       email: string;
       password: string;
-      birthdate: string;
+      rg: string;
       id?: string;
     };
   }
