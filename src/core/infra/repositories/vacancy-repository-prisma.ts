@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Vacancy } from '@domain/entities';
 import { VacancyRepository } from '@domain/repositories';
 import { Database } from 'src/core/infra/database';
@@ -48,11 +47,11 @@ export class VacancyRepositoryPrisma implements VacancyRepository {
   }
 
   async save(vacancy: Vacancy): Promise<void> {
-    const { id, localization } = vacancy.getState();
+    const { id, localization, occupied } = vacancy.getState();
     await this.database.getConnection().vacancy.upsert({
       where: { id },
-      create: { id, localization },
-      update: { localization }
+      create: { id, localization, occupied },
+      update: { localization, occupied }
     });
   }
 }

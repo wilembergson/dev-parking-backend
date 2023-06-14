@@ -97,6 +97,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
               create: {
                 id: vacancy.getState().id,
                 localization: vacancy.getState().localization,
+                occupied: vacancy.getState().occupied
               },
             },
           },
