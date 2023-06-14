@@ -23,10 +23,10 @@ export class CustomerRepositoryPrisma implements CustomerRepository {
       where: {
         OR: [
           {
-            id: input.id,
+            rg: input.rg,
           },
           {
-            rg: input.rg,
+            id: input.id,
           },
         ],
       },

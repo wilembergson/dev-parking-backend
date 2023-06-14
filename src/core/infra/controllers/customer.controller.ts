@@ -10,9 +10,8 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { FindCustomer } from '@application/use-cases';
 import { CustomerDependencies } from 'src/ioc/customer';
-import { CreateCustomer } from '@domain/use-cases/customer';
+import { CreateCustomer, FindCustomer } from '@domain/use-cases/customer';
 import { CreateCustomerDTO } from './dto/customer';
 
 @Controller('customer')
@@ -29,18 +28,17 @@ export class CustomerController {
 
   @Post()
   async createCustomer(@Body() body: CreateCustomerDTO): Promise<void> {
-    return this.createCustomerService.execute({
+    return await this.createCustomerService.execute({
       name: body.name,
       rg: body.rg
     });
   }
 
   @Get(':rg')
-  async findCustomer(@Param() params): Promise<Customer | null> {
-    const customer = await this.findCustomerService.execute({
+  async findCustomer(@Param() params): Promise<Customer> {
+    return await this.findCustomerService.execute({
       rg: params.rg,
     });
-    return customer;
   }
 
   @Delete(':rg')
