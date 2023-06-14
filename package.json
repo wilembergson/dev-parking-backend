@@ -24,7 +24,7 @@
     "down": "docker-compose down"
   },
   "prisma": {
-    "seed": "node dist/prisma/seed.js"
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",

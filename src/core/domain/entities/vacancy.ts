@@ -3,17 +3,24 @@ import { ID } from './id';
 export class Vacancy {
   private readonly id: ID;
   private readonly localization: string;
+  private occupied: boolean;
 
   constructor(input: Vacancy.Input.constructor) {
-    this.localization = input.localization;
     this.id = new ID(input.id);
+    this.localization = input.localization;
+    this.occupied = false;
   }
 
   getState(): Vacancy.Output.GetState {
     return {
-      localization: this.localization,
       id: this.id.value,
+      localization: this.localization,
+      occupied: this.occupied
     };
+  }
+
+  setOccupied(occupied: boolean) {
+    this.occupied = occupied
   }
 
   update(input: Partial<Vacancy.Output.GetState>): void {
@@ -28,14 +35,15 @@ export class Vacancy {
 export namespace Vacancy {
   export namespace Input {
     export type constructor = {
-      localization: string;
       id?: string;
+      localization: string;
     };
   }
   export namespace Output {
     export type GetState = {
-      localization: string;
       id: string;
+      localization: string;
+      occupied: boolean;
     };
   }
 }

@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { providers, providersExporteds } from './vacancy.providers';
 
 @Module({
+  exports: providersExporteds,
   controllers: [VacancyController],
   providers: providers,
-  exports: providersExporteds,
 })
 export class VacancyModule {}

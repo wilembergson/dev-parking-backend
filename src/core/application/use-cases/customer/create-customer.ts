@@ -17,6 +17,4 @@ export class CreateCustomerUseCase implements CreateCustomer {
     });
     await this.customerRepository.save(customer);
   }
-
-
 }

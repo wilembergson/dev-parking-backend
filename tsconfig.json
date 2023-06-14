@@ -36,6 +36,7 @@
     "src",
     "test",
     "jest.config.js",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "prisma/seed.ts"
   ]
 }
