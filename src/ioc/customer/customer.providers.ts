@@ -2,10 +2,10 @@ import { CustomerRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CustomerDependencies } from './customer.dependencies';
 import { Database, PrismaDatabase } from '@infra/database';
-import { DeleteCustomer } from '@application/use-cases/delete-customer';
 import { CreateCustomerUseCase, FindCustomerUseCase } from '@application/use-cases';
 import { CustomerRepository } from '@domain/repositories';
-import { CreateCustomer, FindCustomer } from '@domain/use-cases/customer';
+import { CreateCustomer, DeleteCustomer, FindCustomer } from '@domain/use-cases/customer';
+import { DeleteCustomerUseCase } from '@application/use-cases/customer/delete-customer';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CustomerDependencies.Database,
@@ -33,7 +33,7 @@ const findCustomerProvider: FactoryProvider<FindCustomer> = {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const deleteCustomerProvider: FactoryProvider<DeleteCustomer> = {
   provide: CustomerDependencies.DeleteCustomer,
-  useFactory: (customerRepository: CustomerRepository) => new DeleteCustomer(customerRepository),
+  useFactory: (customerRepository: CustomerRepository) => new DeleteCustomerUseCase(customerRepository),
   inject: [CustomerDependencies.CustomerRepository],
 };
 

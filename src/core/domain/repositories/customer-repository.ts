@@ -5,7 +5,7 @@ export interface CustomerRepository {
   
   findOne(input: CustomerRepository.Input.FindOne): Promise<Customer | null>;
 
-  delete(input: CustomerRepository.Input.FindOne): Promise<void>;
+  delete(input: CustomerRepository.Input.Delete): Promise<void>;
 }
 
 export namespace CustomerRepository {
@@ -13,6 +13,9 @@ export namespace CustomerRepository {
     export type FindOne = Partial<{
       id: string;
       rg: string;
-    }>;
+    }>
+    export type Delete = {
+      id: string
+    }
   }
 }

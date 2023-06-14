@@ -1,18 +1,10 @@
-import { DeleteCustomer } from '@application/use-cases/delete-customer';
-import { Customer } from '@domain/entities';
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Injectable,
-  Param,
-  Post,
+  Body, Controller, Delete, Get, Inject, Injectable, Param, Post
 } from '@nestjs/common';
-import { CustomerDependencies } from 'src/ioc/customer';
-import { CreateCustomer, FindCustomer } from '@domain/use-cases/customer';
+import { Customer } from '@domain/entities';
 import { CreateCustomerDTO } from './dto/customer';
+import { CustomerDependencies } from 'src/ioc/customer';
+import { CreateCustomer, DeleteCustomer, FindCustomer } from '@domain/use-cases/customer';
 
 @Controller('customer')
 @Injectable()
@@ -43,6 +35,6 @@ export class CustomerController {
 
   @Delete(':rg')
   async deleteCustomer(@Param() params): Promise<void> {
-    await this.deleteCustomerService.execute({ id: params.id });
+    await this.deleteCustomerService.execute({ rg: params.rg });
   }
 }

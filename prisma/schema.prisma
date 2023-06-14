@@ -11,11 +11,11 @@ datasource db {
 }
 
 model EmployeeUser {
-  id        String @id @db.Uuid()
-  name      String
-  rg        String
-  email     String
-  password  String
+  id       String @id @db.Uuid()
+  name     String
+  rg       String @unique()
+  email    String @unique()
+  password String
 
   @@map("employee_users")
 }
@@ -23,7 +23,7 @@ model EmployeeUser {
 model Customer {
   id       String     @id @db.Uuid()
   name     String
-  rg       String
+  rg       String     @unique()
   Schedule Schedule[]
 
   @@map("customer")
@@ -31,7 +31,7 @@ model Customer {
 
 model Vacancy {
   id           String     @id @db.Uuid()
-  localization String
+  localization String     @unique()
   schedule     Schedule[]
 
   @@map("vacancy")

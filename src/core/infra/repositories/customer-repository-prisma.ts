@@ -6,15 +6,15 @@ import { CustomerRepository } from '@domain/repositories';
 export class CustomerRepositoryPrisma implements CustomerRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
 
-  /*async listCars(): Promise<Car[] | null> {
-    return await this.database.getConnection().car.findMany();
+  /*async listCustomers(): Promise<Customer[] | null> {
+    return await this.database.getConnection().customer.findMany();
   }*/
 
-  async delete(input: CustomerRepository.Input.FindOne): Promise<void> {
+  async delete(input: CustomerRepository.Input.Delete): Promise<void> {
     await this.database.getConnection().customer.delete({
       where: {
         id: input.id,
-      },
+      }
     });
   }
 
@@ -28,11 +28,12 @@ export class CustomerRepositoryPrisma implements CustomerRepository {
           {
             id: input.id,
           },
-        ],
-      },
+        ]
+      }
     });
     if (!data) return null;
     return new Customer({
+      id: data.id,
       name: data.name,
       rg: data.rg
     });
