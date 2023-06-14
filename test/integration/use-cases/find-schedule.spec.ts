@@ -41,7 +41,7 @@ describe('FindVacancy', () => {
       checkIn: faker.datatype.datetime(),
       checkOut: faker.datatype.datetime(),
     });
-    schedule.addCar(car);
+    schedule.addCustomer(car);
     schedule.addVacancy(vacancy);
     await scheduleRepository.save(schedule);
     await expect(
@@ -62,7 +62,7 @@ describe('FindVacancy', () => {
       checkIn: faker.datatype.datetime(),
       checkOut: faker.datatype.datetime(),
     });
-    schedule.addCar(car);
+    schedule.addCustomer(car);
     schedule.addVacancy(vacancy);
     await expect(sut.execute({ id: schedule.getState().id })).rejects.toThrow();
   });

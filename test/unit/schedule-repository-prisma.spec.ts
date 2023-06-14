@@ -50,7 +50,7 @@ describe('Schedule', () => {
     const vacancy1 = newVacancy();
     await vacancyRepository.save(vacancy1);
     const schedule1 = newSchedule();
-    schedule1.addCar(car1);
+    schedule1.addCustomer(car1);
     schedule1.addVacancy(vacancy1);
     await sut.save(schedule1);
     await expect(
@@ -68,7 +68,7 @@ describe('Schedule', () => {
     const vacancy1 = newVacancy();
     await vacancyRepository.save(vacancy1);
     const schedule1 = newSchedule();
-    schedule1.addCar(car1);
+    schedule1.addCustomer(car1);
     schedule1.addVacancy(vacancy1);
     await sut.save(schedule1);
     const car2 = newCar();
@@ -76,7 +76,7 @@ describe('Schedule', () => {
     const vacancy2 = newVacancy();
     await vacancyRepository.save(vacancy2);
     const schedule2 = newSchedule();
-    schedule2.addCar(car2);
+    schedule2.addCustomer(car2);
     schedule2.addVacancy(vacancy2);
     await sut.save(schedule2);
     const vacancy = await sut.findMany();
@@ -114,7 +114,7 @@ export function newSchedule(input?: { checkOut?: Date }): Schedule {
     checkIn: faker.datatype.datetime(),
     checkOut: input?.checkOut ?? faker.datatype.datetime(),
   });
-  schedule.addCar(car);
+  schedule.addCustomer(car);
   schedule.addVacancy(vacancy);
   return schedule;
 }

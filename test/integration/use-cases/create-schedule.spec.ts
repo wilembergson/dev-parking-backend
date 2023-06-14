@@ -1,4 +1,4 @@
-import { CreateSchedule } from '@application/use-cases';
+import { CreateScheduleUseCase } from '@application/use-cases';
 import { Customer, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
 import { CarRepository, VacancyRepository } from '@domain/repositories';
@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker';
 import { mock, MockProxy } from 'jest-mock-extended';
 
 describe('CreateSchedule', () => {
-  let sut: CreateSchedule;
+  let sut: CreateScheduleUseCase;
   let scheduleRepository: MockProxy<ScheduleRepository>;
   let vacancyRepository: MockProxy<VacancyRepository>;
   let carRepository: MockProxy<CarRepository>;
@@ -16,7 +16,7 @@ describe('CreateSchedule', () => {
     scheduleRepository = mock();
     vacancyRepository = mock();
     carRepository = mock();
-    sut = new CreateSchedule(
+    sut = new CreateScheduleUseCase(
       scheduleRepository,
       vacancyRepository,
       carRepository,
@@ -37,7 +37,7 @@ describe('CreateSchedule', () => {
       checkIn: faker.datatype.datetime(),
       checkOut: faker.datatype.datetime(),
     });
-    schedule.addCar(car);
+    schedule.addCustomer(car);
     schedule.addVacancy(vacancy);
     await expect(
       sut.execute({
@@ -64,7 +64,7 @@ describe('CreateSchedule', () => {
     });
 
     schedule.addVacancy(vacancy);
-    schedule.addCar(car);
+    schedule.addCustomer(car);
     await expect(
       sut.execute({
         checkIn: schedule.getState().checkIn,
@@ -91,7 +91,7 @@ describe('CreateSchedule', () => {
     });
 
     schedule.addVacancy(vacancy);
-    schedule.addCar(car);
+    schedule.addCustomer(car);
     await expect(
       sut.execute({
         checkIn: schedule.getState().checkIn,

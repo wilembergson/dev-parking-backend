@@ -1,4 +1,4 @@
-import { CreateSchedule } from '@application/use-cases';
+import { CreateScheduleUseCase } from '@application/use-cases';
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
 import { FindSchedule } from '@application/use-cases/find-schedule';
 import { ListSchedules } from '@application/use-cases/list-schedules';
@@ -10,6 +10,7 @@ import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CustomerDependencies } from '../customer';
 import { VacancyDependencies } from '../vacancy';
 import { ScheduleDependencies } from './schedule.dependencies';
+import { CreateSchedule } from '@domain/use-cases/schedule';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CustomerDependencies.Database,
@@ -29,7 +30,7 @@ const createScheduleProvider: FactoryProvider<CreateSchedule> = {
     scheduleRepository: ScheduleRepository,
     vacancyRepository: VacancyRepository,
     carRepository: CustomerRepository,
-  ) => new CreateSchedule(scheduleRepository, vacancyRepository, carRepository),
+  ) => new CreateScheduleUseCase(scheduleRepository, vacancyRepository, carRepository),
   inject: [
     ScheduleDependencies.ScheduleRepository,
     VacancyDependencies.VacancyRepository,

@@ -1,7 +1,6 @@
 import { CreateVacancy } from '@application/use-cases';
 import { DeleteVacancy } from '@application/use-cases/delete-vacancy';
 import { FindVacancy } from '@application/use-cases/find-vacancy';
-import { UpdateVacancy } from '@application/use-cases/update-vacancy';
 import { VacancyRepository } from '@domain/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
 import { VacancyRepositoryPrisma } from '@infra/repositories';
@@ -9,6 +8,7 @@ import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { VacancyDependencies } from './vacancy.dependencies';
 import { ListVacancies } from '@domain/use-cases/vacancy';
 import { ListVacanciesUseCase } from '@application/use-cases/vacancy';
+import { UpdateVacancy } from '@application/use-cases/update-vacancy';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: VacancyDependencies.Database,

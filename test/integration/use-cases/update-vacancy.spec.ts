@@ -1,4 +1,4 @@
-import { UpdateVacancy } from '@application/use-cases/update-vacancy';
+import { UpdateVacancyUseCase } from '@application/use-cases/vacancy/update-vacancy';
 import { Vacancy } from '@domain/entities';
 import { VacancyRepository } from '@domain/repositories';
 import { faker } from '@faker-js/faker';
@@ -6,14 +6,14 @@ import { Database, PrismaDatabase } from '@infra/database';
 import { VacancyRepositoryPrisma } from '@infra/repositories';
 
 describe('UpdateVacancy', () => {
-  let sut: UpdateVacancy;
+  let sut: UpdateVacancyUseCase;
   let vacancyRepository: VacancyRepository;
   let database: Database;
 
   beforeAll(() => {
     database = new PrismaDatabase();
     vacancyRepository = new VacancyRepositoryPrisma(database);
-    sut = new UpdateVacancy(vacancyRepository);
+    sut = new UpdateVacancyUseCase(vacancyRepository);
   });
 
   it('should update a vacancy.', async () => {

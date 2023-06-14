@@ -1,7 +1,7 @@
-import { BaseException } from './base-exception';
+import { HttpException } from '@nestjs/common';
 
-export class VacancyNotFound extends BaseException {
+export class VacancyNotFound extends HttpException {
   constructor() {
-    super('Vacancy not found.', 404, 'VacancyNotFound');
+    super('Vaga não encontrada.', 404);
   }
 }

@@ -15,7 +15,7 @@ describe('Schedule', () => {
       checkIn: faker.datatype.datetime(),
       checkOut: faker.datatype.datetime(),
     });
-    sut.addCar(car);
+    sut.addCustomer(car);
     sut.addVacancy(vacancy);
 
     expect(sut.getState()).toHaveProperty('id');
@@ -37,7 +37,7 @@ describe('Schedule', () => {
       checkIn: faker.datatype.datetime(),
       checkOut: null,
     });
-    sut.addCar(car);
+    sut.addCustomer(car);
     sut.addVacancy(vacancy);
 
     expect(sut.getState()).toHaveProperty('id');

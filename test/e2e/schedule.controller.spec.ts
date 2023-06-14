@@ -86,7 +86,7 @@ describe('/schedule', () => {
         checkIn: faker.datatype.datetime(),
         checkOut: faker.datatype.datetime(),
       });
-      schedule.addCar(car);
+      schedule.addCustomer(car);
       schedule.addVacancy(vacancy);
       await scheduleRepository.save(schedule);
       const response = await request(app.getHttpServer()).get(
@@ -113,7 +113,7 @@ describe('/schedule', () => {
         checkIn: faker.datatype.datetime(),
         checkOut: faker.datatype.datetime(),
       });
-      schedule.addCar(car);
+      schedule.addCustomer(car);
       schedule.addVacancy(vacancy);
       await scheduleRepository.save(schedule);
       const response = await request(app.getHttpServer()).delete(

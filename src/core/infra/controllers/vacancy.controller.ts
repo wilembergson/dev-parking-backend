@@ -1,7 +1,6 @@
 import { CreateVacancy } from '@application/use-cases';
 import { DeleteVacancy } from '@application/use-cases/delete-vacancy';
 import { FindVacancy } from '@application/use-cases/find-vacancy';
-import { UpdateVacancy } from '@application/use-cases/update-vacancy';
 import { Vacancy } from '@domain/entities';
 import {
   Body,
@@ -15,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { VacancyDependencies } from '../../../ioc/vacancy';
 import { ListVacancies } from '@domain/use-cases/vacancy';
+import { UpdateVacancy } from '@application/use-cases/update-vacancy';
 
 @Controller('vacancy')
 export class VacancyController {
@@ -29,7 +29,7 @@ export class VacancyController {
     private readonly updateVacancyService: UpdateVacancy,
     @Inject(VacancyDependencies.ListVacancies)
     private readonly listVacanciesService: ListVacancies,
-    
+
   ) { }
 
   @Post()

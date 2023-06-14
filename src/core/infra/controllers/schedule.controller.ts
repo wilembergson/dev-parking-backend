@@ -1,4 +1,3 @@
-import { CreateSchedule } from '@application/use-cases';
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
 import { FindSchedule } from '@application/use-cases/find-schedule';
 import { ListSchedules } from '@application/use-cases/list-schedules';
@@ -13,6 +12,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { ScheduleDependencies } from '../../../ioc/schedule';
+import { CreateSchedule } from '@domain/use-cases/schedule';
+import { CreateScheduleDTO } from './dto/schedule';
 
 @Controller('schedule')
 export class ScheduleController {
@@ -28,11 +29,11 @@ export class ScheduleController {
   ) { }
 
   @Post()
-  async createSchedule(@Body() body: any): Promise<void> {
+  async createSchedule(@Body() body: CreateScheduleDTO): Promise<void> {
     return await this.createScheduleService.execute({
       vehiclePlate: body.vehiclePlate,
       checkIn: body.checkIn,
-      checkOut: body.checkOut,
+      checkOut: null,
       customerId: body.customerId,
       vacancyId: body.vacancyId,
     });

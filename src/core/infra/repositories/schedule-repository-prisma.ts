@@ -45,7 +45,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       checkIn: data.checkIn,
       checkOut: data.checkOut,
     });
-    schedule.addCar(customer);
+    schedule.addCustomer(customer);
     schedule.addVacancy(vacancy);
     return schedule;
   }
@@ -76,7 +76,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
         checkIn: item.checkIn,
         checkOut: item.checkOut,
       });
-      schedule.addCar(car);
+      schedule.addCustomer(car);
       schedule.addVacancy(vacancy);
       return schedule;
     });

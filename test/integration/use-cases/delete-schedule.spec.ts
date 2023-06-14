@@ -45,7 +45,7 @@ describe('DeleteSechedule', () => {
         checkIn: faker.datatype.datetime(),
         checkOut: faker.datatype.datetime(),
       });
-      schedule.addCar(car);
+      schedule.addCustomer(car);
       schedule.addVacancy(vacancy);
       await scheduleRepository.save(schedule);
       await expect(

@@ -11,18 +11,20 @@ export class Schedule {
   private customer: Customer;
 
   constructor(input: Schedule.Input.constructor) {
-    this.vehiclePlate;
+    this.vehiclePlate = input.vehiclePlate;
     this.checkIn = input.checkIn;
     this.checkOut = input.checkOut ? input.checkOut : null;
     this.id = new ID(input.id);
   }
 
-  addCar(customer: Customer): void {
+  addCustomer(customer: Customer): void {
     this.customer = customer;
   }
+
   addVacancy(vacancy: Vacancy): void {
     this.vacancy = vacancy;
   }
+
   getState(): Schedule.Output.GetState {
     return {
       vehiclePlate: this.vehiclePlate,
