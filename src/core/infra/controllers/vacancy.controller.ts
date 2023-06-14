@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { CreateVacancy } from '@application/use-cases';
 import { DeleteVacancy } from '@application/use-cases/delete-vacancy';
 import { FindVacancy } from '@application/use-cases/find-vacancy';
@@ -15,6 +14,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { VacancyDependencies } from '../../../ioc/vacancy';
+import { ListVacancies } from '@domain/use-cases/vacancy';
 
 @Controller('vacancy')
 export class VacancyController {
@@ -27,13 +27,22 @@ export class VacancyController {
     private readonly deleteVacancyService: DeleteVacancy,
     @Inject(VacancyDependencies.UpdateVacancy)
     private readonly updateVacancyService: UpdateVacancy,
+    @Inject(VacancyDependencies.ListVacancies)
+    private readonly listVacanciesService: ListVacancies,
+    
   ) { }
 
   @Post()
   async createVacancy(@Body() body: any): Promise<void> {
     return this.createVacancyService.execute({
       localization: body.localization,
+      occupied: body.occupied
     });
+  }
+
+  @Get()
+  async listVacancies(): Promise<Vacancy[]> {
+    return this.listVacanciesService.execute()
   }
 
   @Get(':id')

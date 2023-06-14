@@ -8,6 +8,8 @@ export interface VacancyRepository {
   delete(input: VacancyRepository.Input.Delete): Promise<void>;
 
   update(id: string, input: VacancyRepository.Input.Update): Promise<void>;
+
+  listAll(): Promise<Vacancy[]>
 }
 
 export namespace VacancyRepository {

@@ -8,7 +8,7 @@ export class Vacancy {
   constructor(input: Vacancy.Input.constructor) {
     this.id = new ID(input.id);
     this.localization = input.localization;
-    this.occupied = false;
+    this.occupied = input.occupied;
   }
 
   getState(): Vacancy.Output.GetState {
@@ -37,6 +37,7 @@ export namespace Vacancy {
     export type constructor = {
       id?: string;
       localization: string;
+      occupied: boolean;
     };
   }
   export namespace Output {

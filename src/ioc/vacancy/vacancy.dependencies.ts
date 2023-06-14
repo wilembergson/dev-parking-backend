@@ -5,4 +5,5 @@ export enum VacancyDependencies {
   FindVacancy = 'FindVacancy',
   DeleteVacancy = 'DeleteVacancy',
   UpdateVacancy = 'UpdateVacancy',
+  ListVacancies = 'ListVacancies'
 }

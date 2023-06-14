@@ -6,6 +6,16 @@ import { PrismaClient } from '@prisma/client';
 export class VacancyRepositoryPrisma implements VacancyRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
 
+  async listAll(): Promise<Vacancy[]> {
+    const list = await this.database.getConnection().vacancy.findMany()
+    const result = list.map(item => new Vacancy({
+      id: item.id,
+      localization: item.localization,
+      occupied: item.occupied
+    }))
+    return result
+  }
+
   async update(
     id: string,
     input: VacancyRepository.Input.Update,
@@ -43,6 +53,7 @@ export class VacancyRepositoryPrisma implements VacancyRepository {
     return new Vacancy({
       id: data.id,
       localization: data.localization,
+      occupied: data.occupied
     });
   }
 
