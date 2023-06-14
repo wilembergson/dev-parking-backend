@@ -11,5 +11,3 @@ export class DeleteCustomerUseCase implements DeleteCustomer {
     await this.customerRepository.delete({ id: customer.getState().id });
   }
 }
-
-

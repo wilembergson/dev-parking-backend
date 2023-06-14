@@ -5,7 +5,7 @@ import { Database, PrismaDatabase } from '@infra/database';
 import { CreateCustomerUseCase, FindCustomerUseCase } from '@application/use-cases';
 import { CustomerRepository } from '@domain/repositories';
 import { CreateCustomer, DeleteCustomer, FindCustomer } from '@domain/use-cases/customer';
-import { DeleteCustomerUseCase } from '@application/use-cases/customer/delete-customer';
+import { DeleteCustomerUseCase } from '@application/use-cases/customer';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CustomerDependencies.Database,
@@ -30,7 +30,6 @@ const findCustomerProvider: FactoryProvider<FindCustomer> = {
   inject: [CustomerDependencies.CustomerRepository],
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const deleteCustomerProvider: FactoryProvider<DeleteCustomer> = {
   provide: CustomerDependencies.DeleteCustomer,
   useFactory: (customerRepository: CustomerRepository) => new DeleteCustomerUseCase(customerRepository),
