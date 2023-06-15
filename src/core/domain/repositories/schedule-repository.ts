@@ -8,6 +8,8 @@ export interface ScheduleRepository {
   findSchedule(input: ScheduleRepository.Input.FindSchedule): Promise<Schedule>;
 
   delete(input: ScheduleRepository.Input.Delete): Promise<void>;
+
+  update(schedule: Schedule): Promise<void>;
 }
 
 export namespace ScheduleRepository {

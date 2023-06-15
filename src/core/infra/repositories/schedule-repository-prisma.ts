@@ -7,6 +7,23 @@ import { Database } from 'src/core/infra/database';
 
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
+  
+  async update(schedule: Schedule): Promise<void> {
+    const {id, vehiclePlate, checkIn, checkOut, pricePerHour, priceTotal, finished} = schedule.getState()
+    await this.database.getConnection().schedule.update({
+      where:{
+        id
+      },
+      data: {
+        vehiclePlate,
+        checkIn,
+        checkOut,
+        pricePerHour,
+        priceTotal,
+        finished
+      }
+    })
+  }
 
   async delete(input: ScheduleRepository.Input.Delete): Promise<void> {
     await this.database.getConnection().schedule.delete({
@@ -16,9 +33,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     });
   }
 
-  async findSchedule(
-    input: ScheduleRepository.Input.FindSchedule,
-  ): Promise<Schedule> {
+  async findSchedule(input: ScheduleRepository.Input.FindSchedule): Promise<Schedule> {
     const data = await this.database.getConnection().schedule.findFirst({
       where: {
         id: input.id,
@@ -42,9 +57,11 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     const schedule = new Schedule({
       id: data.id,
       vehiclePlate: data.vehiclePlate,
-      pricePerHour: data.pricePerHour.toNumber(),
       checkIn: data.checkIn,
-      checkOut: data.checkOut
+      checkOut: data.checkOut,
+      pricePerHour: data.pricePerHour.toNumber(),
+      priceTotal: data.priceTotal?.toNumber(),
+      finished: data.finished
     });
     schedule.addCustomer(customer);
     schedule.addVacancy(vacancy);
@@ -74,9 +91,11 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       const schedule = new Schedule({
         id: item.id,
         vehiclePlate: item.vehiclePlate,
-        pricePerHour: item.pricePerHour.toNumber(),
         checkIn: item.checkIn,
         checkOut: item.checkOut,
+        pricePerHour: item.pricePerHour.toNumber(),
+        priceTotal: item.priceTotal?.toNumber(),
+        finished: item.finished
       });
       schedule.addCustomer(car);
       schedule.addVacancy(vacancy);

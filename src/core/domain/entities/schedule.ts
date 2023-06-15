@@ -20,8 +20,8 @@ export class Schedule {
     this.checkIn = input.checkIn;
     this.checkOut = input.checkOut ? input.checkOut : null;
     this.pricePerHour = parseFloat(input.pricePerHour.toFixed(2))
-    this.priceTotal = null;
-    this.finished = false;
+    this.priceTotal = input.priceTotal ? input.priceTotal : null;
+    this.finished = input.finished ? input.finished : false;
   }
 
   addCustomer(customer: Customer): void {
@@ -38,10 +38,12 @@ export class Schedule {
     this.finished = true
   }
 
+
+
   getPriceTotal(): number {
     if (!this.priceTotal) {
       const checkOut = (this.checkOut ? this.checkOut : new Date())
-      const time = differenceInHours(checkOut, this.checkIn)
+      const time = differenceInHours(checkOut, this.checkIn) + 1
       return time * this.pricePerHour
     }
     return this.priceTotal
@@ -54,6 +56,7 @@ export class Schedule {
       checkIn: this.checkIn,
       checkOut: this.checkOut,
       pricePerHour: this.pricePerHour,
+      priceTotal: this.priceTotal,
       finished: this.finished,
       vacancy: this.vacancy,
       customer: this.customer,
@@ -77,6 +80,8 @@ export namespace Schedule {
       checkIn: Date;
       checkOut: Date | null;
       pricePerHour: number
+      priceTotal?: number | null,
+      finished?: boolean
     };
   }
   export namespace Output {
@@ -86,6 +91,7 @@ export namespace Schedule {
       checkIn: Date;
       checkOut: Date | null;
       pricePerHour: number
+      priceTotal: number | null,
       finished: boolean
       vacancy: Vacancy;
       customer: Customer;

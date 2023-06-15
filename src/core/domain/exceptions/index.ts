@@ -10,3 +10,4 @@ export * from './base-exception';
 export * from './wrong-password'
 export * from './unauthenticated'
 export * from './NotAvailableVacancy'
+export * from './schedule-alread-finished'

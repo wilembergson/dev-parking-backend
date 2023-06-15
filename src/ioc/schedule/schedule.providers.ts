@@ -9,8 +9,8 @@ import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CustomerDependencies } from '../customer';
 import { VacancyDependencies } from '../vacancy';
 import { ScheduleDependencies } from './schedule.dependencies';
-import { CreateSchedule, ListSchedules } from '@domain/use-cases/schedule';
-import { ListSchedulesUseCase } from '@application/use-cases/schedule';
+import { CreateSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
+import { FinishScheduleUseCase, ListSchedulesUseCase } from '@application/use-cases/schedule';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CustomerDependencies.Database,
@@ -45,6 +45,13 @@ const listSchedulesProvider: FactoryProvider<ListSchedules> = {
   inject: [ScheduleDependencies.ScheduleRepository],
 };
 
+const finishScheduleProvider: FactoryProvider<FinishSchedule> = {
+  provide: ScheduleDependencies.FinishSchedule,
+  useFactory: (scheduleRepository: ScheduleRepository, vacancyRepository: VacancyRepository) =>
+    new FinishScheduleUseCase(scheduleRepository, vacancyRepository),
+  inject: [ScheduleDependencies.ScheduleRepository, ScheduleDependencies.VacancyRepository],
+};
+
 const findScheduleProvider: FactoryProvider<FindSchedule> = {
   provide: ScheduleDependencies.FindSchedule,
   useFactory: (scheduleRepository: ScheduleRepository) =>
@@ -67,4 +74,5 @@ export const providers: Provider[] = [
   findScheduleProvider,
   listSchedulesProvider,
   deleteSchedulesProvider,
+  finishScheduleProvider
 ];

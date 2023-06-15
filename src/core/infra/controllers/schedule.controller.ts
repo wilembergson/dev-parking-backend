@@ -9,9 +9,10 @@ import {
   Inject,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ScheduleDependencies } from '../../../ioc/schedule';
-import { CreateSchedule, ListSchedules } from '@domain/use-cases/schedule';
+import { CreateSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
 import { CreateScheduleDTO } from './dto/schedule';
 
 @Controller('schedule')
@@ -25,6 +26,8 @@ export class ScheduleController {
     private readonly listSchedulesService: ListSchedules,
     @Inject(ScheduleDependencies.ScheduleRepository)
     private readonly deleteScheduleService: DeleteSchedule,
+    @Inject(ScheduleDependencies.FinishSchedule)
+    private readonly finishScheduleService: FinishSchedule,
   ) { }
 
   @Post()
@@ -36,6 +39,11 @@ export class ScheduleController {
       customerId: body.customerId,
       vacancyId: body.vacancyId
     });
+  }
+
+  @Put(':id')
+  async finishSchedules(@Param() param): Promise<Schedule> {
+    return await this.finishScheduleService.execute({ id: param.id});
   }
 
   @Get('all')
