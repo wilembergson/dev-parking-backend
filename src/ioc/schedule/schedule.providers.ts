@@ -1,6 +1,6 @@
 import { CreateScheduleUseCase } from '@application/use-cases';
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
-import { FindSchedule } from '@application/use-cases/find-schedule';
+import { FindScheduleUseCase } from '@application/use-cases/schedule/find-schedule';
 import { CustomerRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
 import { Database, PrismaDatabase } from '@infra/database';
@@ -9,7 +9,7 @@ import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { CustomerDependencies } from '../customer';
 import { VacancyDependencies } from '../vacancy';
 import { ScheduleDependencies } from './schedule.dependencies';
-import { CreateSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
+import { CreateSchedule, FindSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
 import { FinishScheduleUseCase, ListSchedulesUseCase } from '@application/use-cases/schedule';
 
 const databaseProvider: ClassProvider<Database> = {
@@ -55,7 +55,7 @@ const finishScheduleProvider: FactoryProvider<FinishSchedule> = {
 const findScheduleProvider: FactoryProvider<FindSchedule> = {
   provide: ScheduleDependencies.FindSchedule,
   useFactory: (scheduleRepository: ScheduleRepository) =>
-    new FindSchedule(scheduleRepository),
+    new FindScheduleUseCase(scheduleRepository),
   inject: [ScheduleDependencies.ScheduleRepository],
 };
 

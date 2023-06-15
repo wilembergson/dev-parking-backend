@@ -1,33 +1,23 @@
-import { DeleteSchedule } from '@application/use-cases/delete-schedule';
-import { FindSchedule } from '@application/use-cases/find-schedule';
 import { Schedule } from '@domain/entities';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
-import { ScheduleDependencies } from '../../../ioc/schedule';
-import { CreateSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
 import { CreateScheduleDTO } from './dto/schedule';
+import { ScheduleDependencies } from '../../../ioc/schedule';
+import { DeleteSchedule } from '@application/use-cases/delete-schedule';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common';
+import { CreateSchedule, FindSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
 
-@Controller('schedule')
+@Controller('schedules')
 export class ScheduleController {
   constructor(
     @Inject(ScheduleDependencies.CreateSheduleing)
     private readonly createScheduleService: CreateSchedule,
-    @Inject(ScheduleDependencies.FindSchedule)
-    private readonly findScheduleService: FindSchedule,
     @Inject(ScheduleDependencies.ListSchedules)
     private readonly listSchedulesService: ListSchedules,
-    @Inject(ScheduleDependencies.ScheduleRepository)
-    private readonly deleteScheduleService: DeleteSchedule,
     @Inject(ScheduleDependencies.FinishSchedule)
     private readonly finishScheduleService: FinishSchedule,
+    @Inject(ScheduleDependencies.FindSchedule)
+    private readonly findScheduleService: FindSchedule,
+    @Inject(ScheduleDependencies.ScheduleRepository)
+    private readonly deleteScheduleService: DeleteSchedule,
   ) { }
 
   @Post()
@@ -41,12 +31,7 @@ export class ScheduleController {
     });
   }
 
-  @Put(':id')
-  async finishSchedules(@Param() param): Promise<Schedule> {
-    return await this.finishScheduleService.execute({ id: param.id});
-  }
-
-  @Get('all')
+  @Get()
   async listSchedules(): Promise<Schedule[] | null> {
     return await this.listSchedulesService.execute();
   }
@@ -54,6 +39,11 @@ export class ScheduleController {
   @Get(':id')
   async findSchedule(@Param() param): Promise<Schedule | null> {
     return await this.findScheduleService.execute({ id: param.id });
+  }
+  
+  @Put(':id')
+  async finishSchedules(@Param() param): Promise<Schedule> {
+    return await this.finishScheduleService.execute({ id: param.id });
   }
 
   @Delete(':id')

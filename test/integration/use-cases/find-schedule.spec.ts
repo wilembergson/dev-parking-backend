@@ -1,4 +1,4 @@
-import { FindSchedule } from '@application/use-cases/find-schedule';
+import { FindScheduleUseCase } from '@application/use-cases/schedule/find-schedule';
 import { Customer, Schedule, Vacancy } from '@domain/entities';
 import {
   CarRepository,
@@ -14,7 +14,7 @@ import {
 } from '@infra/repositories';
 
 describe('FindVacancy', () => {
-  let sut: FindSchedule;
+  let sut: FindScheduleUseCase;
   let carRepository: CarRepository;
   let vacancyRepository: VacancyRepository;
   let scheduleRepository: ScheduleRepository;
@@ -25,7 +25,7 @@ describe('FindVacancy', () => {
     carRepository = new CustomerRepositoryPrisma(database);
     vacancyRepository = new VacancyRepositoryPrisma(database);
     scheduleRepository = new ScheduleRepositoryPrisma(database);
-    sut = new FindSchedule(scheduleRepository);
+    sut = new FindScheduleUseCase(scheduleRepository);
   });
 
   it('should find a schedule.', async () => {
