@@ -6,7 +6,7 @@ export namespace CreateSchedule {
     export type Input = {
       vehiclePlate: string;
       checkIn: Date;
-      checkOut: Date | null;
+      pricePerHour: number;
       vacancyId: string;
       customerId: string;
     };

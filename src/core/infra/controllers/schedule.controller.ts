@@ -33,9 +33,9 @@ export class ScheduleController {
     return await this.createScheduleService.execute({
       vehiclePlate: body.vehiclePlate,
       checkIn: body.checkIn,
-      checkOut: null,
+      pricePerHour: body.pricePerHour,
       customerId: body.customerId,
-      vacancyId: body.vacancyId,
+      vacancyId: body.vacancyId
     });
   }
 

@@ -40,6 +40,9 @@ model Schedule {
   vehiclePlate String
   checkIn      DateTime
   checkOut     DateTime?
+  pricePerHour Decimal
+  priceTotal   Decimal?
+  finished     Boolean
   vacancyId    String    @db.Uuid()
   vacancy      Vacancy   @relation(fields: [vacancyId], references: [id])
   customerId   String    @db.Uuid()

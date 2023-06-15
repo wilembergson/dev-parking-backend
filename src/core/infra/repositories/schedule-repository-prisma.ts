@@ -42,8 +42,9 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     const schedule = new Schedule({
       id: data.id,
       vehiclePlate: data.vehiclePlate,
+      pricePerHour: data.pricePerHour.toNumber(),
       checkIn: data.checkIn,
-      checkOut: data.checkOut,
+      checkOut: data.checkOut
     });
     schedule.addCustomer(customer);
     schedule.addVacancy(vacancy);
@@ -73,6 +74,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       const schedule = new Schedule({
         id: item.id,
         vehiclePlate: item.vehiclePlate,
+        pricePerHour: item.pricePerHour.toNumber(),
         checkIn: item.checkIn,
         checkOut: item.checkOut,
       });
@@ -84,13 +86,15 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
 
   async save(schedule: Schedule): Promise<void> {
     try {
-      const { id, vehiclePlate, checkIn, checkOut, vacancy, customer } = schedule.getState();
+      const { id, vehiclePlate, checkIn, checkOut, pricePerHour, finished, vacancy, customer } = schedule.getState();
       await this.database.getConnection().schedule.create({
         data: {
           id,
           vehiclePlate,
           checkIn,
           checkOut,
+          pricePerHour,
+          finished,
           vacancy: {
             connectOrCreate: {
               where: {

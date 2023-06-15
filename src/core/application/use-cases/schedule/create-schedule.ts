@@ -25,7 +25,8 @@ export class CreateScheduleUseCase implements CreateSchedule {
     const schedule = new Schedule({
       vehiclePlate: input.vehiclePlate,
       checkIn: input.checkIn,
-      checkOut: input.checkOut,
+      checkOut: null,
+      pricePerHour: input.pricePerHour
     });
     schedule.addCustomer(customer);
     schedule.addVacancy(vacancy);
