@@ -1,7 +1,7 @@
-import { BaseException } from './base-exception';
+import { HttpException } from '@nestjs/common';
 
-export class ScheduleNotFound extends BaseException {
+export class ScheduleNotFound extends HttpException {
   constructor() {
-    super('Schedule not found.', 404, 'ScheduleNotFound');
+    super('Nenhum agendamendo encontrado.', 404);
   }
 }

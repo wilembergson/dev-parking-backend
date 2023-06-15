@@ -1,6 +1,5 @@
 import { DeleteSchedule } from '@application/use-cases/delete-schedule';
 import { FindSchedule } from '@application/use-cases/find-schedule';
-import { ListSchedules } from '@application/use-cases/list-schedules';
 import { Schedule } from '@domain/entities';
 import {
   Body,
@@ -12,7 +11,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ScheduleDependencies } from '../../../ioc/schedule';
-import { CreateSchedule } from '@domain/use-cases/schedule';
+import { CreateSchedule, ListSchedules } from '@domain/use-cases/schedule';
 import { CreateScheduleDTO } from './dto/schedule';
 
 @Controller('schedule')
@@ -39,14 +38,14 @@ export class ScheduleController {
     });
   }
 
+  @Get('all')
+  async listSchedules(): Promise<Schedule[] | null> {
+    return await this.listSchedulesService.execute();
+  }
+
   @Get(':id')
   async findSchedule(@Param() param): Promise<Schedule | null> {
     return await this.findScheduleService.execute({ id: param.id });
-  }
-
-  @Get()
-  async listSchedules(): Promise<Schedule[] | null> {
-    return await this.listSchedulesService.execute();
   }
 
   @Delete(':id')

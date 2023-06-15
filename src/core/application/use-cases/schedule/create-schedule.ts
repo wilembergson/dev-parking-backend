@@ -1,8 +1,8 @@
 import { Schedule } from '@domain/entities/schedule';
 import { CreateSchedule } from '@domain/use-cases/schedule';
-import { CustomerNotFound, NotAvailableVacancy, VacancyNotFound } from '@domain/exceptions';
 import { CustomerRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
+import { CustomerNotFound, NotAvailableVacancy, VacancyNotFound } from '@domain/exceptions';
 
 export class CreateScheduleUseCase implements CreateSchedule {
   constructor(
