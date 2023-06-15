@@ -25,14 +25,6 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     })
   }
 
-  async delete(input: ScheduleRepository.Input.Delete): Promise<void> {
-    await this.database.getConnection().schedule.delete({
-      where: {
-        id: input.id,
-      },
-    });
-  }
-
   async findSchedule(input: ScheduleRepository.Input.FindSchedule): Promise<Schedule> {
     const data = await this.database.getConnection().schedule.findFirst({
       where: {

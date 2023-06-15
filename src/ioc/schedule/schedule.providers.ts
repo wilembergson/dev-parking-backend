@@ -1,5 +1,4 @@
 import { CreateScheduleUseCase } from '@application/use-cases';
-import { DeleteSchedule } from '@application/use-cases/delete-schedule';
 import { FindScheduleUseCase } from '@application/use-cases/schedule/find-schedule';
 import { CustomerRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
@@ -59,20 +58,11 @@ const findScheduleProvider: FactoryProvider<FindSchedule> = {
   inject: [ScheduleDependencies.ScheduleRepository],
 };
 
-
-const deleteSchedulesProvider: FactoryProvider<DeleteSchedule> = {
-  provide: ScheduleDependencies.DeleteSchedule,
-  useFactory: (scheduleRepository: ScheduleRepository) =>
-    new DeleteSchedule(scheduleRepository),
-  inject: [ScheduleDependencies.ScheduleRepository],
-};
-
 export const providers: Provider[] = [
   scheduleRepositoryProvider,
   createScheduleProvider,
   databaseProvider,
   findScheduleProvider,
   listSchedulesProvider,
-  deleteSchedulesProvider,
   finishScheduleProvider
 ];

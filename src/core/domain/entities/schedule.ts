@@ -17,7 +17,7 @@ export class Schedule {
   constructor(input: Schedule.Input.constructor) {
     this.id = new ID(input.id);
     this.vehiclePlate = input.vehiclePlate;
-    this.checkIn = input.checkIn;
+    this.checkIn = input.checkIn ? input.checkIn : new Date;
     this.checkOut = input.checkOut ? input.checkOut : null;
     this.pricePerHour = parseFloat(input.pricePerHour.toFixed(2))
     this.priceTotal = input.priceTotal ? input.priceTotal : null;
@@ -56,7 +56,7 @@ export class Schedule {
       checkIn: this.checkIn,
       checkOut: this.checkOut,
       pricePerHour: this.pricePerHour,
-      priceTotal: this.priceTotal,
+      priceTotal: this.getPriceTotal(),
       finished: this.finished,
       vacancy: this.vacancy,
       customer: this.customer,
@@ -77,8 +77,8 @@ export namespace Schedule {
     export type constructor = {
       id?: string;
       vehiclePlate: string;
-      checkIn: Date;
-      checkOut: Date | null;
+      checkIn?: Date;
+      checkOut?: Date | null;
       pricePerHour: number
       priceTotal?: number | null,
       finished?: boolean

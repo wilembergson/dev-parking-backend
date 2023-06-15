@@ -1,9 +1,9 @@
-import { ScheduleController } from '@infra/controllers/schedule.controller';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { CustomerModule } from '../customer/customer.module';
-import { VacancyModule } from '../vacancy/vacancy.module';
 import { providers } from './schedule.providers';
+import { VacancyModule } from '../vacancy/vacancy.module';
+import { CustomerModule } from '../customer/customer.module';
 import { UuidValidateMiddleware } from '@application/middlewares';
+import { ScheduleController } from '@infra/controllers/schedule.controller';
 
 @Module({
   imports: [VacancyModule, CustomerModule],
@@ -15,4 +15,3 @@ export class ScheduleModule implements NestModule{
     consumer.apply(UuidValidateMiddleware).forRoutes('schedules/:id')
   }
 }
-
