@@ -1,5 +1,5 @@
 import { Schedule } from '@domain/entities';
-import { CreateScheduleDTO } from './dto/schedule';
+import { CreateScheduleDTO, ListSchedulesDTO } from './dto/schedule';
 import { ScheduleDependencies } from 'src/ioc/schedule';
 import { Body, Controller, Get, Inject, Param, Post, Put } from '@nestjs/common';
 import { CreateSchedule, FindSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
@@ -28,15 +28,18 @@ export class ScheduleController {
   }
 
   @Get()
-  async listSchedules(): Promise<Schedule[] | null> {
-    return await this.listSchedulesService.execute();
+  async listSchedules(@Body() body: any): Promise<Schedule[] | null> {
+    return await this.listSchedulesService.execute({
+      customerRg: body.customerRg,
+      finished: body.finished
+    });
   }
 
   @Get(':id')
   async findSchedule(@Param() param): Promise<Schedule | null> {
     return await this.findScheduleService.execute({ id: param.id });
   }
-  
+
   @Put(':id')
   async finishSchedules(@Param() param): Promise<Schedule> {
     return await this.finishScheduleService.execute({ id: param.id });
