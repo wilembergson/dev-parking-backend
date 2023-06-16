@@ -1,5 +1,5 @@
 import { Schedule } from '@domain/entities';
-import { CreateScheduleDTO, ListSchedulesDTO } from './dto/schedule';
+import { CreateScheduleDTO } from './dto/schedule';
 import { ScheduleDependencies } from 'src/ioc/schedule';
 import { Body, Controller, Get, Inject, Param, Post, Put } from '@nestjs/common';
 import { CreateSchedule, FindSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
