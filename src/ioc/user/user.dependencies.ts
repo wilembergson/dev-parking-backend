@@ -5,4 +5,5 @@ export enum UserDependencies {
   UpdateUser = 'UpdateUser',
   DeleteUser = 'DeleteUser',
   GetUser = 'GetUser',
+  BcryptAdapter = 'BcryptAdapter'
 }

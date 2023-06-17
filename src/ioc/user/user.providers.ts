@@ -1,11 +1,13 @@
-import { EmployeeGetUser, UpdateUser } from '@application/use-cases';
+import { EmployeeGetUser, UpdateEmployeeUser } from '@application/use-cases';
 import { DeleteUser } from '@application/use-cases/delete-user';
 import { EmployeeUserRepository } from '@domain/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
 import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { UserDependencies } from './user.dependencies';
+import { UpdateUser } from '@domain/use-cases/user';
 import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
+import { Hasher } from '@application/protocols/cryptografy';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: UserDependencies.Database,
@@ -18,18 +20,16 @@ const UserRepositoryProvider: FactoryProvider<EmployeeUserRepository> = {
   inject: [UserDependencies.Database],
 };
 
-/*const createUserProvider: FactoryProvider<CreateUser> = {
-  provide: UserDependencies.CreateUser,
-  useFactory: (userRepository: UserRepository) =>
-    new CreateUser(userRepository),
-  inject: [UserDependencies.UserRepository],
-};*/
+const bcryptProvider: ClassProvider<Hasher> = {
+  provide: UserDependencies.BcryptAdapter,
+  useClass: BcryptAdapter
+}
 
-const updateUserProvider: FactoryProvider<UpdateUser> = {
+const updateEmployeeUserProvider: FactoryProvider<UpdateUser> = {
   provide: UserDependencies.UpdateUser,
-  useFactory: (userRepository: EmployeeUserRepository) =>
-    new UpdateUser(userRepository),
-  inject: [UserDependencies.UserRepository],
+  useFactory: (userRepository: EmployeeUserRepository, bcryptAdapter: Hasher) =>
+    new UpdateEmployeeUser(userRepository, bcryptAdapter),
+  inject: [UserDependencies.UserRepository, UserDependencies.BcryptAdapter],
 };
 
 const deleteUserProvider: FactoryProvider<DeleteUser> = {
@@ -47,9 +47,9 @@ const getUserProvider: FactoryProvider<EmployeeGetUser> = {
 
 export const providers: Provider[] = [
   UserRepositoryProvider,
-  //createUserProvider,
   databaseProvider,
-  updateUserProvider,
+  updateEmployeeUserProvider,
   deleteUserProvider,
   getUserProvider,
+  bcryptProvider
 ];

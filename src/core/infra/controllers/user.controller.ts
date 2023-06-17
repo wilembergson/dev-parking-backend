@@ -1,24 +1,13 @@
-import { EmployeeGetUser, UpdateUser } from '@application/use-cases';
-import { DeleteUser } from '@application/use-cases/delete-user';
+import { Body, Controller, Delete, Get, Inject, Param, Put } from '@nestjs/common';
 import { EmployeeUser } from '@domain/entities';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { UpdateUser } from '@domain/use-cases/user';
 import { UserDependencies } from '../../../ioc/user';
-import { CreateUser } from '@domain/use-cases/user';
+import { EmployeeGetUser, } from '@application/use-cases';
+import { DeleteUser } from '@application/use-cases/delete-user';
 
 @Controller('user')
 export class UserController {
   constructor(
-    @Inject(UserDependencies.CreateUser)
-    private readonly createUserService: CreateUser,
     @Inject(UserDependencies.UpdateUser)
     private readonly updateUserService: UpdateUser,
     @Inject(UserDependencies.DeleteUser)
@@ -27,21 +16,9 @@ export class UserController {
     private readonly getUserService: EmployeeGetUser,
   ) { }
 
-  @Post()
-  async createUser(@Body() body: any): Promise<void> {
-    return this.createUserService.execute({
-      name: body.name,
-      email: body.email,
-      password: body.password,
-      rg: body.birthdate,
-    });
-  }
-
   @Put(':id')
   async updateUser(@Param() param, @Body() body: any): Promise<void> {
     return this.updateUserService.execute(param.id, {
-      name: body.name,
-      rg: body.birthdate,
       email: body.email,
       password: body.password,
     });

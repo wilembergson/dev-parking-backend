@@ -1,5 +1,5 @@
 export * from './employee/create-employee-user';
-export * from './update-user';
+export * from './employee/update-employee-user';
 export * from './employee/get-employee-user';
 export * from './customer/create-customer';
 export * from './create-vacancy';

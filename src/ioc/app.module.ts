@@ -5,9 +5,10 @@ import { VacancyModule } from './vacancy/vacancy.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { AuthMiddleware } from '@application/middlewares';
 import { ScheduleController } from '@infra/controllers';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [AuthModule, CustomerModule, VacancyModule, ScheduleModule]
+  imports: [AuthModule, CustomerModule, VacancyModule, ScheduleModule, UserModule]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
