@@ -10,7 +10,8 @@ export class AuthMiddleware implements NestMiddleware {
         if (!token) throw new Unauthenticated('Token não informado')
         try {
             const decrypter = new JwtAdapter(process.env.JWT_SECRET!)
-            await decrypter.decrypt(token)
+            const tokenData = await decrypter.decrypt(token)
+            res.locals.myId = tokenData.id
         } catch (error) {
             const message = (error.name === 'TokenExpiredError' ? 'Sessão expirada.' : 'Token inválido.')
             throw new Unauthenticated(message)

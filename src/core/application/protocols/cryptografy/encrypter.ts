@@ -4,6 +4,7 @@ export interface Encrypter {
 
 export namespace Encrypter {
     export type Input = {
+        id: string
         name: string
     }
 }

@@ -17,6 +17,7 @@ export class EmployeeLoginUseCase implements Login {
         const isValid = await this.hashComparer.compare(input.password, userState.password)
         if (!isValid) throw new WrongPassword()
         const token = await this.encrypter.encrypt({
+            id: userState.id,
             name: userState.name
         })
         return { token }

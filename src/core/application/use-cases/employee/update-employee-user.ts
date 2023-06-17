@@ -1,7 +1,7 @@
 import { UserNotFound } from '@domain/exceptions';
 import { UpdateUser } from '@domain/use-cases/user';
-import { EmployeeUserRepository } from '@domain/repositories';
 import { Hasher } from '@application/protocols/cryptografy';
+import { EmployeeUserRepository } from '@domain/repositories';
 
 export class UpdateEmployeeUser implements UpdateUser {
   constructor(
