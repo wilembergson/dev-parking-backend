@@ -1,11 +1,10 @@
 import { EmployeeGetUser, UpdateEmployeeUser } from '@application/use-cases';
-import { DeleteUser } from '@application/use-cases/delete-user';
 import { EmployeeUserRepository } from '@domain/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
 import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
 import { UserDependencies } from './user.dependencies';
-import { UpdateUser } from '@domain/use-cases/user';
+import { GetUser, UpdateUser } from '@domain/use-cases/user';
 import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
 import { Hasher } from '@application/protocols/cryptografy';
 
@@ -32,24 +31,17 @@ const updateEmployeeUserProvider: FactoryProvider<UpdateUser> = {
   inject: [UserDependencies.UserRepository, UserDependencies.BcryptAdapter],
 };
 
-const deleteUserProvider: FactoryProvider<DeleteUser> = {
-  provide: UserDependencies.DeleteUser,
-  useFactory: (userRepository: EmployeeUserRepository) =>
-    new DeleteUser(userRepository),
-  inject: [UserDependencies.UserRepository],
-};
-
-const getUserProvider: FactoryProvider<EmployeeGetUser> = {
+const getUserProvider: FactoryProvider<GetUser> = {
   provide: UserDependencies.GetUser,
   useFactory: (userRepository: EmployeeUserRepository) => new EmployeeGetUser(userRepository),
   inject: [UserDependencies.UserRepository],
 };
 
+
 export const providers: Provider[] = [
   UserRepositoryProvider,
   databaseProvider,
   updateEmployeeUserProvider,
-  deleteUserProvider,
   getUserProvider,
   bcryptProvider
 ];

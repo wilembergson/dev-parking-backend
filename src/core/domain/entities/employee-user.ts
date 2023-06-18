@@ -32,16 +32,31 @@ export class EmployeeUser {
       id: this.id.value,
     };
   }
+
+  getInformations(): EmployeeUser.Output.getInformations {
+    return {
+      id: this.id.value,
+      name: this.name,
+      rg: this.rg,
+      email: this.email,
+    };
+  }
 }
 
 export namespace EmployeeUser {
   export namespace Output {
     export type GetState = {
+      id: string;
       name: string;
+      rg: string;
       email: string;
       password: string;
-      rg: string;
+    };
+    export type getInformations = {
       id: string;
+      name: string;
+      rg: string;
+      email: string;
     };
   }
   export namespace Input {
