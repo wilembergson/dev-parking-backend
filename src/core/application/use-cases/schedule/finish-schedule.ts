@@ -9,7 +9,7 @@ export class FinishScheduleUseCase implements FinishSchedule {
         private readonly vacancyRepository: VacancyRepository
     ) { }
 
-    async execute(input: FinishSchedule.Input): Promise<Schedule> {
+    async execute(input: FinishSchedule.Input): Promise<Schedule.Output.GetInformations> {
         const schedule = await this.scheduleRepository.findSchedule({ id: input.id })
         if(schedule.getState().finished === true) throw new ScheduleAlreadFinished()
         schedule.setFinished()
@@ -17,6 +17,6 @@ export class FinishScheduleUseCase implements FinishSchedule {
         vacancy.setOccupied(false)
         await this.vacancyRepository.save(vacancy)
         await this.scheduleRepository.update(schedule)
-        return schedule
+        return schedule.getInformations()
     }
 }

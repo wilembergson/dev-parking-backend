@@ -1,7 +1,7 @@
 import { Schedule } from "@domain/entities";
 
 export interface FinishSchedule {
-    execute(input: FinishSchedule.Input): Promise<Schedule>
+    execute(input: FinishSchedule.Input): Promise<Schedule.Output.GetInformations>
 }
 
 export namespace FinishSchedule {

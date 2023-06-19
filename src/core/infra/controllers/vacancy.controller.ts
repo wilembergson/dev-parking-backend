@@ -41,7 +41,7 @@ export class VacancyController {
   }
 
   @Get()
-  async listVacancies(): Promise<Vacancy[]> {
+  async listVacancies(): Promise<Vacancy.Output.GetState[]> {
     return this.listVacanciesService.execute()
   }
 

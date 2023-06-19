@@ -33,6 +33,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       include: {
         customer: true,
         vacancy: true,
+        employeeUser: true
       },
     });
     if (!data) throw new ScheduleNotFound();
@@ -46,6 +47,13 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       name: data.customer.name,
       rg: data.customer.rg
     });
+    const employeeUser = new EmployeeUser({
+      id: data.employeeUser.id,
+      name: data.employeeUser.name,
+      rg: data.employeeUser.rg,
+      email: data.employeeUser.email,
+      password: data.employeeUser.password
+    })
     const schedule = new Schedule({
       id: data.id,
       vehiclePlate: data.vehiclePlate,
@@ -57,6 +65,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     });
     schedule.addCustomer(customer);
     schedule.addVacancy(vacancy);
+    schedule.addEmployeeUser(employeeUser)
     return schedule;
   }
 

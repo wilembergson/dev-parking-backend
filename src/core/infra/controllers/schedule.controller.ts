@@ -38,12 +38,12 @@ export class ScheduleController {
   }
 
   @Get(':id')
-  async findSchedule(@Param() param): Promise<Schedule | null> {
+  async findSchedule(@Param() param): Promise<Schedule.Output.GetInformations | null> {
     return await this.findScheduleService.execute({ id: param.id });
   }
 
   @Put(':id')
-  async finishSchedules(@Param() param): Promise<Schedule> {
+  async finishSchedules(@Param() param): Promise<Schedule.Output.GetInformations> {
     return await this.finishScheduleService.execute({ id: param.id });
   }
 }

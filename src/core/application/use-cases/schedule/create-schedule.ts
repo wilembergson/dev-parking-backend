@@ -34,7 +34,6 @@ export class CreateScheduleUseCase implements CreateSchedule {
     schedule.addCustomer(customer);
     schedule.addVacancy(vacancy);
     schedule.addEmployeeUser(employeeUser)
-    console.log(schedule)
     await this.vacancyRepository.save(vacancy)
     await this.scheduleRepository.save(schedule);
   }
