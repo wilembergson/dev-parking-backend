@@ -14,16 +14,15 @@ export class ListSchedulesUseCase implements ListSchedules {
       const list = listSchedules.map(item => {
         if (item.getState().customer.getState().rg === customerRg && item.getState().finished === finished)
           return item.getInformations()
-      }
-      )
-      return list
+      })
+      return list.filter(item => item !== undefined)
     }
     else if (customerRg && finished === undefined) {
       const list = listSchedules.map(item => {
         if (item.getState().customer.getState().rg === customerRg)
           return item.getInformations()
       })
-      return list
+      return list.filter(item => item !== undefined)
     }
     else if (customerRg === undefined && finished !== undefined) {
       const list = listSchedules.map(item => {
@@ -31,7 +30,7 @@ export class ListSchedulesUseCase implements ListSchedules {
           return item.getInformations()
         }
       })
-      return list
+      return list.filter(item => item !== undefined)
     }
     else {
       return listSchedules.map(item => item.getInformations())
