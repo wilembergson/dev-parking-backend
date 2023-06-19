@@ -1,14 +1,14 @@
 import { Body, Controller, Get, Inject, Param, Put } from '@nestjs/common';
 import { GetUser, UpdateUser } from '@domain/use-cases/user';
 import { EmployeeUser } from '@domain/entities';
-import { UserDependencies } from 'src/ioc/user';
+import { EmployeeUserDependencies } from 'src/ioc/employee-user';
 
 @Controller('user')
-export class UserController {
+export class EmployeeUserController {
   constructor(
-    @Inject(UserDependencies.UpdateUser)
+    @Inject(EmployeeUserDependencies.UpdateUser)
     private readonly updateUserService: UpdateUser,
-    @Inject(UserDependencies.GetUser)
+    @Inject(EmployeeUserDependencies.GetUser)
     private readonly getUserService: GetUser
   ) { }
 

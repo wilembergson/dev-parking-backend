@@ -1,6 +1,6 @@
 import { CreateScheduleUseCase } from '@application/use-cases';
 import { FindScheduleUseCase } from '@application/use-cases/schedule/find-schedule';
-import { CustomerRepository, VacancyRepository } from '@domain/repositories';
+import { CustomerRepository, EmployeeUserRepository, VacancyRepository } from '@domain/repositories';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
 import { Database, PrismaDatabase } from '@infra/database';
 import { ScheduleRepositoryPrisma } from '@infra/repositories';
@@ -10,6 +10,7 @@ import { VacancyDependencies } from '../vacancy';
 import { ScheduleDependencies } from './schedule.dependencies';
 import { CreateSchedule, FindSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
 import { FinishScheduleUseCase, ListSchedulesUseCase } from '@application/use-cases/schedule';
+import { EmployeeUserDependencies } from '../employee-user';
 
 const databaseProvider: ClassProvider<Database> = {
   provide: CustomerDependencies.Database,
@@ -29,11 +30,13 @@ const createScheduleProvider: FactoryProvider<CreateSchedule> = {
     scheduleRepository: ScheduleRepository,
     vacancyRepository: VacancyRepository,
     carRepository: CustomerRepository,
-  ) => new CreateScheduleUseCase(scheduleRepository, vacancyRepository, carRepository),
+    employeeUserRepository: EmployeeUserRepository
+  ) => new CreateScheduleUseCase(scheduleRepository, vacancyRepository, carRepository, employeeUserRepository),
   inject: [
     ScheduleDependencies.ScheduleRepository,
     VacancyDependencies.VacancyRepository,
     CustomerDependencies.CustomerRepository,
+    EmployeeUserDependencies.EmployeeUserRepository
   ],
 };
 

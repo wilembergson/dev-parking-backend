@@ -61,11 +61,11 @@ export namespace EmployeeUser {
   }
   export namespace Input {
     export type constructor = {
+      id?: string;
       name: string;
+      rg: string;
       email: string;
       password: string;
-      rg: string;
-      id?: string;
     };
   }
 }

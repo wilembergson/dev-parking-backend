@@ -3,45 +3,47 @@ import { EmployeeUserRepository } from '@domain/repositories';
 import { Database, PrismaDatabase } from '@infra/database';
 import { EmployeeUserRepositoryPrisma } from '@infra/repositories';
 import { ClassProvider, FactoryProvider, Provider } from '@nestjs/common';
-import { UserDependencies } from './user.dependencies';
+import { EmployeeUserDependencies } from './employee-user.dependencies';
 import { GetUser, UpdateUser } from '@domain/use-cases/user';
 import { BcryptAdapter } from '@infra/adapters/cryptografy/bcrypt-adapter';
 import { Hasher } from '@application/protocols/cryptografy';
 
 const databaseProvider: ClassProvider<Database> = {
-  provide: UserDependencies.Database,
+  provide: EmployeeUserDependencies.Database,
   useClass: PrismaDatabase,
 };
 
-const UserRepositoryProvider: FactoryProvider<EmployeeUserRepository> = {
-  provide: UserDependencies.UserRepository,
+const employeeUserRepositoryProvider: FactoryProvider<EmployeeUserRepository> = {
+  provide: EmployeeUserDependencies.EmployeeUserRepository,
   useFactory: (database: Database) => new EmployeeUserRepositoryPrisma(database),
-  inject: [UserDependencies.Database],
+  inject: [EmployeeUserDependencies.Database],
 };
 
 const bcryptProvider: ClassProvider<Hasher> = {
-  provide: UserDependencies.BcryptAdapter,
+  provide: EmployeeUserDependencies.BcryptAdapter,
   useClass: BcryptAdapter
 }
 
 const updateEmployeeUserProvider: FactoryProvider<UpdateUser> = {
-  provide: UserDependencies.UpdateUser,
+  provide: EmployeeUserDependencies.UpdateUser,
   useFactory: (userRepository: EmployeeUserRepository, bcryptAdapter: Hasher) =>
     new UpdateEmployeeUser(userRepository, bcryptAdapter),
-  inject: [UserDependencies.UserRepository, UserDependencies.BcryptAdapter],
+  inject: [EmployeeUserDependencies.EmployeeUserRepository, EmployeeUserDependencies.BcryptAdapter],
 };
 
 const getUserProvider: FactoryProvider<GetUser> = {
-  provide: UserDependencies.GetUser,
+  provide: EmployeeUserDependencies.GetUser,
   useFactory: (userRepository: EmployeeUserRepository) => new EmployeeGetUser(userRepository),
-  inject: [UserDependencies.UserRepository],
+  inject: [EmployeeUserDependencies.EmployeeUserRepository],
 };
 
 
 export const providers: Provider[] = [
-  UserRepositoryProvider,
+  employeeUserRepositoryProvider,
   databaseProvider,
   updateEmployeeUserProvider,
   getUserProvider,
   bcryptProvider
 ];
+
+export const providersExporteds: Provider[] = [employeeUserRepositoryProvider];

@@ -1,5 +1,5 @@
-export enum UserDependencies {
-  UserRepository = 'UserRepository',
+export enum EmployeeUserDependencies {
+  EmployeeUserRepository = 'EmployeeUserRepository',
   Database = 'Database',
   CreateUser = 'CreateUser',
   UpdateUser = 'UpdateUser',

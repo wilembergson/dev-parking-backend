@@ -1,4 +1,4 @@
-import { Customer, Vacancy } from '@domain/entities';
+import { Customer, EmployeeUser, Vacancy } from '@domain/entities';
 import { Schedule } from '@domain/entities/schedule';
 import { ScheduleNotFound } from '@domain/exceptions';
 import { ScheduleRepository } from '@domain/repositories/schedule-repository';
@@ -7,11 +7,11 @@ import { Database } from 'src/core/infra/database';
 
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
-  
+
   async update(schedule: Schedule): Promise<void> {
-    const {id, vehiclePlate, checkIn, checkOut, pricePerHour, priceTotal, finished} = schedule.getState()
+    const { id, vehiclePlate, checkIn, checkOut, pricePerHour, priceTotal, finished } = schedule.getState()
     await this.database.getConnection().schedule.update({
-      where:{
+      where: {
         id
       },
       data: {
@@ -65,6 +65,7 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       include: {
         customer: true,
         vacancy: true,
+        employeeUser: true
       },
     });
 
@@ -79,6 +80,13 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
         name: item.customer.name,
         rg: item.customer.rg
       });
+      const employeeUser = new EmployeeUser({
+        id: item.employeeUser.id,
+        name: item.employeeUser.name,
+        rg: item.employeeUser.rg,
+        email: item.employeeUser.email,
+        password: item.employeeUser.password
+      })
 
       const schedule = new Schedule({
         id: item.id,
@@ -91,13 +99,14 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
       });
       schedule.addCustomer(car);
       schedule.addVacancy(vacancy);
+      schedule.addEmployeeUser(employeeUser)
       return schedule;
     });
   }
 
   async save(schedule: Schedule): Promise<void> {
     try {
-      const { id, vehiclePlate, checkIn, checkOut, pricePerHour, finished, vacancy, customer } = schedule.getState();
+      const { id, vehiclePlate, checkIn, checkOut, pricePerHour, finished, vacancy, customer, employeeUser } = schedule.getState();
       await this.database.getConnection().schedule.create({
         data: {
           id,
@@ -130,12 +139,29 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
               },
             },
           },
+          employeeUser: {
+            connectOrCreate: {
+              where: {
+                id: employeeUser.getState().id
+              },
+              create: {
+                id: employeeUser.getState().id,
+                name: employeeUser.getState().name,
+                rg: employeeUser.getState().rg,
+                email: employeeUser.getState().email,
+                password: employeeUser.getState().password
+              }
+            }
+          }
         },
         include: {
           vacancy: true,
           customer: true,
+          employeeUser: true
         },
       });
-    } catch (error) { }
+    } catch (error) { 
+      console.log(error)
+    }
   }
 }
