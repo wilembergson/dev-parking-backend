@@ -27,7 +27,7 @@ export class ScheduleController {
       vacancyId: body.vacancyId,
       employeeUserId: res.locals.employeeId
     });
-    res.status(200).send({
+    res.status(201).send({
       message: "Vaga reservada com sucesso."
     })
   }

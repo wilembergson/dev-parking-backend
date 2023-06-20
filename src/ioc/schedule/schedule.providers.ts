@@ -51,7 +51,7 @@ const finishScheduleProvider: FactoryProvider<FinishSchedule> = {
   provide: ScheduleDependencies.FinishSchedule,
   useFactory: (scheduleRepository: ScheduleRepository, vacancyRepository: VacancyRepository) =>
     new FinishScheduleUseCase(scheduleRepository, vacancyRepository),
-  inject: [ScheduleDependencies.ScheduleRepository, ScheduleDependencies.VacancyRepository],
+  inject: [ScheduleDependencies.ScheduleRepository, VacancyDependencies.VacancyRepository],
 };
 
 const findScheduleProvider: FactoryProvider<FindSchedule> = {

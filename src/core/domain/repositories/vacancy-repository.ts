@@ -5,10 +5,6 @@ export interface VacancyRepository {
 
   save(vacancy: Vacancy): Promise<void>;
 
-  delete(input: VacancyRepository.Input.Delete): Promise<void>;
-
-  update(id: string, input: VacancyRepository.Input.Update): Promise<void>;
-
   listAll(): Promise<Vacancy[]>
 }
 

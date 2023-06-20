@@ -16,31 +16,7 @@ export class VacancyRepositoryPrisma implements VacancyRepository {
     return result
   }
 
-  async update(
-    id: string,
-    input: VacancyRepository.Input.Update,
-  ): Promise<void> {
-    await this.database.getConnection().vacancy.update({
-      where: {
-        id,
-      },
-      data: {
-        localization: input.localization,
-      },
-    });
-  }
-
-  async delete(input: VacancyRepository.Input.Delete): Promise<void> {
-    await this.database.getConnection().vacancy.delete({
-      where: {
-        id: input.id,
-      },
-    });
-  }
-
-  async findOne(
-    input: VacancyRepository.Input.FindOne,
-  ): Promise<Vacancy | null> {
+  async findOne(input: VacancyRepository.Input.FindOne): Promise<Vacancy | null> {
     const data = await this.database.getConnection().vacancy.findFirst({
       where: {
         OR: [
