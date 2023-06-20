@@ -3,7 +3,7 @@ import { Schedule } from '@domain/entities/schedule';
 export interface ScheduleRepository {
   findMany(): Promise<Schedule[]>;
 
-  save(Schedule: Schedule): Promise<void>;
+  save(schedule: Schedule): Promise<void>;
 
   findSchedule(input: ScheduleRepository.Input.FindSchedule): Promise<Schedule>;
 

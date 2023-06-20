@@ -19,14 +19,17 @@ export class ScheduleController {
   ) { }
 
   @Post()
-  async createSchedule(@Res() res: Response ,@Body() body: CreateScheduleDTO): Promise<void> {
-    return await this.createScheduleService.execute({
+  async createSchedule(@Res() res: Response, @Body() body: CreateScheduleDTO): Promise<void> {
+    await this.createScheduleService.execute({
       vehiclePlate: body.vehiclePlate,
       pricePerHour: body.pricePerHour,
       customerId: body.customerId,
       vacancyId: body.vacancyId,
       employeeUserId: res.locals.employeeId
     });
+    res.status(200).send({
+      message: "Vaga reservada com sucesso."
+    })
   }
 
   @Get()

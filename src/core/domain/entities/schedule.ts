@@ -41,8 +41,8 @@ export class Schedule {
   getPriceTotal(): number {
     if (!this.priceTotal) {
       const checkOut = (this.checkOut ? this.checkOut : new Date())
-      const time = differenceInHours(checkOut, this.checkIn) + 1
-      return time * this.pricePerHour
+      const hours = differenceInHours(checkOut, this.checkIn) +1
+      return hours * this.pricePerHour
     }
     return this.priceTotal
   }

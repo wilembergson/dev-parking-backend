@@ -7,22 +7,43 @@ import { Database } from 'src/core/infra/database';
 
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
-
-  async update(schedule: Schedule): Promise<void> {
-    const { id, vehiclePlate, checkIn, checkOut, pricePerHour, priceTotal, finished } = schedule.getState()
-    await this.database.getConnection().schedule.update({
-      where: {
-        id
-      },
+  
+  async save(schedule: Schedule): Promise<void> {
+    const { id, vehiclePlate, checkIn, checkOut, pricePerHour, finished, vacancy, customer, employeeUser } = schedule.getState();
+    await this.database.getConnection().schedule.create({
       data: {
+        id,
         vehiclePlate,
         checkIn,
         checkOut,
         pricePerHour,
-        priceTotal,
-        finished
+        finished,
+        vacancyId: vacancy.getState().id,
+        customerId: customer.getState().id,
+        employeeUserId: employeeUser.getState().id,
       }
     })
+  }
+
+  async update(schedule: Schedule): Promise<void> {
+    try {
+      const { id, vehiclePlate, checkIn, checkOut, pricePerHour, priceTotal, finished } = schedule.getState()
+      await this.database.getConnection().schedule.update({
+        where: {
+          id
+        },
+        data: {
+          vehiclePlate,
+          checkIn,
+          checkOut,
+          pricePerHour,
+          priceTotal,
+          finished
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async findSchedule(input: ScheduleRepository.Input.FindSchedule): Promise<Schedule> {
@@ -113,64 +134,5 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     });
   }
 
-  async save(schedule: Schedule): Promise<void> {
-    try {
-      const { id, vehiclePlate, checkIn, checkOut, pricePerHour, finished, vacancy, customer, employeeUser } = schedule.getState();
-      await this.database.getConnection().schedule.create({
-        data: {
-          id,
-          vehiclePlate,
-          checkIn,
-          checkOut,
-          pricePerHour,
-          finished,
-          vacancy: {
-            connectOrCreate: {
-              where: {
-                id: vacancy.getState().id,
-              },
-              create: {
-                id: vacancy.getState().id,
-                localization: vacancy.getState().localization,
-                occupied: vacancy.getState().occupied
-              },
-            },
-          },
-          customer: {
-            connectOrCreate: {
-              where: {
-                id: customer.getState().id,
-              },
-              create: {
-                id: customer.getState().id,
-                name: customer.getState().name,
-                rg: customer.getState().rg
-              },
-            },
-          },
-          employeeUser: {
-            connectOrCreate: {
-              where: {
-                id: employeeUser.getState().id
-              },
-              create: {
-                id: employeeUser.getState().id,
-                name: employeeUser.getState().name,
-                rg: employeeUser.getState().rg,
-                email: employeeUser.getState().email,
-                password: employeeUser.getState().password
-              }
-            }
-          }
-        },
-        include: {
-          vacancy: true,
-          customer: true,
-          employeeUser: true
-        },
-      });
-    } catch (error) { 
-      console.log(error)
-    }
-  }
+  
 }
