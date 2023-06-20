@@ -1,6 +1,24 @@
-version: '3' # versão do yaml
+version: '3.1'
+services:
+  api:
+    container_name: api
+    build: .
+    image: backend
+    restart: always
+    command: "/bin/sh -c 'npx prisma migrate dev; npx prisma db seed; npm start'"
+    volumes:
+      - ./dist/:/usr/src/backend/dist/
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    links:
+      - db
 
-services: # representam os containers
   db:
     container_name: db
     image: postgres
