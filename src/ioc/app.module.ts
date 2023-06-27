@@ -12,6 +12,6 @@ import { EmployeeUserModule } from './employee-user/employee-user.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('customer', ScheduleController, 'user/:id')
+    consumer.apply(AuthMiddleware).forRoutes('customer', ScheduleController, 'user/:id', 'auth/valid-token')
   }
 }

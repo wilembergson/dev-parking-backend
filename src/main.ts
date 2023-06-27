@@ -36,6 +36,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
   const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));

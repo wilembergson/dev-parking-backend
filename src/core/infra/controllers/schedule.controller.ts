@@ -25,7 +25,7 @@ export class ScheduleController {
       pricePerHour: body.pricePerHour,
       customerId: body.customerId,
       vacancyId: body.vacancyId,
-      employeeUserId: res.locals.employeeId
+      employeeUserId: res.locals.employeeData.id
     });
     res.status(201).send({
       message: "Vaga reservada com sucesso."
