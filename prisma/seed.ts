@@ -7,104 +7,184 @@ async function main() {
     const vacancies: Vacancy[] = [
         {
             id: faker.datatype.uuid(),
-            localization: 'A01',
-            occupied: false
+            localization: 'C01',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A02',
-            occupied: false
+            localization: 'C02',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A03',
-            occupied: false
+            localization: 'C03',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A04',
-            occupied: false
+            localization: 'C04',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A05',
-            occupied: false
+            localization: 'C05',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A06',
-            occupied: false
+            localization: 'C06',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A07',
-            occupied: false
+            localization: 'C07',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A08',
-            occupied: false
+            localization: 'C08',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A09',
-            occupied: false
+            localization: 'C09',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'A10',
-            occupied: false
+            localization: 'C10',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B01',
-            occupied: false
+            localization: 'C11',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B02',
-            occupied: false
+            localization: 'C12',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B03',
-            occupied: false
+            localization: 'C13',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B04',
-            occupied: false
+            localization: 'C14',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B05',
-            occupied: false
+            localization: 'C15',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B06',
-            occupied: false
+            localization: 'C16',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B07',
-            occupied: false
+            localization: 'C17',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B08',
-            occupied: false
+            localization: 'C18',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B09',
-            occupied: false
+            localization: 'C19',
+            occupied: false,
+            type: 'CAR'
         },
         {
             id: faker.datatype.uuid(),
-            localization: 'B10',
-            occupied: false
+            localization: 'C20',
+            occupied: false,
+            type: 'CAR'
         },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M01',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M02',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M03',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M04',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M05',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M06',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M07',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M08',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M09',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        },
+        {
+            id: faker.datatype.uuid(),
+            localization: 'M10',
+            occupied: false,
+            type: 'MOTOCYCLE'
+        }
     ]
     await prisma.vacancy.createMany({
         data: vacancies

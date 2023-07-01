@@ -11,7 +11,8 @@ export class VacancyRepositoryPrisma implements VacancyRepository {
     const result = list.map(item => new Vacancy({
       id: item.id,
       localization: item.localization,
-      occupied: item.occupied
+      occupied: item.occupied,
+      type: item.type
     }))
     return result
   }
@@ -29,16 +30,17 @@ export class VacancyRepositoryPrisma implements VacancyRepository {
     return new Vacancy({
       id: data.id,
       localization: data.localization,
-      occupied: data.occupied
+      occupied: data.occupied,
+      type: data.type
     });
   }
 
   async save(vacancy: Vacancy): Promise<void> {
-    const { id, localization, occupied } = vacancy.getState();
+    const { id, localization, occupied, type } = vacancy.getState();
     await this.database.getConnection().vacancy.upsert({
       where: { id },
-      create: { id, localization, occupied },
-      update: { localization, occupied }
+      create: { id, localization, occupied, type },
+      update: { localization, occupied, type }
     });
   }
 }

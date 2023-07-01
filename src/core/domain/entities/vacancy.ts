@@ -4,18 +4,21 @@ export class Vacancy {
   private readonly id: ID;
   private readonly localization: string;
   private occupied: boolean;
+  private type: string;
 
   constructor(input: Vacancy.Input.constructor) {
     this.id = new ID(input.id);
     this.localization = input.localization;
     this.occupied = input.occupied;
+    this.type = input.type
   }
 
   getState(): Vacancy.Output.GetState {
     return {
       id: this.id.value,
       localization: this.localization,
-      occupied: this.occupied
+      occupied: this.occupied,
+      type: this.type
     };
   }
 
@@ -38,6 +41,7 @@ export namespace Vacancy {
       id?: string;
       localization: string;
       occupied: boolean;
+      type: string;
     };
   }
   export namespace Output {
@@ -45,6 +49,7 @@ export namespace Vacancy {
       id: string;
       localization: string;
       occupied: boolean;
+      type: string;
     };
   }
 }
