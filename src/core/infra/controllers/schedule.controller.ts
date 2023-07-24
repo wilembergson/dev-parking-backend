@@ -2,7 +2,7 @@ import { Schedule } from '@domain/entities';
 import { CreateScheduleDTO } from './dto/schedule';
 import { ScheduleDependencies } from 'src/ioc/schedule';
 import { Body, Controller, Get, Inject, Param, Post, Put, Res } from '@nestjs/common';
-import { CreateSchedule, FindSchedule, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
+import { CreateSchedule, FindSchedule, FindScheduleByVacancy, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
 import { Response } from 'express';
 
 @Controller('schedules')
@@ -15,7 +15,10 @@ export class ScheduleController {
     @Inject(ScheduleDependencies.FinishSchedule)
     private readonly finishScheduleService: FinishSchedule,
     @Inject(ScheduleDependencies.FindSchedule)
-    private readonly findScheduleService: FindSchedule
+    private readonly findScheduleService: FindSchedule,
+    @Inject(ScheduleDependencies.FindScheduleByVacancy)
+    private readonly findScheduleByVacancyService: FindScheduleByVacancy
+    
   ) { }
 
   @Post()
@@ -40,9 +43,14 @@ export class ScheduleController {
     });
   }
 
-  @Get(':id')
+  /*@Get(':id')
   async findSchedule(@Param() param): Promise<Schedule.Output.GetInformations | null> {
     return await this.findScheduleService.execute({ id: param.id });
+  }*/
+
+  @Get('/vacancy/:id')
+  async findScheduleByVacancy(@Param() param): Promise<Schedule.Output.GetInformations | null> {
+    return await this.findScheduleByVacancyService.execute({ vacancyId: param.id });
   }
 
   @Put(':id')

@@ -3,6 +3,7 @@ export enum ScheduleDependencies {
   ScheduleRepository = 'ScheduleRepository',
   CreateSheduleing = 'CreateShedule',
   FindSchedule = 'FindSchedule',
+  FindScheduleByVacancy = 'FindScheduleByVacancy',
   DeleteSchedule = 'DeleteSchedule',
   ListSchedules = 'ListSchedules',
   FinishSchedule = 'FinishSchedule'

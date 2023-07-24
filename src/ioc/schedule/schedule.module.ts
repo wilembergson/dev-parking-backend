@@ -13,6 +13,6 @@ import { EmployeeUserModule } from '../employee-user/employee-user.module';
 })
 export class ScheduleModule implements NestModule{ 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UuidValidateMiddleware).forRoutes('schedules/:id')
+    consumer.apply(UuidValidateMiddleware).forRoutes('schedules/vacancy/:id')
   }
 }
