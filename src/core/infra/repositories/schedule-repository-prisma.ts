@@ -7,7 +7,52 @@ import { Database } from 'src/core/infra/database';
 
 export class ScheduleRepositoryPrisma implements ScheduleRepository {
   constructor(private readonly database: Database<PrismaClient>) { }
-  
+
+  async findScheduleByVacancy(input: ScheduleRepository.Input.FindScheduleByVacancy): Promise<Schedule> {
+    const data = await this.database.getConnection().schedule.findFirst({
+      where: {
+        vacancyId: input.vacancyId,
+        finished: false
+      },
+      include: {
+        customer: true,
+        vacancy: true,
+        employeeUser: true
+      },
+    });
+    if (!data) throw new ScheduleNotFound();
+    const vacancy = new Vacancy({
+      id: data.vacancy.id,
+      localization: data.vacancy.localization,
+      occupied: data.vacancy.occupied
+    });
+    const customer = new Customer({
+      id: data.customer.id,
+      name: data.customer.name,
+      rg: data.customer.rg
+    });
+    const employeeUser = new EmployeeUser({
+      id: data.employeeUser.id,
+      name: data.employeeUser.name,
+      rg: data.employeeUser.rg,
+      email: data.employeeUser.email,
+      password: data.employeeUser.password
+    })
+    const schedule = new Schedule({
+      id: data.id,
+      vehiclePlate: data.vehiclePlate,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      pricePerHour: data.pricePerHour.toNumber(),
+      priceTotal: data.priceTotal?.toNumber(),
+      finished: data.finished
+    });
+    schedule.addCustomer(customer);
+    schedule.addVacancy(vacancy);
+    schedule.addEmployeeUser(employeeUser)
+    return schedule;
+  }
+
   async save(schedule: Schedule): Promise<void> {
     const { id, vehiclePlate, checkIn, checkOut, pricePerHour, finished, vacancy, customer, employeeUser } = schedule.getState();
     await this.database.getConnection().schedule.create({
@@ -134,5 +179,5 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     });
   }
 
-  
+
 }
