@@ -24,7 +24,8 @@ export class ScheduleRepositoryPrisma implements ScheduleRepository {
     const vacancy = new Vacancy({
       id: data.vacancy.id,
       localization: data.vacancy.localization,
-      occupied: data.vacancy.occupied
+      occupied: data.vacancy.occupied,
+      type: data.vacancy.type
     });
     const customer = new Customer({
       id: data.customer.id,
