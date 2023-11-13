@@ -1,6 +1,6 @@
 # Parking - controle de estacionamento (backend)
 
-## Description
+## Descrição
 
 Este é um sistema para gerenciar o fluxo de entrada e saída de veículos em um estacionamento, fornecer dados sobre o cliente, quanto tempo um veículo passou estacionado no local, quanto ele deverá pagar por hora, e qual funcionário o atendeu.
 
