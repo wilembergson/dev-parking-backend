@@ -2,7 +2,7 @@ import { Schedule } from '@domain/entities';
 import { CreateScheduleDTO } from './dto/schedule';
 import { ScheduleDependencies } from 'src/ioc/schedule';
 import { Body, Controller, Get, Inject, Param, Post, Put, Res } from '@nestjs/common';
-import { CreateSchedule, FindSchedule, FindScheduleByVacancy, FinishSchedule, ListSchedules } from '@domain/use-cases/schedule';
+import { CreateSchedule, FindSchedule, FindScheduleByVacancy, FinishSchedule, ListFinishedSchedules, ListSchedules } from '@domain/use-cases/schedule';
 import { Response } from 'express';
 
 @Controller('schedules')
@@ -12,6 +12,8 @@ export class ScheduleController {
     private readonly createScheduleService: CreateSchedule,
     @Inject(ScheduleDependencies.ListSchedules)
     private readonly listSchedulesService: ListSchedules,
+    @Inject(ScheduleDependencies.ListFinishedSchedules)
+    private readonly listFinishedSchedulesService: ListFinishedSchedules,
     @Inject(ScheduleDependencies.FinishSchedule)
     private readonly finishScheduleService: FinishSchedule,
     @Inject(ScheduleDependencies.FindSchedule)
@@ -41,6 +43,11 @@ export class ScheduleController {
       customerRg: body.customerRg,
       finished: body.finished
     });
+  }
+
+  @Get('/finished')
+  async listFinishedSchedules(): Promise<(Schedule.Output.GetInformations | undefined)[]> {
+    return await this.listFinishedSchedulesService.execute();
   }
 
   /*@Get(':id')

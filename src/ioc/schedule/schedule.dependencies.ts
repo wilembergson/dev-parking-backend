@@ -6,5 +6,6 @@ export enum ScheduleDependencies {
   FindScheduleByVacancy = 'FindScheduleByVacancy',
   DeleteSchedule = 'DeleteSchedule',
   ListSchedules = 'ListSchedules',
+  ListFinishedSchedules = 'ListFinishedSchedules',
   FinishSchedule = 'FinishSchedule'
 }
